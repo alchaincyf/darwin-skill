@@ -56,8 +56,6 @@ Auto Skill Optimizer 做的事情不一样：它同时评估**结构质量**和*
 
 总分 100。结构维度靠静态分析（60分），效果维度必须实测（40分）。
 
-![Rubric](assets/aso-rubric.png)
-
 ### 结构维度（60分）
 
 | # | 维度 | 权重 | 评分标准 |
@@ -84,8 +82,6 @@ Auto Skill Optimizer 做的事情不一样：它同时评估**结构质量**和*
 
 五个阶段，从初始化到汇总报告。系统在每个阶段内自主运行，但在阶段之间暂停等待人类确认。
 
-![Optimization Cycle](assets/aso-cycle.png)
-
 ```
 Phase 0    初始化        确定范围，创建 git 分支，加载历史记录
 Phase 0.5  测试设计      为每个 Skill 设计 2-3 个测试 prompt
@@ -109,8 +105,6 @@ Phase 3    汇总报告      Before/After 分数表 + 关键改进摘要
 
 分数只能上升。每一轮要么改进 Skill，要么干净地回滚。不会随时间积累局部退化。
 
-![Ratchet](assets/aso-ratchet.png)
-
 ```
 72 (基线) → 78 (保留) → 75 (回滚!) → 84 (保留) → 87 (保留)
 ```
@@ -120,8 +114,6 @@ Phase 3    汇总报告      Before/After 分数表 + 关键改进摘要
 ---
 
 ## 为什么需要双重评估
-
-![Comparison](assets/aso-comparison.png)
 
 **纯结构审查**只能告诉你 Skill 写得规不规范。**双重评估**还能告诉你它跑得好不好用。
 
@@ -213,11 +205,7 @@ auto-skill-optimizer/
 ├── showcase.html           # Pentagram 风格的可视化展示页
 ├── assets/                # README 配图
 │   ├── aso-hero.png
-│   ├── aso-rubric.png
-│   ├── aso-cycle.png
-│   ├── aso-ratchet.png
-│   ├── aso-comparison.png
-│   └── aso-mapping.png
+│   └── aso-hero.png
 └── examples/              # 优化记录示例（待补充）
 ```
 
