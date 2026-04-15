@@ -19,42 +19,22 @@ description: "Darwin Skill (达尔文.skill): autonomous skill optimizer inspire
 
 ## 评估 Rubric（8维度，总分100）
 
-### 结构维度（60分）— 静态分析
+**评分前必须加载完整 Rubric** → `skill_view(name="darwin-skill", file_path="references/rubric.md")`
 
-| # | 维度 | 权重 | 评分标准 |
-|---|------|------|---------|
-| 1 | **Frontmatter质量** | 8 | name规范、description包含做什么+何时用+触发词、≤1024字符 |
-| 2 | **工作流清晰度** | 15 | 步骤明确可执行、有序号、每步有明确输入/输出 |
-| 3 | **边界条件覆盖** | 10 | 处理异常情况、有fallback路径、错误恢复 |
-| 4 | **检查点设计** | 7 | 关键决策前有用户确认、防止自主失控 |
-| 5 | **指令具体性** | 15 | 不模糊、有具体参数/格式/示例、可直接执行 |
-| 6 | **资源整合度** | 5 | references/scripts/assets引用正确、路径可达 |
+速查表（完整标准见上方 reference）：
 
-### 效果维度（40分）— 需要实测
+| # | 维度 | 权重 | 一句话 |
+|---|------|------|--------|
+| 1 | Frontmatter质量 | 8 | name/description/触发词完整 |
+| 2 | 工作流清晰度 | 15 | 有序号步骤，有输入/输出定义 |
+| 3 | 边界条件覆盖 | 10 | 异常处理和 fallback 路径 |
+| 4 | 检查点设计 | 7 | 关键决策前用户确认 |
+| 5 | 指令具体性 | 15 | 参数/格式/示例可直接执行 |
+| 6 | 资源整合度 | 5 | 引用文件路径可达 |
+| 7 | 整体架构 | 15 | 结构清晰不冗余 |
+| 8 | 实测表现 | 25 | 跑测试prompt验证输出质量 |
 
-| # | 维度 | 权重 | 评分标准 |
-|---|------|------|---------|
-| 7 | **整体架构** | 15 | 结构层次清晰、不冗余不遗漏、与花叔生态一致 |
-| 8 | **实测表现** | 25 | 用测试prompt跑一遍，输出质量是否符合skill宣称的能力 |
-
-### 评分规则
-- 维度1-7：每个维度打 1-10 分，乘以权重得到该维度得分
-- 维度8（实测表现）：跑2-3个测试prompt，按输出质量打1-10分
-- **总分 = Σ(维度分 × 权重) / 10**，满分100
-- 改进后总分必须 **严格高于** 改进前才保留
-
-### 关于「实测表现」维度
-
-这是与纯结构评分最大的区别。评分方式：
-
-1. 为每个skill设计2-3个**典型用户prompt**（不是边缘case，是最常见的使用场景）
-2. 用子agent执行：一个带skill跑，一个不带skill跑（baseline）
-3. 对比输出质量，从以下角度打分：
-   - 输出是否完成了用户意图？
-   - 相比不带skill的baseline，质量提升明显吗？
-   - 有没有skill引入的负面影响（过度冗余、跑偏、格式奇怪）？
-
-如果无法跑子agent（时间/资源限制），可以退化为「干跑验证」：读完skill后模拟一个典型prompt的执行思路，判断流程是否合理。但要在results.tsv中标注 `dry_run`。
+总分 = Σ(维度分 × 权重) / 10，满分100。改进后总分必须严格高于改进前。
 
 ---
 
@@ -64,7 +44,7 @@ description: "Darwin Skill (达尔文.skill): autonomous skill optimizer inspire
 
 ```
 1. 确认优化范围：
-   - 全部skills → 扫描 .claude/skills/*/SKILL.md
+   - 全部skills → 扫描 ~/.hermes/skills/*/SKILL.md（或由 SKILL_DIR 环境变量指定）
    - 指定skills → 用户指定列表
 2. 创建 git 分支：auto-optimize/YYYYMMDD-HHMM
 3. 初始化 results.tsv（如不存在）
@@ -230,7 +210,7 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 ```
 
 新增 `eval_mode` 列：`full_test`（跑了子agent测试）或 `dry_run`（模拟推演）。
-文件位置：`.claude/skills/darwin-skill/results.tsv`
+文件位置：`~/.hermes/skills/creative/darwin-skill/workspace/results.tsv`
 
 ---
 
