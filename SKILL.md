@@ -32,12 +32,12 @@ description: "Darwin Skill (达尔文.skill): autonomous skill optimizer inspire
 
 ## Preflight 检查
 
-优化开始前逐项确认，全部通过后再进入 Phase 0：
+优化开始前逐项确认。**逐 skill 执行**：单个 skill preflight 失败 → 记录 `status=skip`，跳过该 skill 继续其他 skill，不阻塞整体流程。
 
 | # | 检查项 | 失败处理 |
 |---|--------|---------|
-| 1 | 目标 skill 的 SKILL.md 文件存在且可读 | 报错退出 |
-| 2 | 目标 skill 目录可写 | 报错退出 |
+| 1 | 目标 skill 的 SKILL.md 文件存在且可读 | 跳过该 skill（status=skip） |
+| 2 | 目标 skill 目录可写 | 跳过该 skill（status=skip） |
 | 3 | git 可用 | 降级：跳过版本控制，手动备份原始文件 |
 | 4 | workspace 目录存在，不存在则创建 | 自动创建 |
 | 5 | 完整 Rubric 可加载（`references/rubric.md`） | 降级：使用本文档内嵌速查表继续，results.tsv 标注 `rubric_mode=fallback` |
@@ -117,7 +117,8 @@ description: "Darwin Skill (达尔文.skill): autonomous skill optimizer inspire
 
 **汇总：**
 5. 计算加权总分，记录到 `results.tsv`
-6. 展示评分卡（skill名 | 总分 | 结构短板 | 效果短板）
+6. 将测试 prompt 集写入 `skill目录/test-prompts.json` 并锁定（后续所有评估只允许读取该文件，不允许重新生成或修改）
+7. 展示评分卡（skill名 | 总分 | 结构短板 | 效果短板）
 
 **暂停等用户确认，再进入优化循环。**
 
@@ -153,6 +154,8 @@ Phase 2 每轮从策略库选最高优先级的一个执行：
 
 用户确认后，按基线分数从低到高排序，先优化最弱的。
 
+**round 来源**：每个 skill 的当前 round 必须从 results.tsv 中该 skill 的历史记录读取（最新一行的 round + 1），不得自行推断或从内存计数。若 results.tsv 无该 skill 记录，round 从 1 开始。
+
 对每个 skill，执行以下循环协议：
 
 1. **选择** 当前待优化 skill
@@ -161,7 +164,7 @@ Phase 2 每轮从策略库选最高优先级的一个执行：
 4. **选策略** 从优化策略库选对应最高优先级策略
 5. **执行** 编辑 SKILL.md 并提交（git commit 或记录变更）
 6. **重加载** 重新加载 Rubric（不依赖缓存）
-7. **重评分** 使用与基线完全相同的测试 prompt 和评分标准进行评分
+7. **重评分** 使用与基线完全相同的测试 prompt 和评分标准进行评分。若评分理由发生变化（非结果变化，而是标准/角度变化），必须在 results.tsv 的 note 字段标注「评分标准漂移：[具体变化]」
 8. **决策** 若新总分 > 旧总分 → keep，更新旧总分，round++，回到步骤 3；若新总分 ≤ 旧总分 → revert，跳到步骤 10
 9. **记录** 追加 results.tsv，回到步骤 2
 10. **人类检查点** 展示该 skill 的 git diff + 分数变化，等用户确认后再处理下一个 skill
@@ -170,7 +173,7 @@ Phase 2 每轮从策略库选最高优先级的一个执行：
 
 ## Phase 2.5: 探索性重写（可选）
 
-当 hill-climbing 连续 2 个 skill 在 round 1 就 break 时，提议「探索性重写」：
+当 hill-climbing 连续 2 个 skill 在 round 1 就 break，**且这些 skill 的 eval_mode=full_test、评分可信**时，提议「探索性重写」。若 eval_mode=dry_run，不得触发探索性重写（评分不可靠时重写没有依据）。
 
 1. 选瓶颈 skill
 2. `git stash` 保存当前最优版（或手动备份）
@@ -207,7 +210,7 @@ Phase 2 每轮从策略库选最高优先级的一个执行：
 
 列：`timestamp | commit | skill | round | old_score | new_score | status | dimension | note | eval_mode | rubric_mode`
 
-- status: `keep` / `revert` / `baseline`
+- status: `keep` / `revert` / `baseline` / `skip`
 - eval_mode: `full_test` / `dry_run`
 - rubric_mode: `full` / `fallback`
 - round: 该 skill 的第几轮优化（baseline 记为 0）
