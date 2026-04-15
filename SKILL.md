@@ -11,9 +11,16 @@ description: "Darwin Skill (达尔文.skill): autonomous skill optimizer inspire
 
 ---
 
-## 核心原则
+## 设计哲学
 
-单一资产·双重评估（结构+实测）·棘轮回滚·独立评分·人在回路 — 详见 Phase 1-2 流程和约束规则。
+autoresearch 的精髓：
+1. **单一可编辑资产** — 每次只改一个 SKILL.md
+2. **双重评估** — 结构评分（静态分析）+ 效果验证（跑测试看输出）
+3. **棘轮机制** — 只保留改进，自动回滚退步
+4. **独立评分** — 评分用子agent，避免「自己改自己评」的偏差
+5. **人在回路** — 每个skill优化完后暂停，用户确认再继续
+
+与纯结构审查的区别：不只看 SKILL.md 写得规不规范，更看改完后**实际跑出来的效果是否更好**。
 
 ---
 
@@ -298,6 +305,22 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 用户："看看skill优化历史"
 → 读取并展示 results.tsv
 ```
+
+---
+
+## 设计灵感
+
+> "You write the goals and constraints in program.md; let an agent generate and test code deltas indefinitely; keep only what measurably improves the objective."
+> — Karpathy, autoresearch
+
+本skill的对应关系：
+- **program.md** → 本文件（评估rubric和约束规则）
+- **train.py** → 每个SKILL.md
+- **val_bpb** → 8维加权总分（含实测表现）
+- **git ratchet** → 只保留有改进的commit
+- **test set** → 每个skill的test-prompts.json
+
+区别：增加了人在回路（autoresearch是全自主的，skill优化需要人的判断力），以及双重评估机制（结构+效果），因为skill的「好坏」比loss数值更微妙。
 
 ---
 
