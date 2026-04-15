@@ -12,10 +12,44 @@
  */
 
 import { createRequire } from 'module';
+import { execFileSync } from 'child_process';
 const require = createRequire(import.meta.url);
 
-// 使用全局安装的 playwright-core
-const pw = require('/Users/alchain/.npm-global/lib/node_modules/playwright/node_modules/playwright-core');
+// 动态查找全局安装的 playwright-core
+function loadPlaywrightCore() {
+  // 1. 尝试 require.resolve 动态查找
+  try {
+    return require(require.resolve('playwright-core'));
+  } catch (_) { /* not in local resolution paths */ }
+
+  // 2. 尝试常见全局路径
+  const candidates = [
+    '/usr/local/lib/node_modules/playwright-core',
+    '/usr/local/lib/node_modules/playwright/node_modules/playwright-core',
+  ];
+
+  // 3. 通过 npm root -g 获取全局 node_modules 路径
+  try {
+    const npmRoot = execFileSync('npm', ['root', '-g'], { encoding: 'utf8' }).trim();
+    candidates.push(
+      `${npmRoot}/playwright-core`,
+      `${npmRoot}/playwright/node_modules/playwright-core`,
+    );
+  } catch (_) { /* npm not available */ }
+
+  for (const p of candidates) {
+    try { return require(p); } catch (_) { /* skip */ }
+  }
+
+  console.error(
+    '错误: 找不到 playwright-core。\n' +
+    '请确认已全局安装: npm install -g playwright\n' +
+    '或设置 NODE_PATH 环境变量指向全局 node_modules。'
+  );
+  process.exit(1);
+}
+
+const pw = loadPlaywrightCore();
 
 const htmlPath = process.argv[2] || new URL('../templates/result-card.html', import.meta.url).pathname;
 const outputPath = process.argv[3] || new URL('../templates/result-card.png', import.meta.url).pathname;
@@ -57,8 +91,7 @@ async function screenshot() {
   }
 
   // 自动打开图片
-  const { execSync } = require('child_process');
-  execSync(`open "${outputPath}"`);
+  execFileSync('open', [outputPath]);
 }
 
 screenshot().catch(err => {
