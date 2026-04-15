@@ -32,29 +32,31 @@ description: "Darwin Skill (达尔文.skill): autonomous skill optimizer inspire
 
 ## Preflight 检查
 
-优化开始前必须确认：
+优化开始前逐项确认，全部通过后再进入 Phase 0：
 
-| 检查项 | 命令/方法 | 失败处理 |
-|--------|----------|---------|
-| 目标 skill 存在且可读 | `read_file` SKILL.md | 报错退出 |
-| 目标 skill 目录可写 | `test -w` | 报错退出 |
-| git 可用 | `git --version` | 降级：无版本控制，手动备份 |
-| workspace 目录存在 | `mkdir -p workspace/` | 自动创建 |
-| 磁盘空间 > 10MB | `df -h .` | 警告但继续 |
-| Rubric 可加载 | `skill_view(file_path="references/rubric.md")` | 降级：用速查表评分 |
+| # | 检查项 | 失败处理 |
+|---|--------|---------|
+| 1 | 目标 skill 的 SKILL.md 文件存在且可读 | 报错退出 |
+| 2 | 目标 skill 目录可写 | 报错退出 |
+| 3 | git 可用 | 降级：跳过版本控制，手动备份原始文件 |
+| 4 | workspace 目录存在，不存在则创建 | 自动创建 |
+| 5 | 完整 Rubric 可加载（`references/rubric.md`） | 降级：使用本文档内嵌速查表继续，results.tsv 标注 `rubric_mode=fallback` |
+| 6 | 磁盘剩余 > 10MB | 警告但继续 |
+| 7 | 子 agent 可用 | 降级：效果维度退化为干跑验证，results.tsv 标注 `eval_mode=dry_run` |
 
-**降级策略**：如果子 agent 不可用（超时/环境限制），效果维度退化为干跑验证，在 results.tsv 标注 `dry_run`。不要因为跑不了测试就跳过效果维度——模拟推演也比完全不看强。
+**降级原则**：任何降级都必须在 results.tsv 中如实标注，不要因为环境受限就跳过维度——模拟推演也比不评强。
 
 ---
 
 ## 评估 Rubric（8维度，总分100）
 
-**加载时机（强制）：**
-- Phase 1 基线评估前 → 必须加载完整 Rubric
-- Phase 2 每轮重评分前 → 必须重新加载（确保评分标准一致，不依赖上下文缓存）
-- 加载方式：`skill_view(name="darwin-skill", file_path="references/rubric.md")`
+**加载规则：**
+- 优先加载完整 Rubric：`skill_view(name="darwin-skill", file_path="references/rubric.md")`
+- 若引用失败，使用下方速查表 + 评分规则继续，标注 `rubric_mode=fallback`
+- **Phase 1 基线评估前** → 必须加载一次
+- **Phase 2 每轮重评分前** → 必须重新加载（不依赖上下文缓存，确保标准一致）
 
-速查表（完整标准见上方 reference）：
+速查表（fallback 时使用）：
 
 | # | 维度 | 权重 | 一句话 |
 |---|------|------|--------|
@@ -74,8 +76,8 @@ description: "Darwin Skill (达尔文.skill): autonomous skill optimizer inspire
 ## Phase 0: 初始化
 
 1. 确认优化范围：全部 skills（扫描 `~/.hermes/skills/*/SKILL.md`）或用户指定列表
-2. 执行 Preflight 检查（见上方）
-3. 创建 git 分支：`auto-optimize/YYYYMMDD-HHMM`
+2. 执行 Preflight 检查（见上方），记录降级项
+3. 若 git 可用 → 创建分支 `auto-optimize/YYYYMMDD-HHMM`；否则手动备份原始文件
 4. 初始化 `results.tsv`（如不存在），读取历史记录
 
 ---
@@ -84,10 +86,16 @@ description: "Darwin Skill (达尔文.skill): autonomous skill optimizer inspire
 
 评估前为每个 skill 设计测试 prompt。没有测试 prompt，「实测表现」维度无法打分。
 
+**设计流程：**
 1. 读取 SKILL.md，理解 skill 做什么
-2. 设计 2-3 个测试 prompt：最典型场景（happy path）+ 一个稍复杂场景
+2. 设计 2-3 个测试 prompt
 3. 保存到 `skill目录/test-prompts.json`
-4. **展示所有测试 prompt 给用户，确认后再进入评估**
+4. 展示所有测试 prompt 给用户，**确认后再进入评估**
+
+**硬规则：**
+- 数量：最少 2 个，最多 3 个
+- 覆盖：必须包含该 skill 最核心的主场景，禁止全用边缘 case
+- 锁定：baseline 和 with_skill 必须使用完全同一组 prompt，评估期间不得替换。如需调整，必须重跑全部基线
 
 测试 prompt 的质量决定优化方向是否正确。
 
@@ -98,10 +106,10 @@ description: "Darwin Skill (达尔文.skill): autonomous skill optimizer inspire
 对每个 skill：
 
 **结构评分（主 agent）：**
-1. 加载完整 Rubric → `skill_view(name="darwin-skill", file_path="references/rubric.md")`
+1. 加载完整 Rubric（或 fallback 到速查表）
 2. 读取 SKILL.md 全文，按维度 1-7 逐项打分（附简短理由）
 
-**效果评分（独立子 agent）：**
+**效果评分（独立子 agent，或降级为干跑验证）：**
 3. 对每个测试 prompt，spawn 子 agent：
    - with_skill：带着 SKILL.md 执行
    - baseline：不带 skill 执行同一 prompt
@@ -145,21 +153,18 @@ Phase 2 每轮从策略库选最高优先级的一个执行：
 
 用户确认后，按基线分数从低到高排序，先优化最弱的。
 
-```
-for each skill:
-  round = 0
-  while round < MAX_ROUNDS (默认3):
-    round += 1
+对每个 skill，执行以下循环协议：
 
-    1. 诊断：找得分最低的维度
-    2. 策略：从策略库选最高优先级修复
-    3. 执行：编辑 SKILL.md → git commit
-    4. 重评：重新加载 Rubric → 独立评分（同 prompt、同标准）
-    5. 决策：新分 > 旧分 → keep；否则 revert + break
-    6. 日志：追加 results.tsv
-
-  # 每个 skill 优化完 → 展示 git diff + 分数变化，等用户确认
-```
+1. **选择** 当前待优化 skill
+2. **检查** round 计数器，若 ≥ 3，跳到步骤 10
+3. **诊断** 找当前得分最低的维度
+4. **选策略** 从优化策略库选对应最高优先级策略
+5. **执行** 编辑 SKILL.md 并提交（git commit 或记录变更）
+6. **重加载** 重新加载 Rubric（不依赖缓存）
+7. **重评分** 使用与基线完全相同的测试 prompt 和评分标准进行评分
+8. **决策** 若新总分 > 旧总分 → keep，更新旧总分，round++，回到步骤 3；若新总分 ≤ 旧总分 → revert，跳到步骤 10
+9. **记录** 追加 results.tsv，回到步骤 2
+10. **人类检查点** 展示该 skill 的 git diff + 分数变化，等用户确认后再处理下一个 skill
 
 ---
 
@@ -168,10 +173,10 @@ for each skill:
 当 hill-climbing 连续 2 个 skill 在 round 1 就 break 时，提议「探索性重写」：
 
 1. 选瓶颈 skill
-2. `git stash` 保存当前最优版
+2. `git stash` 保存当前最优版（或手动备份）
 3. 从头重写 SKILL.md（重新组织结构和表达方式）
 4. 重新评估
-5. 重写版 > stash 版 → 采用；否则 `git stash pop` 恢复
+5. 重写版 > stash 版 → 采用；否则恢复
 
 解决 hill-climbing 局部最优问题。**必须征得用户同意。**
 
@@ -179,12 +184,20 @@ for each skill:
 
 ## Phase 3: 汇总报告
 
-输出：
+**统计摘要：**
 - 优化 skills 数 / 总实验次数
 - 保留改进 X 次（Y%）/ 回滚 Z 次
 - 实测验证 A 次 / 干跑 B 次
 - 每个 skill：Before → After → Δ
-- 主要改进摘要（1-3 条）
+
+**结论分层（每个 skill 归入一类）：**
+
+| 分类 | 判断标准 | 建议动作 |
+|------|---------|---------|
+| 继续自动优化 | 分数稳步提升且未到瓶颈 | 下次 Darwin 运行时继续 |
+| 已到局部最优 | 连续 revert 或分数停滞 ≥ 2 轮 | 建议人工审查，考虑 Phase 2.5 探索性重写 |
+| 建议人工重写 | 核心结构有问题，hill-climbing 无法解决 | 标记为需重构，不浪费自动优化轮次 |
+| 评分不可信 | eval_mode=dry_run 且结构评分也不确定 | 补充测试 prompt 后重跑基线 |
 
 ---
 
@@ -192,10 +205,12 @@ for each skill:
 
 位置：`~/.hermes/skills/creative/darwin-skill/workspace/results.tsv`
 
-列：`timestamp | commit | skill | old_score | new_score | status | dimension | note | eval_mode`
+列：`timestamp | commit | skill | round | old_score | new_score | status | dimension | note | eval_mode | rubric_mode`
 
 - status: `keep` / `revert` / `baseline`
-- eval_mode: `full_test`（跑了子 agent 测试）或 `dry_run`（模拟推演）
+- eval_mode: `full_test` / `dry_run`
+- rubric_mode: `full` / `fallback`
+- round: 该 skill 的第几轮优化（baseline 记为 0）
 
 ---
 
