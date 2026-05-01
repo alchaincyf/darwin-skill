@@ -1,6 +1,6 @@
 ---
 name: darwin-skill
-description: "Darwin Skill (达尔文.skill): autonomous skill optimizer inspired by Karpathy's autoresearch. Evaluates SKILL.md files using an 8-dimension rubric (structure + effectiveness), runs hill-climbing with git version control, validates improvements through test prompts, and generates visual result cards. Use when user mentions \"优化skill\", \"skill评分\", \"自动优化\", \"auto optimize\", \"skill质量检查\", \"达尔文\", \"darwin\", \"帮我改改skill\", \"skill怎么样\", \"提升skill质量\", \"skill review\", \"skill打分\"."
+description: "Darwin Skill (达尔文.skill): autonomous skill optimizer inspired by Karpathy's autoresearch. Evaluates SKILL.md files using an 8-dimension rubric (structure + effectiveness), runs hill-climbing with git version control, validates improvements through test prompts, and generates visual result cards. Use when user mentions \"优化skill\", \"skill评分\", \"自动优化\", \"auto optimize\", \"skill质量检查\", \"达尔文\", \"darwin\", \"帮我改改skill\", \"skill怎么样\", \"提升skill质量\", \"skill review\", \"skill打分\". Supports slash command: /darwin-skill <args> (all | assess | history | <skill-name>)."
 ---
 
 # Darwin Skill
@@ -300,30 +300,52 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 
 ---
 
+## 命令调用
+
+通过 `/darwin-skill <args>` 调用。args 为 Skill tool 传入的参数字符串，按以下规则解析：
+
+| 命令 | 等效自然语言 | 执行范围 |
+|------|------------|---------|
+| `/darwin-skill all` | "优化所有skills" | Phase 0-3 全流程 |
+| `/darwin-skill <skill-name>` | "优化 xxx 这个skill" | Phase 0.5-2 单skill |
+| `/darwin-skill assess` | "评估所有skills的质量" | Phase 0.5-1 全量评估 |
+| `/darwin-skill assess <skill-name>` | "评估 xxx 的质量" | Phase 0.5-1 单skill评估 |
+| `/darwin-skill history` | "看看skill优化历史" | 读取并展示 results.tsv |
+| `/darwin-skill` (无参数) | — | 展示此帮助表 |
+
+解析优先级：
+1. 空 → 展示帮助表
+2. `all` → 全量优化
+3. `assess` → 评估模式（后面可跟 skill 名）
+4. `history` → 历史查看
+5. 其他 → 视为 skill 名，执行单skill优化
+
+---
+
 ## 使用方式
 
 ### 全量优化（推荐首次使用）
 ```
-用户："优化所有skills"
+`/darwin-skill all` 或 "优化所有skills"
 → Phase 0-3 完整流程
 → 建议：先基线评估，选择分数最低的5-10个重点优化
 ```
 
 ### 单个优化
 ```
-用户："优化 huashu-slides 这个skill"
+`/darwin-skill huashu-slides` 或 "优化 huashu-slides 这个skill"
 → 只对指定skill执行 Phase 0.5-2
 ```
 
 ### 仅评估不改
 ```
-用户："评估所有skills的质量"
+`/darwin-skill assess` 或 `/darwin-skill assess <skill-name>` 或 "评估所有skills的质量"
 → 只执行 Phase 0.5-1（设计测试prompt + 基线评估），不进入优化循环
 ```
 
 ### 查看历史
 ```
-用户："看看skill优化历史"
+`/darwin-skill history` 或 "看看skill优化历史"
 → 读取并展示 results.tsv
 ```
 
