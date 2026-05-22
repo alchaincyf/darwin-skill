@@ -45,10 +45,44 @@ autoresearch 的精髓：
 | 8 | **实测表现** | 25 | 用测试prompt跑一遍，输出质量是否符合skill宣称的能力 |
 
 ### 评分规则
-- 维度1-7：每个维度打 1-10 分，乘以权重得到该维度得分
-- 维度8（实测表现）：跑2-3个测试prompt，按输出质量打1-10分
+- 维度1-7：使用 **锚定比对** 评分（非自由打分）——每个维度先读 `references/anchor-library/dimension-anchors.md` 中的 3 档锚定示例，判断目标与哪个档位最接近，在该档位范围内给分
+- **维度1 例外**：Frontmatter 质量优先使用锚定库中的确定性检查清单（name格式/description质量/version+license），只在规则无法判断时才用 LLM 锚定兜底
+- 维度8（实测表现）：跑2-3个测试prompt后按输出质量打分（不适用锚定比对）
 - **总分 = Σ(维度分 × 权重) / 10**，满分100
 - 改进后总分必须 **严格高于** 改进前才保留
+
+### 锚定评分协议
+
+**为什么用锚定评分**：LLM 自由打分偏差 8-15 分，锚定比对可压缩到 ≤3 分（来源：Hashemi et al., ACL 2024）。Darwin 原版使用的"1-10 裸判"是评分不一致的根因。
+
+**评分步骤**（维度 1-7 每个维度重复）：
+
+```
+1. 读锚定示例 — 打开 references/anchor-library/dimension-anchors.md
+   找到目标维度的 3 档锚定（高档 8-10 / 中档 4-7 / 低档 1-3）
+
+2. 比对匹配 — 判断目标 skill 与哪个档位的锚定示例最接近
+   不是"你认为应该有几分"，而是"它最像哪个锚定示例"
+
+3. 档内给分 — 在匹配档位的范围内给出具体分数
+   如果介于两档之间，选更接近的一档，然后在档内微调
+
+4. 输出结构化结果：
+   {
+     "dimension": 1,
+     "matched_level": "high",
+     "score": 9,
+     "confidence": "high",
+     "rationale": "匹配高档锚定的三个特征：name规范、description含触发词、有完整metadata"
+   }
+```
+
+**置信度出口**：confidence: low 时自动触发 2 模型交叉验证。第二个模型也低置信度 → 降级为人工评审。
+
+**维度 8 例外**：实测表现维度不适用锚定比对——保留原方案，用测试 prompt 跑子 agent 后按输出质量对比评分。但评分时同样避免裸判 1-10，改用以下结构化判断：
+- 8-10：skill 显著提升输出（更完整/更准确/更符合期望格式）
+- 4-7：有提升但不明显，或部分场景有效  
+- 1-3：带 skill 比不带还差（过度约束/误导性指令）
 
 ### 关于「实测表现」维度
 
@@ -102,9 +136,15 @@ for each skill:
 ```
 for each skill in 优化范围:
 
-  # 结构评分（主agent可以做）
+  # 结构评分（锚定比对）
   1. 读取 SKILL.md 全文
-  2. 按维度1-7逐项打分（附简短理由）
+  2. 读取 references/anchor-library/dimension-anchors.md 锚定库
+  3. 按维度1-7逐项锚定比对：
+     - 读该维度的 3 档锚定示例
+     - 判断目标与哪个档位最接近
+     - 输出结构化结果: {dimension, matched_level, score, confidence, rationale}
+  4. 如果任一维度 confidence: low → 用第二个模型交叉验证
+  5. 如果第二个模型也 low → 标记该维度为 "manual_review"
 
   # 效果评分（用子agent做，独立于主agent）
   3. 对每个测试prompt，spawn子agent：
@@ -157,8 +197,8 @@ for each skill:
     编辑 SKILL.md
     git add + commit（message: "optimize {skill}: {改进摘要}"）
 
-    # Step 4: 重新评估
-    - 结构维度：主agent重新打分
+    # Step 4: 重新评估（锚定比对）
+    - 结构维度：读取锚定库，按锚定比对重新打分（禁止直接对比前后分数）
     - 效果维度：spawn独立子agent重跑测试prompt（关键！不能自己评自己）
 
     # Step 5: 决策
@@ -297,6 +337,7 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 5. **尊重花叔风格** — 中文为主、简洁为上
 6. **可回滚** — 所有改动在git分支上，用git revert而非reset --hard
 7. **评分独立性** — 效果维度必须用子agent或至少干跑验证，不能在同一上下文里「改完直接评」
+8. **强制锚定评分** — 维度1-7必须使用 `references/anchor-library/dimension-anchors.md` 锚定比对，严禁自由打分 1-10。temperature=0 + DeepSeek 系列必须禁用 thinking。confidence: low 时自动触发 2 模型交叉验证。结构评分全程禁止「凭感觉打分」。
 
 ---
 
