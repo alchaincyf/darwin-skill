@@ -146,13 +146,17 @@ frontmatter 触发词、花叔生态内部 skill 名引用、明确标注 runtim
 
 ```
 for each skill:
-  1. 读取 SKILL.md，理解它做什么
+  1. 读取 SKILL.md，提取核心功能：
+     - 从 description 和「使用方式」章节找出该 skill 的 3-5 个典型调用场景
+     - 从触发词反推用户最可能说的原话
   2. 设计2-3个测试prompt，覆盖：
-     - 最典型的使用场景（happy path）
-     - 一个稍复杂或有歧义的场景
-  3. 保存到 skill目录/test-prompts.json：
+     - 最典型的使用场景（happy path）：用户用最简洁的方式触发核心功能
+     - 一个稍复杂或有歧义的场景：用户意图模糊或需要多步决策
+     - （可选）一个边界场景：用户要求与 skill 设计意图不完全匹配
+  3. 每个 prompt 写 expected：用1-2句话描述「带 skill 执行」vs「不带 skill 执行」应有的质量差异
+  4. 保存到 skill目录/test-prompts.json：
      [
-       {"id": 1, "prompt": "用户会说的话", "expected": "期望输出的简短描述"},
+       {"id": 1, "prompt": "用户原话", "expected": "带skill时应... 不带skill时可能..."},
        {"id": 2, "prompt": "...", "expected": "..."}
      ]
 ```
