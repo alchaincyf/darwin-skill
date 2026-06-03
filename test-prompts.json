@@ -1,20 +1,17 @@
 [
   {
     "id": 1,
-    "scenario": "典型场景：单 skill 优化",
-    "prompt": "用 darwin-skill 优化 huashu-xxx 这个 skill",
-    "expected": "skill 应引导：Phase 0 检查 git/分支 → Phase 0.5 设计 2-3 个 test-prompts → Phase 1 spawn 独立 judge 评 9 维 rubric → 找最低维度（注意 dim2/3/4 相关簇）→ Phase 2 hill climbing（每轮 1 个维度，git ratchet）→ 检测触顶（连续 2 轮 Δ<2 自动 break）→ Phase 3 汇总 + 结果卡片"
+    "prompt": "优化所有skills",
+    "expected": "启动完整 Darwin 流程：Phase 0 初始化 → Phase 0.5 设计测试prompt → Phase 1 基线评估所有skill → 按分数排序 → Phase 2 逐个优化 → Phase 3 汇总报告。应包含git分支管理、results.tsv记录、子agent独立评分、人在回路检查点。"
   },
   {
     "id": 2,
-    "scenario": "典型场景：全量评估",
-    "prompt": "评估所有 skills 的质量",
-    "expected": "skill 应执行 Phase 0.5-1：扫描所有 SKILL.md → 跑 runtime 中立性 gate → 用 9 维 rubric 打基线分 → 输出评分卡片（按分数排序，标注短板维度），不进入 Phase 2 优化循环"
+    "prompt": "帮我看看 huashu-slides 这个skill写得怎么样",
+    "expected": "对指定skill执行 Phase 0.5-1：设计测试prompt → 9维度基线评估 → 展示评分卡（含结构短板和效果短板）→ 暂停等用户确认是否进入优化循环。不应直接开始修改。"
   },
   {
     "id": 3,
-    "scenario": "歧义/失败场景",
-    "prompt": "我想让你帮我把这个 skill 改得更好一点",
-    "expected": "skill 应识别为优化任务 → 询问优化范围（全量 / 单个）→ 检查异常（不在 git 仓库 / results.tsv 缺失等）按异常表 fallback → 设计测试 prompt 前展示给用户确认（检查点）"
+    "prompt": "评估所有skills的质量，先不改",
+    "expected": "只执行 Phase 0.5-1（设计测试prompt + 基线评估），不进入 Phase 2 优化循环。输出评分卡汇总，包含每个skill的分数、结构短板、效果短板、平均分数。"
   }
 ]

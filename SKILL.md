@@ -1,6 +1,6 @@
 ---
 name: darwin-skill
-description: "Darwin Skill 2.0 (达尔文.skill 2.0): autonomous skill optimizer, v2.0 integrates Microsoft Research SkillLens (arXiv 2605.23899) 9-dim rubric + SkillOpt (arXiv 2605.23904) validation-gated design + human-in-the-loop checkpoints. Evaluates SKILL.md files using a 9-dimension rubric (structure + effectiveness + meta-skill blacklists), runs hill-climbing with git version control, spawns independent judge agents for blind evaluation, validates improvements through test prompts with auto-break on diminishing returns, and generates visual result cards. Use when user mentions \"优化skill\", \"skill评分\", \"自动优化\", \"auto optimize\", \"skill质量检查\", \"达尔文\", \"darwin\", \"帮我改改skill\", \"skill怎么样\", \"提升skill质量\", \"skill review\", \"skill打分\"."
+description: "Darwin Skill 2.0: autonomous skill optimizer. Evaluates SKILL.md files with a 9-dimension rubric (structure + effectiveness + meta-skill blacklists), runs hill-climbing with git version control, spawns independent judge agents for blind evaluation, validates improvements through test prompts with auto-break on diminishing returns, and generates visual result cards. Use when user mentions 优化skill, skill评分, 自动优化, auto optimize, skill质量检查, 达尔文, darwin, 帮我改改skill, skill怎么样, 提升skill质量, skill review, skill打分."
 ---
 
 # Darwin Skill 2.0
@@ -70,6 +70,7 @@ rubric 设计依据来自 **SkillLens 论文（arXiv 2605.23899）** + **本机 
 **结论**：rubric 能识别 gross degradation，但 fine-grained quality difference 仍不可信，**重要决策必须人审**。
 
 → 详细论文证据 + 5 judges 完整数据 + HL 实战案例数字见 [references/skilllens-evidence.md](references/skilllens-evidence.md)
+→ 用户偏好适配模式（直接执行/中文/简洁格式等）见 [references/user-preference-patterns.md](references/user-preference-patterns.md)
 
 ### 关于「实测表现」维度
 
@@ -175,6 +176,8 @@ for each skill in 优化范围:
 
 **🔴 CHECKPOINT · 🛑 STOP：暂停等用户确认，再进入优化循环。**
 
+> **例外**：如果用户此前已明确表达"直接执行"偏好（见异常表「用户说"不用再询问我"」条目），跳过本 CHECKPOINT，直接进入 Phase 2。
+
 ### Phase 2: 优化循环
 
 用户确认后，按基线分数从低到高排序，先优化最弱的。
@@ -227,6 +230,8 @@ for each skill:
     - 测试prompt输出对比（如果跑过的话）
   等用户确认 OK 再继续下一个skill。
   如果用户说"不好"，回滚到该skill的优化前版本。
+
+  > **例外**：如果用户此前已明确表达"直接执行"偏好，本 CHECKPOINT 改为**异步展示**：输出改动摘要后继续下一个skill，不阻塞等待确认。用户可在任何时候说"回滚 XX"来撤销。
 ```
 
 ### Phase 2.5: 探索性重写（按需触发）
@@ -296,6 +301,7 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 - **HL-2（dim3）if-then 三段式 fallback 表**：把「症状/解法」两列升级为「触发条件 / 一线修复 / 仍失败兜底」三段式。SkillLens failure-mechanism encoding 维度的落地
 - **HL-3（Phase 2 诊断）维度相关簇警告**：dim2/3/4 是相关簇——修 dim3 时 dim2 常跟着涨。「找最低维度」时同时看相关簇短板再决定是否同步改
 - **HL-4（Phase 2 退出）触顶自动 break**：连续 2 轮 Δ < 2 分 → break 进 Phase 3。+0.15 是停手信号不是继续信号；硬凑 MAX_ROUNDS=3 引入 over-engineering
+- **HL-5（用户偏好适配）直接执行模式**：用户说"不用再询问我"或"直接执行"时，立即切换自主模式——跳过基线后 CHECKPOINT，每轮展示 diff 不阻塞，仅在 Phase 2.5 探索性重写前保留确认（高风险操作）。已在异常表中编码为正式 fallback
 
 ---
 
@@ -319,11 +325,13 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 - Frontmatter缺少触发词 → 补充中英文触发词
 - 缺少Phase/Step结构 → 重组为线性流程
 - 缺少用户确认检查点 → 在关键决策处插入
+- **新建skill时忘记创建references/templates** → dim6资源整合度易低，Phase 0时检查是否需要support files
 
 ### P2: 具体性问题
 - 步骤模糊（"处理图片"）→ 改为具体操作和参数
 - 缺少输入/输出规格 → 补充格式、路径、示例
 - 缺少异常处理 → 补充 "如果X失败，则Y"
+- **子agent输出格式不统一** → 提供标准模板文件（templates/*.md）
 
 ### P3: 可读性问题
 - 段落过长 → 拆分+用表格
@@ -348,6 +356,12 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 | test-prompts.json 已存在 | 文件已在 skill 目录 | 默认复用并展示，问用户「复用 / 重写 / 追加」三选一 |
 | SKILL.md 找不到 | 目录存在但无 SKILL.md | 该 skill 终止，results.tsv 记 `status=error`，继续下一个 |
 | 分数计算规则 | 浮点精度漂移 | 总分保留 1 位小数，改进需严格 > 旧分（不靠四舍五入） |
+| **git identity 未配置** | `git commit` 失败，提示 "Please tell me who you are" | 在 skill 目录执行 `git config user.email "darwin@hermes.local" && git config user.name "Darwin Optimizer"` 后再 commit |
+| **Playwright/chromium 未安装** | 成果卡片截图失败（`ModuleNotFoundError: No module named 'playwright'` 或 `NO_CHROME`） | 跳过截图，提示用户「成果卡片 HTML 已生成，可在浏览器中打开查看」；不阻塞 Phase 3 完成 |
+| **bc 等基础命令缺失** | `bc: command not found`，导致文件大小比例计算失败 | 用 Python 替代：`python3 -c "print(f'{current/original*100:.1f}')"` |
+| **用户说"不用再询问我"或"直接执行"** | 用户明确授权自主执行，厌恶逐步确认 | **立即切换为自主模式**：跳过 Phase 1 基线评估后的 CHECKPOINT，直接进入 Phase 2 优化循环；每轮改动后展示 diff 和分数变化，不再停下来等确认；Phase 3 汇总后直接输出最终报告。仅在探索性重写（Phase 2.5）前保留一次确认（因涉及 stash/重写高风险操作）。记录用户偏好到 memory："用户偏好直接执行 over 逐步确认" |
+| **用户要求"用中文交流"** | 用户明确中文偏好 | 所有输出、评分卡、测试prompt、results.tsv 注释均使用中文；skill 优化后的 SKILL.md 保持原文语言（不强制翻译），但评估报告和沟通语言切换为中文。记录到 memory |
+| **用户偏好简洁列表格式** | 用户说"一行一个"或类似 | 输出列表时采用 clean one-item-per-line 格式，不添加 bullet points、编号或额外评论。记录到 memory |
 
 **原则**：异常先告知用户，再按规则处理；绝不静默跳过或静默失败。
 
@@ -367,6 +381,7 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 | 6 | **dry_run 比例 > 30%** | dim8 实测维度形同虚设，分数虚高（早期 40 次记录 67% dry_run，0 revert） | 强制至少 1 个真实 full_test；dry_run 多的优化在 results.tsv 显式打 ⚠️ |
 | 7 | **静默跳过异常** | 遇到 git/tsv 异常时静默继续，破坏 ratchet 完整性 | 异常表 10 条 fallback 必须先告知用户再处理 |
 | 8 | **忽视维度相关性单独优化** | dim2/3/4 是相关簇，单独优化 dim2 时常发现已被前轮 dim3 修复推到顶 | 找最低维度时同时看相关簇短板，决定是否同步改 |
+| 9 | **`replace_all=true` 在 patch 时误用** | 当前 session 实例：用 `replace_all=true` 修复双 `---` 分隔符，old_string 中「每轮 Phase 3...」在文件 15 处匹配，整文件被连环改写导致结构崩溃（标题、段落、表格被随机拼接）。根本原因：`replace_all` 不检查匹配位置的上下文一致性，只要 old_string 子串出现就替换 | ① NEVER 使用 `replace_all=true`，除非 old_string 已被验证为**全文件唯一**（如某行开头的完整 UUID 或极长特定短语） ② 若需批量替换已知模式（如统一单词），先 `grep -c` 确认命中数后再决定 ③ 出事后立即 `git checkout -- SKILL.md` 恢复文件，重新用更精准的唯一锚点 patch ④ 宁可多写几个单独的精准 patch，也不要用 `replace_all` 扫射 |
 
 **触发场景**：每轮 Phase 2 改动前对照本表一次。任一反模式命中 → 改方案重写。
 
@@ -398,6 +413,15 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 ```
 用户："优化 huashu-slides 这个skill"
 → 只对指定skill执行 Phase 0.5-2
+```
+
+### 新建skill优化
+```
+用户："创建一个XX skill" 或 "优化写PRD的skill"（但目标skill不存在时）
+→ 先评估现有skill是否可改造（职责重叠？改造会破坏现有功能？）
+→ 决策：改造现有skill 或 创建新skill
+→ 创建新skill → 直接编写SKILL.md → Phase 1基线评估 → Phase 2优化
+→ 参考案例: references/prd-optimization-case-study.md
 ```
 
 ### 仅评估不改
