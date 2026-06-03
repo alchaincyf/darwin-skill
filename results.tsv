@@ -1,0 +1,15 @@
+timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
+2026-06-03T10:00	baseline	google-ads-strategist	-	61.9	baseline	-	初始评估	dry_run
+2026-06-03T10:10	885788b	google-ads-strategist	61.9	71.5	keep	dim3+dim4	新增前置检查与失败处理表(5种fallback)+3个显性检查点	full_test
+2026-06-03T10:20	61130ba	google-ads-strategist	71.5	76.3	keep	dim6+dim9	新增Agent反例黑名单(8条反模式)+references内容摘要	full_test
+2026-06-03T10:30	e44ff8b	google-ads-strategist	76.3	80.7	keep	dim1+dim8	压缩frontmatter+增强无URL场景处理	full_test
+2026-06-03T10:40	d6f15f9	google-ads-strategist	80.7	81.9	keep	dim2	扁平化竞对分析子步骤结构	full_test
+2026-06-03T10:50	f10a735	google-ads-strategist	81.9	83.9	keep	dim4+dim6	报告生成前CHECKPOINT+补全references摘要	full_test
+2026-06-03T11:00	37d6792	google-ads-strategist	83.9	85.1	keep	dim8	新增B2B工业网站地理范围强制澄清约束	full_test
+2026-06-03T11:10	ecab354	google-ads-strategist	85.1	85.8	keep	dim1	frontmatter进一步压缩精炼	full_test
+2026-06-03T23:50	baseline	darwin-skill	-	76.9	baseline	-	初始评估（dim8=dry_run）	dry_run
+2026-06-03T23:55	e824060	darwin-skill	76.9	78.3	keep	dim1	压缩frontmatter description，移除arXiv编号堆砌	dry_run
+2026-06-03T23:58	e081fbd	darwin-skill	78.3	78.7	keep	dim6	补全references内容指针（runtime-neutrality + prd-case-study）	dry_run
+2026-06-04T00:00	bb0c068	darwin-skill	78.7	79.9	keep	dim7	新增目录速查表，14章节导航	dry_run
+2026-06-04T00:02	6aa07f8	darwin-skill	79.9	80.5	keep	dim4	Phase 0.5后新增显性CHECKPOINT	dry_run
+2026-06-04T00:05	3170d5d	darwin-skill	80.5	82.2	keep	dim5	测试prompt设计步骤具体化：提取方法+expected格式+边界场景	dry_run
