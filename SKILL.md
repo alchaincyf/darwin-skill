@@ -159,6 +159,10 @@ for each skill:
 
 展示所有测试prompt给用户，**确认后再进入评估**。测试prompt的质量决定了优化方向是否正确。
 
+**🔴 CHECKPOINT · 🛑 STOP：展示 test-prompts.json 内容，等用户确认或修改后再进入 Phase 1。**
+
+> **例外**：如果用户此前已明确表达"直接执行"偏好，跳过本 CHECKPOINT，直接展示 test-prompts 内容并进入 Phase 1。
+
 ### Phase 1: 基线评估（Baseline）
 
 ```
