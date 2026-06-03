@@ -71,6 +71,8 @@ rubric 设计依据来自 **SkillLens 论文（arXiv 2605.23899）** + **本机 
 
 → 详细论文证据 + 5 judges 完整数据 + HL 实战案例数字见 [references/skilllens-evidence.md](references/skilllens-evidence.md)
 → 用户偏好适配模式（直接执行/中文/简洁格式等）见 [references/user-preference-patterns.md](references/user-preference-patterns.md)
+→ Runtime 中立性红灯/绿灯规则 + 例外清单见 [references/runtime-neutrality.md](references/runtime-neutrality.md)
+→ 新建 skill 从零到优化的完整案例见 [references/prd-optimization-case-study.md](references/prd-optimization-case-study.md)
 
 ### 关于「实测表现」维度
 
@@ -382,6 +384,7 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 | 7 | **静默跳过异常** | 遇到 git/tsv 异常时静默继续，破坏 ratchet 完整性 | 异常表 10 条 fallback 必须先告知用户再处理 |
 | 8 | **忽视维度相关性单独优化** | dim2/3/4 是相关簇，单独优化 dim2 时常发现已被前轮 dim3 修复推到顶 | 找最低维度时同时看相关簇短板，决定是否同步改 |
 | 9 | **`replace_all=true` 在 patch 时误用** | 当前 session 实例：用 `replace_all=true` 修复双 `---` 分隔符，old_string 中「每轮 Phase 3...」在文件 15 处匹配，整文件被连环改写导致结构崩溃（标题、段落、表格被随机拼接）。根本原因：`replace_all` 不检查匹配位置的上下文一致性，只要 old_string 子串出现就替换 | ① NEVER 使用 `replace_all=true`，除非 old_string 已被验证为**全文件唯一**（如某行开头的完整 UUID 或极长特定短语） ② 若需批量替换已知模式（如统一单词），先 `grep -c` 确认命中数后再决定 ③ 出事后立即 `git checkout -- SKILL.md` 恢复文件，重新用更精准的唯一锚点 patch ④ 宁可多写几个单独的精准 patch，也不要用 `replace_all` 扫射 |
+| 10 | **假设环境有 bc/playwright/chromium** | 文件大小比例计算依赖 `bc`，截图依赖 Playwright/chromium——这些在精简容器环境中常缺失，导致流程中断 | ① 数值计算一律用 Python（`python3 -c`）替代 shell 工具 ② 截图失败时优雅降级为「HTML 已生成，请浏览器查看」③ 在 Phase 0 初始化时检测关键工具可用性，提前告知用户 |
 
 **触发场景**：每轮 Phase 2 改动前对照本表一次。任一反模式命中 → 改方案重写。
 
