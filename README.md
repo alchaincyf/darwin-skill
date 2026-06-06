@@ -261,3 +261,7 @@ MIT
 MIT License © [花叔 Huashu](https://github.com/alchaincyf)
 
 </div>
+
+## Download History
+
+[![Download History](https://skill-history.com/chart/alchaincyf/darwin-skill.svg)](https://skill-history.com/alchaincyf/darwin-skill)
