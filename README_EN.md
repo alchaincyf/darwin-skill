@@ -20,12 +20,21 @@ Inspired by [Karpathy's autoresearch](https://github.com/karpathy/autoresearch).
 [![Version](https://img.shields.io/badge/version-2.0-blue.svg)](#whats-new-in-20)
 [![Agent Skill](https://img.shields.io/badge/Agent%20Skill-Compatible-blueviolet)](https://skills.sh)
 [![Skills](https://img.shields.io/badge/skills.sh-Compatible-green)](https://skills.sh)
+[![Microsoft SkillOpt](https://img.shields.io/badge/Microsoft_SkillOpt-Listed_Integration-0078D4?logo=microsoft&logoColor=white)](https://github.com/microsoft/SkillOpt)
 
 ```
 npx skills add alchaincyf/darwin-skill
 ```
 
 </div>
+
+---
+
+> [!NOTE]
+> **🤝 Microsoft Research lists darwin-skill as an official SkillOpt integration.**
+> On 2026-06-03, the [SkillOpt repo](https://github.com/microsoft/SkillOpt) noted:
+> *"gbrain, gbrain-evals, and **darwin-skill** have all integrated SkillOpt."*
+> We absorbed its validation-gated framework; it added darwin to its integration list. A two-way nod. 👉 [Visit the SkillOpt repo](https://github.com/microsoft/SkillOpt)
 
 ---
 
@@ -201,10 +210,11 @@ v2.0's design directly builds on the following academic work. Recommended readin
 
 > Microsoft Research. *SkillOpt: Executive Strategy for Self-Evolving Agent Skills.* arXiv:2605.23904, 2026.
 
-- Paper: https://arxiv.org/abs/2605.23904
+- 🔗 **Code repo**: [github.com/microsoft/SkillOpt](https://github.com/microsoft/SkillOpt) (`pip install skillopt`, v0.1.0 on PyPI)
 - Project page: https://microsoft.github.io/SkillOpt/
-- Code: https://github.com/microsoft/SkillOpt
+- Paper: https://arxiv.org/abs/2605.23904
 - **Contribution**: The formal framework of validation-gated edits. Treats a skill as the "external trainable state" of a frozen model: every edit must pass independent validation to be kept. darwin.skill v2.0's multi-judge independent review, non-reuse of judges, early stopping, and dry-run ratio control all align with this framework.
+- 🤝 **Mutual recognition**: On 2026-06-03, the official SkillOpt repo listed darwin-skill as an integration: *"gbrain, gbrain-evals, and darwin-skill have all integrated SkillOpt."* They give us the framework; we give it real-world validation.
 
 ### autoresearch
 
