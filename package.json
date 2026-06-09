@@ -1,0 +1,12 @@
+{
+  "name": "darwin-skill",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "screenshot": "node scripts/screenshot.mjs"
+  },
+  "dependencies": {
+    "playwright": "^1.49.0"
+  }
+}

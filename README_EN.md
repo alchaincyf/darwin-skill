@@ -73,10 +73,10 @@ v2.0 is not a patch release. It's a structural upgrade absorbing two Microsoft R
 7. Silently swallowing exceptions
 8. Ignoring correlated dimension clusters
 
-**5. Empirical validation data**
+**5. Empirical validation data, explicitly scoped**
 
-- huashu-gpt-image skill: **80.8 → 91.5 → 91.65** (+10.85, consensus across 6 independent judges)
-- darwin-skill self-eval: **86.05 → 92.05 → 92.7**
+- Externally verifiable: the SkillLens paper reports 46.4% LLM-as-judge accuracy and 73.8% with the meta-skill rubric; the SkillOpt repository lists `darwin-skill` as an integration.
+- Author-run experiments: the huashu-gpt-image and darwin-skill score deltas are summarized in [`references/skilllens-evidence.md`](references/skilllens-evidence.md), but raw judge logs / results.tsv are not shipped in this repository and should not be treated as independently reproducible evidence.
 
 ---
 
@@ -181,7 +181,7 @@ npx skills add alchaincyf/darwin-skill
 
 After installation, tell your agent: "optimize all skills" or "optimize [skill-name]". Works with any tool that supports the SKILL.md format.
 
-Can't access GitHub? Download the zip: [darwin-skill.zip](https://pub-161ae4b5ed0644c4a43b5c6412287e03.r2.dev/skills/darwin-skill.zip). Extract and place SKILL.md in `~/.claude/skills/darwin-skill/`.
+Can't access GitHub? Download the zip: [darwin-skill.zip](https://pub-161ae4b5ed0644c4a43b5c6412287e03.r2.dev/skills/darwin-skill.zip). Extract it into the skills directory used by your agent runtime. Common examples include `~/.agents/skills/darwin-skill/`, `~/.cursor/skills/darwin-skill/`, and `~/.codex/skills/darwin-skill/`; if your tool documents a dedicated path, use that path instead.
 
 ---
 

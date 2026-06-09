@@ -79,10 +79,10 @@ npx skills add alchaincyf/darwin-skill
 7. 静默跳过异常
 8. 忽视维度相关簇
 
-**5. 实测验证数据**
+**5. 实测验证数据（分层标注）**
 
-- huashu-gpt-image skill：**80.8 → 91.5 → 91.65**（+10.85，6 个独立评委共识）
-- darwin-skill 自评：**86.05 → 92.05 → 92.7**
+- 可外部验证：SkillLens 论文报告 LLM-as-judge 46.4% 与 meta-skill rubric 73.8%；SkillOpt 官方仓库列出 `darwin-skill` 集成。
+- 作者内部实验：huashu-gpt-image 与 darwin-skill 的分数变化记录见 [`references/skilllens-evidence.md`](references/skilllens-evidence.md)，但原始 judge logs / results.tsv 未随仓库发布，不能当作可独立复现证据。
 
 ---
 
@@ -185,7 +185,7 @@ npx skills add alchaincyf/darwin-skill
 
 安装后在任何支持 Skill 的 Agent 工具中说「优化所有skills」或「优化某个skill」就行。
 
-无法访问 GitHub 的朋友，可以直接下载 zip 包：[darwin-skill.zip](https://pub-161ae4b5ed0644c4a43b5c6412287e03.r2.dev/skills/darwin-skill.zip)，解压后把 SKILL.md 放到 `~/.claude/skills/darwin-skill/` 目录即可。
+无法访问 GitHub 的朋友，可以直接下载 zip 包：[darwin-skill.zip](https://pub-161ae4b5ed0644c4a43b5c6412287e03.r2.dev/skills/darwin-skill.zip)，解压后放到你的 agent runtime 使用的 skills 目录。常见目录示例：`~/.agents/skills/darwin-skill/`、`~/.cursor/skills/darwin-skill/`、`~/.codex/skills/darwin-skill/`；若你的工具有专用目录，请以该工具文档为准。
 
 ---
 

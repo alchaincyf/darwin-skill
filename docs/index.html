@@ -713,17 +713,17 @@
 <div class="container">
   <section class="section">
     <div class="section-num">02</div>
-    <h2 class="section-title">8维度<br>评估体系</h2>
+    <h2 class="section-title">9维度<br>评估体系</h2>
     <p class="section-lead">100分评估体系。结构维度捕捉你能看到的问题，效果维度捕捉只有运行时才能感知的问题。</p>
 
     <div class="rubric-header">
       <div class="rubric-stat">
-        <div class="rubric-stat-num">60</div>
+        <div class="rubric-stat-num">59</div>
         <div class="rubric-stat-label">结构<br>分值</div>
       </div>
       <div class="rubric-stat">
-        <div class="rubric-stat-num rubric-stat-num--accent">40</div>
-        <div class="rubric-stat-label">效果<br>分值</div>
+        <div class="rubric-stat-num rubric-stat-num--accent">35+6</div>
+        <div class="rubric-stat-label">效果+黑名单<br>分值</div>
       </div>
     </div>
 
@@ -741,37 +741,37 @@
         <tr>
           <td class="dim-num">1</td>
           <td class="dim-name">Frontmatter质量</td>
-          <td class="dim-weight">8</td>
+          <td class="dim-weight">7</td>
           <td class="dim-desc">名称正确，描述包含功能/触发条件/使用场景，不超过1024字符</td>
         </tr>
         <tr>
           <td class="dim-num">2</td>
           <td class="dim-name">工作流清晰度</td>
-          <td class="dim-weight">15</td>
+          <td class="dim-weight">12</td>
           <td class="dim-desc">步骤有编号、可执行，每步都有明确的输入/输出</td>
         </tr>
         <tr>
           <td class="dim-num">3</td>
-          <td class="dim-name">边界条件覆盖</td>
-          <td class="dim-weight">10</td>
-          <td class="dim-desc">错误处理、降级方案、常见故障恢复</td>
+          <td class="dim-name">失败模式编码</td>
+          <td class="dim-weight">12</td>
+          <td class="dim-desc">把常见失败原因、触发条件和恢复路径写成可执行规则</td>
         </tr>
         <tr>
           <td class="dim-num">4</td>
           <td class="dim-name">检查点设计</td>
-          <td class="dim-weight">7</td>
+          <td class="dim-weight">6</td>
           <td class="dim-desc">关键决策前需用户确认，防止自主失控</td>
         </tr>
         <tr>
           <td class="dim-num">5</td>
-          <td class="dim-name">指令具体性</td>
-          <td class="dim-weight">15</td>
+          <td class="dim-name">可执行具体性</td>
+          <td class="dim-weight">17</td>
           <td class="dim-desc">无歧义，具体的参数/格式/示例，可直接执行</td>
         </tr>
         <tr>
           <td class="dim-num">6</td>
           <td class="dim-name">资源整合度</td>
-          <td class="dim-weight">5</td>
+          <td class="dim-weight">4</td>
           <td class="dim-desc">所有引用的脚本/资产路径存在且可访问</td>
         </tr>
       </tbody>
@@ -791,14 +791,20 @@
         <tr>
           <td class="dim-num">7</td>
           <td class="dim-name">整体架构</td>
-          <td class="dim-weight">15</td>
+          <td class="dim-weight">12</td>
           <td class="dim-desc">层次清晰，无冗余或遗漏，符合生态系统约定</td>
         </tr>
         <tr>
           <td class="dim-num">8</td>
           <td class="dim-name">实测表现</td>
-          <td class="dim-weight">25</td>
+          <td class="dim-weight">23</td>
           <td class="dim-desc">运行2-3个测试提示词，对比启用 Skill 和 baseline 的输出质量</td>
+        </tr>
+        <tr>
+          <td class="dim-num">9</td>
+          <td class="dim-name">反例黑名单</td>
+          <td class="dim-weight">6</td>
+          <td class="dim-desc">显式禁止高风险动作、伪证据、自评自改等反模式</td>
         </tr>
       </tbody>
     </table>
@@ -823,7 +829,7 @@
           <p>确定优化范围，创建版本控制基础设施，加载历史记录。</p>
           <ol class="phase-steps">
             <li>确认范围：全部 Skill 还是用户指定子集</li>
-            <li>扫描 .claude/skills/*/SKILL.md 获取目标列表</li>
+            <li>扫描当前 runtime 的 skills 目录或用户指定目录获取目标列表</li>
             <li>创建 git 分支：auto-optimize/YYYYMMDD-HHMM</li>
             <li>初始化或加载 results.tsv 用于历史追踪</li>
           </ol>
@@ -858,7 +864,7 @@
           <ol class="phase-steps">
             <li>阅读 SKILL.md，为维度1-7评分并附理由</li>
             <li>启动子 Agent：分别在启用和未启用 Skill 的情况下运行测试提示词</li>
-            <li>对比输出，为维度8评分（如子 Agent 不可用则标记 dry_run）</li>
+            <li>对比输出，为维度8评分，并检查维度9反例黑名单（如子 Agent 不可用则标记 dry_run）</li>
             <li>计算加权总分，记录到 results.tsv</li>
             <li>展示评分卡，暂停等待人类确认</li>
           </ol>
@@ -1009,8 +1015,8 @@
         </tr>
         <tr>
           <td>评估指标</td>
-          <td>8维度评估体系</td>
-          <td>跨结构（60分）和效果（40分）的加权评分，总计100分。</td>
+          <td>9维度评估体系</td>
+          <td>跨结构（59分）、效果（35分）和反例黑名单（6分）的加权评分，总计100分。</td>
         </tr>
         <tr>
           <td>实验循环</td>

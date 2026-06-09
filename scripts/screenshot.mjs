@@ -1,67 +1,177 @@
 #!/usr/bin/env node
 /**
- * Darwin Skill - 高清截图脚本
+ * Darwin Skill - portable high-resolution screenshot script
  *
- * 用法: node scripts/screenshot.mjs [html文件路径] [输出png路径]
+ * Usage:
+ *   node scripts/screenshot.mjs [html-file-or-url] [output-png] [--selector=.card] [--open|--no-open]
  *
- * 特性:
- * - 2x deviceScaleFactor，输出高清图
- * - 只截 .card 元素，无多余背景
- * - 等待字体加载完成
- * - 截完自动用 open 命令打开图片
+ * Features:
+ * - 2x deviceScaleFactor for high-resolution output
+ * - Captures a target element only (default: .card; fallback: .container)
+ * - Waits for fonts and page rendering
+ * - Uses project/local Playwright resolution instead of a hardcoded user path
+ * - Falls back to common system Chrome/Edge executables when Playwright browsers are not installed
  */
 
-import { createRequire } from 'module';
+import { createRequire } from 'node:module';
+import { existsSync } from 'node:fs';
+import { resolve, isAbsolute } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { execFileSync } from 'node:child_process';
+
 const require = createRequire(import.meta.url);
 
-// 使用全局安装的 playwright-core
-const pw = require('/Users/alchain/.npm-global/lib/node_modules/playwright/node_modules/playwright-core');
+function loadPlaywright() {
+  const candidates = ['playwright', 'playwright-core'];
+  for (const packageName of candidates) {
+    try {
+      return require(packageName);
+    } catch (error) {
+      if (error.code !== 'MODULE_NOT_FOUND') throw error;
+    }
+  }
 
-const htmlPath = process.argv[2] || new URL('../templates/result-card.html', import.meta.url).pathname;
-const outputPath = process.argv[3] || new URL('../templates/result-card.png', import.meta.url).pathname;
+  throw new Error(
+    'Playwright is not installed. Install it in this repo with `npm install -D playwright` ' +
+    'or run the script through an environment that already provides `playwright`/`playwright-core`.'
+  );
+}
+
+function inputToUrl(input) {
+  if (/^https?:\/\//.test(input) || input.startsWith('file://')) return input;
+
+  const absPath = isAbsolute(input) ? input : resolve(process.cwd(), input);
+  if (!existsSync(absPath)) {
+    throw new Error(`HTML file does not exist: ${absPath}`);
+  }
+  return pathToFileURL(absPath).href;
+}
+
+function parseArgs(argv) {
+  const options = {
+    positional: [],
+    selector: null,
+    open: process.platform === 'darwin',
+  };
+
+  for (let i = 0; i < argv.length; i += 1) {
+    const arg = argv[i];
+    if (arg === '--open') {
+      options.open = true;
+    } else if (arg === '--no-open') {
+      options.open = false;
+    } else if (arg === '--selector') {
+      const selector = argv[i + 1];
+      if (!selector || selector.startsWith('--')) {
+        throw new Error('--selector requires a CSS selector value');
+      }
+      options.selector = selector;
+      i += 1;
+    } else if (arg.startsWith('--selector=')) {
+      options.selector = arg.slice('--selector='.length);
+      if (!options.selector) throw new Error('--selector requires a CSS selector value');
+    } else if (arg.startsWith('--')) {
+      throw new Error(`Unknown option: ${arg}`);
+    } else {
+      options.positional.push(arg);
+    }
+  }
+
+  return options;
+}
+
+function findSystemChromium() {
+  const candidates = [
+    process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH,
+    process.env.CHROME_EXECUTABLE_PATH,
+    '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+    '/Applications/Chromium.app/Contents/MacOS/Chromium',
+    '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge',
+    '/Applications/Brave Browser.app/Contents/MacOS/Brave Browser',
+    '/usr/bin/google-chrome',
+    '/usr/bin/chromium',
+    '/usr/bin/chromium-browser',
+    '/usr/bin/microsoft-edge',
+  ].filter(Boolean);
+
+  return candidates.find((candidate) => existsSync(candidate)) || null;
+}
+
+async function launchChromium(pw) {
+  try {
+    return await pw.chromium.launch();
+  } catch (error) {
+    const executablePath = findSystemChromium();
+    if (!executablePath) throw error;
+
+    console.warn(
+      'Playwright-managed Chromium is unavailable; falling back to system browser: ' + executablePath
+    );
+    return pw.chromium.launch({ executablePath });
+  }
+}
+
+async function findTarget(page, explicitSelector) {
+  const selectors = explicitSelector ? [explicitSelector] : ['.card', '.container'];
+  for (const selector of selectors) {
+    const locator = page.locator(selector);
+    if ((await locator.count()) > 0) {
+      return { selector, locator: locator.first() };
+    }
+  }
+
+  throw new Error(`Could not find target element. Tried: ${selectors.join(', ')}`);
+}
+
+const options = parseArgs(process.argv.slice(2));
+const htmlPathOrUrl = options.positional[0] || new URL('../templates/result-card.html', import.meta.url).pathname;
+const outputPath = resolve(process.cwd(), options.positional[1] || new URL('../templates/result-card.png', import.meta.url).pathname);
+const pageUrl = inputToUrl(htmlPathOrUrl);
+const pw = loadPlaywright();
 
 async function screenshot() {
-  const browser = await pw.chromium.launch();
+  const browser = await launchChromium(pw);
 
   try {
     const context = await browser.newContext({
-      viewport: { width: 920, height: 1600 },
+      viewport: { width: 1100, height: 1800 },
       deviceScaleFactor: 2,
     });
 
     const page = await context.newPage();
+    await page.goto(pageUrl, { waitUntil: 'networkidle' });
 
-    await page.goto(`file://${htmlPath}`, { waitUntil: 'networkidle' });
+    await page.evaluate(() => document.fonts?.ready ?? Promise.resolve());
+    await page.waitForTimeout(500);
 
-    // 等待字体加载
-    await page.evaluate(() => document.fonts.ready);
-    // 额外等待确保渲染完成
-    await page.waitForTimeout(2000);
+    const { selector, locator } = await findTarget(page, options.selector);
 
-    // 只截 .card 元素
-    const card = await page.locator('.card');
-    await card.screenshot({
+    await locator.screenshot({
       path: outputPath,
       type: 'png',
     });
 
-    console.log(`截图完成: ${outputPath}`);
-
-    // 获取图片尺寸信息
-    const box = await card.boundingBox();
-    console.log(`卡片尺寸: ${Math.round(box.width)}x${Math.round(box.height)}px (CSS)`);
-    console.log(`输出尺寸: ${Math.round(box.width * 2)}x${Math.round(box.height * 2)}px (2x高清)`);
-
+    const box = await locator.boundingBox();
+    console.log(`Screenshot saved: ${outputPath}`);
+    console.log(`Captured selector: ${selector}`);
+    if (box) {
+      console.log(`Element size: ${Math.round(box.width)}x${Math.round(box.height)}px (CSS)`);
+      console.log(`Output size: ${Math.round(box.width * 2)}x${Math.round(box.height * 2)}px (2x)`);
+    }
   } finally {
     await browser.close();
   }
 
-  // 自动打开图片
-  const { execSync } = require('child_process');
-  execSync(`open "${outputPath}"`);
+  if (options.open) {
+    try {
+      execFileSync('open', [outputPath], { stdio: 'ignore' });
+    } catch {
+      // Opening is convenience-only; do not fail screenshot generation.
+    }
+  }
 }
 
-screenshot().catch(err => {
-  console.error('截图失败:', err.message);
+screenshot().catch((err) => {
+  console.error('Screenshot failed:', err.message);
   process.exit(1);
 });

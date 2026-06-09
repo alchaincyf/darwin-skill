@@ -61,8 +61,10 @@
 ## 红灯扫描快速命令
 
 ```bash
-# 在 skill 目录跑这个 grep，输出即红灯命中
-grep -nE "(在 Claude Code|Claude Code skill|Claude Code 用户|Cursor only|Codex 中|^\[!\[Claude Code|~/\.claude/skills/[a-z]|/plugin install\b)" SKILL.md README.md 2>/dev/null
+# 在待审 skill 根目录运行。只扫描用户实际会读到的入口文件，避免扫描本 reference 文档自身造成自命中。
+files=(SKILL.md README.md README_EN.md)
+pattern='(在 Claude Code|Claude Code skill|Claude Code 用户|Cursor only|Codex 中|^\[!\[Claude Code|~/\.claude/skills/[a-z]|/plugin install\b)'
+grep -nE "$pattern" "${files[@]}" 2>/dev/null || true
 ```
 
-输出非空 = 该 skill 未通过 gate，必须在优化循环里修复。
+除「例外清单」覆盖的正当出现外，输出非空 = 该 skill 未通过 gate，必须在优化循环里修复。不要把本 reference 文档里的红灯示例当成待审 skill 的真实命中。

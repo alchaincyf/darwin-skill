@@ -64,8 +64,8 @@ autoresearch 的精髓：
 
 rubric 设计依据来自 **SkillLens 论文（arXiv 2605.23899）** + **本机 controlled study**：
 
-- SkillLens 发现 LLM-as-judge 准确率仅 46.4%（接近随机），加入 meta-skill 三维度后升到 73.8%
-- 本机对 huashu-research 做 4 类 degradation → 5 个独立 judge 盲测一致 V1>V2，Δ 均值 +46.5（5/5 high confidence）
+- SkillLens 发现 LLM-as-judge 准确率仅 46.4%（接近随机），加入 meta-skill 三维度后升到 73.8%（外部论文证据，可独立核验）
+- 本机对 huashu-research 做 4 类 degradation → 5 个独立 judge 盲测一致 V1>V2，Δ 均值 +46.5（作者内部实验摘要；原始 judge logs 未随仓库发布，不能等同于可复现实验）
 
 **结论**：rubric 能识别 gross degradation，但 fine-grained quality difference 仍不可信，**重要决策必须人审**。
 
@@ -88,15 +88,34 @@ rubric 设计依据来自 **SkillLens 论文（arXiv 2605.23899）** + **本机 
 
 ## Runtime 适配性审查（gate 项，独立于 9 维度评分）
 
-skill 应当能在 Claude Code / Codex / Cursor / OpenClaw / Hermes / Gemini CLI / OpenCode 等 50+ skills-compatible runtime 通用——否则其他 agent 解析时会被「在 Claude Code 里」「Claude Code skill」等措辞误判为「不是给我用的」直接拒装（实例：nuwa-skill 因此被 Marvis agent 拒绝）。
+skill 应当面向多种 skills-compatible runtime（例如 Claude Code、Codex、Cursor、OpenClaw、Hermes、Gemini CLI、OpenCode）保持通用——否则其他 agent 可能把它误判成单一 runtime 专属资料而拒绝安装。具体红灯措辞与例外规则见 `references/runtime-neutrality.md`。
 
 ### Phase 1 基线评估时强制跑一次红灯扫描
 
 ```bash
-grep -nE "(在 Claude Code|Claude Code skill|Claude Code 用户|Cursor only|Codex 中|^\[!\[Claude Code|~/\.claude/skills/[a-z]|/plugin install\b)" SKILL.md README.md 2>/dev/null
+python3 - <<'PY'
+from pathlib import Path
+terms = [
+    "在 " + "Claude Code",
+    "Claude Code" + " skill",
+    "Claude Code" + " 用户",
+    "Cursor " + "only",
+    "Codex " + "中",
+    "[![" + "Claude Code",
+    "~/.claude" + "/skills/",
+    "/plugin " + "install",
+]
+for file in ["SKILL.md", "README.md", "README_EN.md"]:
+    path = Path(file)
+    if not path.exists():
+        continue
+    for line_no, line in enumerate(path.read_text(encoding="utf-8", errors="ignore").splitlines(), 1):
+        if any(term in line for term in terms):
+            print(f"{file}:{line_no}:{line}")
+PY
 ```
 
-输出非空 = 红灯命中 → 强制把 Phase 2 第一轮定为 P0「runtime drift 修复」（写入 results.tsv 的 note 列 `runtime_warn=N`）。
+除 `references/runtime-neutrality.md` 例外清单允许的正当出现外，输出非空 = 红灯命中 → 强制把 Phase 2 第一轮定为 P0「runtime drift 修复」（写入 results.tsv 的 note 列 `runtime_warn=N`）。
 
 ### 例外（允许的「Claude Code 痕迹」）
 
@@ -112,7 +131,7 @@ frontmatter 触发词、花叔生态内部 skill 名引用、明确标注 runtim
 
 ```
 1. 确认优化范围：
-   - 全部skills → 扫描 .claude/skills/*/SKILL.md
+   - 全部skills → 扫描当前 runtime 的 skills 目录（如 `~/.agents/skills/*/SKILL.md`、`~/.cursor/skills/*/SKILL.md`、`~/.codex/skills/*/SKILL.md`，或用户指定目录）
    - 指定skills → 用户指定列表
 2. 创建 git 分支：auto-optimize/YYYYMMDD-HHMM
 3. 初始化 results.tsv（如不存在）
@@ -284,7 +303,7 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 ```
 
 新增 `eval_mode` 列：`full_test`（跑了子agent测试）或 `dry_run`（模拟推演）。
-文件位置：`.claude/skills/darwin-skill/results.tsv`
+文件位置：当前 runtime 的 darwin-skill 目录下 `results.tsv`（例如 `~/.agents/skills/darwin-skill/results.tsv`）；不要硬编码单一 runtime 路径。
 
 ---
 
@@ -304,7 +323,7 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 按优先级排序，每轮只做最高优先级的一个：
 
 ### P0: Runtime 适配性问题（gate 项命中 → 必须先修）
-- README/SKILL.md 出现红灯措辞（如「在 Claude Code 里」「Claude Code skill」）→ 替换为 runtime-neutral 措辞
+- README/SKILL.md 出现单一 runtime 专属措辞 → 替换为 runtime-neutral 措辞（具体红灯词见 `references/runtime-neutrality.md`）
 - Badge 钉死单一 runtime → 改为 `Agent Skills Standard` + `skills.sh` + `Multi-Runtime` 三个中立 badge
 - 安装章节只给一种 runtime 的路径 → 改为「一行命令（auto-detect）+ 手动路径表 + 作为参考资料」三层结构
 - 工作流硬编码 runtime-specific 工具且无 fallback → 给出通用替代方案或标注「仅在某 runtime 可用」
@@ -381,7 +400,7 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 5. **尊重花叔风格** — 中文为主、简洁为上
 6. **可回滚** — 所有改动在git分支上，用git revert而非reset --hard
 7. **评分独立性** — 效果维度必须用子agent或至少干跑验证，不能在同一上下文里「改完直接评」
-8. **Runtime 中立性** — skill 必须能在 Claude Code、Codex、Cursor、OpenClaw、Hermes 等任何 skills-compatible runtime 中正常运行。除非 skill 名明确绑定单一 runtime（如 `xxx-codex`、`huashu-slides-codex`），任何「在 Claude Code 里」「Claude Code skill」「单一 badge 钉死」「安装命令只给 `.claude/skills/` 一种路径」都视为 gate 不通过，须在 P0 优先修复（详见「Runtime 适配性审查」章节）
+8. **Runtime 中立性** — skill 必须面向 Claude Code、Codex、Cursor、OpenClaw、Hermes 等 skills-compatible runtime 保持通用。除非 skill 名明确绑定单一 runtime（如 `xxx-codex`、`huashu-slides-codex`），任何单一 runtime 绑定措辞、单一 runtime badge、或只给某个 runtime 私有安装路径的写法都视为 gate 不通过，须在 P0 优先修复（详见「Runtime 适配性审查」章节）
 
 ---
 
@@ -459,14 +478,15 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 2. 用 sed/编辑工具 替换占位数据：
    - data-field="skill-name" → 实际skill名
    - data-field="score-before/after/delta" → 实际分数
-   - 9个维度的 dim-bar-before/after width → 实际百分比（若模板仍是旧 8 维布局，加一行 dim9 反例黑名单条目）
+   - 9个维度的分数/Δ → 实际数值；模板必须已经包含 dim9「反例黑名单」，不得继续使用旧 8 维布局
    - data-field="improvement-1/2/3" → 实际改进摘要
    - data-field="date" → 当前日期
 3. 随机选择风格：hash 设为 swiss/terminal/newspaper 之一
-4. 用 scripts/screenshot.mjs 截图（2x 高清，只截 .card 元素，自动 open 图片）：
-   node .claude/skills/darwin-skill/scripts/screenshot.mjs \
-     /abs/path/to/card.html /abs/path/to/output.png
-   # 回退方案（脚本失败时）：
+4. 用 scripts/screenshot.mjs 截图（2x 高清；默认截 `.card`，也可用 `--selector=.container` 指定元素；macOS 默认打开图片，可加 `--no-open` 关闭）：
+   node /path/to/darwin-skill/scripts/screenshot.mjs \
+     /abs/path/to/card.html /abs/path/to/output.png --no-open
+   # 回退方案（Playwright 浏览器未安装时脚本会自动尝试系统 Chrome/Edge；仍失败再手动运行）：
+   npx playwright install chromium
    npx playwright screenshot "file:///path/to/card.html#[theme]" \
      output.png --viewport-size=960,1280 --wait-for-timeout=2000
 5. 提示用户查看成果卡片 PNG
@@ -478,7 +498,7 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 | `templates/result-card.html` | 3风格主模板（swiss/terminal/newspaper，hash切换） |
 | `templates/result-card-dark.html` / `-white.html` | 单一风格替代模板（需要锁定风格时用） |
 | `scripts/screenshot.mjs` | 2x 高清截图，只截 .card，自动 open |
-| `results.tsv` | 历次优化日志（9列含 eval_mode） |
+| `results.tsv` | 历次优化日志（9列含 eval_mode，位于当前 runtime 的 darwin-skill 目录） |
 | `{skill目录}/test-prompts.json` | 每个 skill 的测试 prompt 集（用于维度8实测） |
 
 ### 何时生成

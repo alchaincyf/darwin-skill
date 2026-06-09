@@ -1,6 +1,6 @@
 # SkillLens 实证基线 + darwin-skill 本机验证数据
 
-> SKILL.md 在「评估 Rubric」章节会引用本文件。需要查论文细节、controlled study 数据、HL 实战案例的具体数字时读这里。
+> SKILL.md 在「评估 Rubric」章节会引用本文件。论文证据可外部核验；本机 controlled study / HL 案例是作者内部实验摘要，原始 judge logs 与 results.tsv 未随仓库发布时，不应被表述为可独立复现实验。
 
 ---
 
@@ -30,7 +30,7 @@ v2 9 维 rubric 强化 dim3/dim5 + 新增 dim9 是 SkillLens 验证过的方向�
 
 ---
 
-## 本机 controlled study（2026-05-27）
+## 本机 controlled study（2026-05-27，作者内部实验摘要）
 
 ### 实验设计
 
@@ -72,9 +72,11 @@ v2 9 维 rubric 强化 dim3/dim5 + 新增 dim9 是 SkillLens 验证过的方向�
 
 **rubric 能识别 gross degradation（5/5 high confidence）**，但**这不能证明 fine-grained quality difference 也能识别**——SkillLens 的 46.4% 来自细粒度对比，darwin-skill 在细粒度判别上仍有失效风险。**重要决策仍需人审。**
 
+**复现边界**：本节仅记录实验摘要。若仓库没有同时提供原始 prompt、judge 输出、打分表和 commit 对照，本节数字只能作为作者内部验证线索，不能作为第三方可复现实证。
+
 ---
 
-## HL 实战 high-leverage 案例（来自 results.tsv 真实记录）
+## HL 实战 high-leverage 案例（作者内部 results.tsv 摘要）
 
 ### HL-1：显性视觉标记是 dim4 的杠杆
 
@@ -119,9 +121,9 @@ v2 9 维 rubric 强化 dim3/dim5 + 新增 dim9 是 SkillLens 验证过的方向�
 
 ---
 
-## 历史 results.tsv 优化记录摘要（截至 2026-05-27）
+## 历史 results.tsv 优化记录摘要（截至 2026-05-27，未随仓库发布原始表）
 
-完整记录见 `results.tsv`。
+完整记录未随当前仓库发布；下表仅为作者内部记录摘要。
 
 | skill | 起分 | 终分 | Δ | 模式 |
 |---|---|---|---|---|
@@ -139,4 +141,4 @@ v2 9 维 rubric 强化 dim3/dim5 + 新增 dim9 是 SkillLens 验证过的方向�
 **统计**：
 - 平均提升：~+13.5 分
 - 全部 keep（v1 时代 0 revert 印证 rubric 偏松；v2 引入触顶 break 规则）
-- full_test 比例：从 33% 提升到 100%（最近 2 次都是 full_test）
+- full_test 比例：作者内部记录称从 33% 提升到 100%（最近 2 次都是 full_test）；因原始记录未随仓库发布，第三方审查时应降级采信。

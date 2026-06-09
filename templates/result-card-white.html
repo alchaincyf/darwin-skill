@@ -237,7 +237,7 @@
   }
   .dims-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 0;
   }
   .dim-cell {
@@ -247,14 +247,13 @@
     flex-direction: column;
     gap: 4px;
   }
-  /* 右边框：每行前3个有 */
-  .dim-cell:nth-child(4n+1),
-  .dim-cell:nth-child(4n+2),
-  .dim-cell:nth-child(4n+3) {
+  /* 右边框：每行前2个有 */
+  .dim-cell:nth-child(3n+1),
+  .dim-cell:nth-child(3n+2) {
     border-right: 1px solid #F0F0F0;
   }
   /* 最后一行去掉底边框 */
-  .dim-cell:nth-child(n+5) {
+  .dim-cell:nth-child(n+7) {
     border-bottom: none;
   }
   .dim-name {
@@ -423,6 +422,13 @@
         <div class="dim-score-row">
           <span class="dim-score">8</span>
           <span class="dim-delta">&#9650; +3</span>
+        </div>
+      </div>
+      <div class="dim-cell">
+        <div class="dim-name">反例黑名单</div>
+        <div class="dim-score-row">
+          <span class="dim-score">8</span>
+          <span class="dim-delta">&#9650; +4</span>
         </div>
       </div>
     </div>
