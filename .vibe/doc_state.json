@@ -4,16 +4,16 @@
   "documents": [
     {"path": "docs/URD.md", "status": "created", "phase": "discover_urd"},
     {"path": "docs/ADD.md", "status": "created", "phase": "analyze_add"},
-    {"path": "docs/MDD.md", "status": "created", "phase": "design_mdd"},
-    {"path": "docs/TDD.md", "status": "created", "phase": "write_tdd"},
-    {"path": "docs/RMD.md", "status": "created", "phase": "plan_rmd"},
+    {"path": "docs/MDD.md", "status": "updated", "phase": "design_mdd"},
+    {"path": "docs/TDD.md", "status": "updated", "phase": "write_tdd"},
+    {"path": "docs/RMD.md", "status": "updated", "phase": "plan_rmd"},
     {"path": "docs/TRACE.md", "status": "updated", "phase": "trace"},
     {"path": "docs/CHANGELOG.md", "status": "updated", "phase": "update_docs"},
     {"path": "docs/PARKING_LOT.md", "status": "created", "phase": "discover_urd"},
-    {"path": "scripts/check_project_docs.py", "status": "created", "phase": "implementation"},
+    {"path": "scripts/check_project_docs.py", "status": "updated", "phase": "implementation"},
     {"path": "README.md", "status": "updated", "phase": "implementation"},
     {"path": "README_EN.md", "status": "updated", "phase": "implementation"},
     {"path": "SKILL.md", "status": "updated", "phase": "implementation"}
   ],
-  "open_questions": ["URD-Q-001", "URD-Q-002", "URD-Q-003", "URD-Q-004"]
+  "open_questions": ["URD-Q-001", "URD-Q-002", "URD-Q-003", "URD-Q-004", "URD-Q-005", "URD-Q-006", "URD-Q-007", "URD-Q-008", "URD-Q-009", "URD-Q-010", "URD-Q-011", "URD-Q-012"]
 }

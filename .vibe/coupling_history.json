@@ -11,7 +11,12 @@
     "ADD-DP-006",
     "ADD-DP-007",
     "ADD-DP-008",
-    "ADD-DP-009"
+    "ADD-DP-009",
+    "ADD-DP-010",
+    "ADD-DP-011",
+    "ADD-DP-012",
+    "ADD-DP-013",
+    "ADD-DP-014"
   ],
   "functional_requirements": [
     "ADD-FR-001",
@@ -22,7 +27,12 @@
     "ADD-FR-006",
     "ADD-FR-007",
     "ADD-FR-008",
-    "ADD-FR-009"
+    "ADD-FR-009",
+    "ADD-FR-010",
+    "ADD-FR-011",
+    "ADD-FR-012",
+    "ADD-FR-013",
+    "ADD-FR-014"
   ],
   "retries": [
     {
@@ -35,13 +45,49 @@
       "id": "ADD-COUP-002",
       "status": "resolved",
       "problem": "Effect validation and rubric scoring were mixed in one design parameter.",
-      "change": "Separated ADD-DP-004 effect validation from ADD-DP-005 scoring."
+      "change": "Separated effect validation from scoring."
     },
     {
       "id": "ADD-COUP-003",
       "status": "resolved",
       "problem": "Runtime neutrality scanning was mixed with optimization planning.",
-      "change": "Separated ADD-DP-006 runtime scanning from ADD-DP-007 optimization control."
+      "change": "Separated runtime scanning from optimization control."
+    },
+    {
+      "id": "ADD-COUP-004",
+      "status": "resolved",
+      "problem": "Domain rubric generation was initially treated as part of the scoring model.",
+      "change": "Moved domain rubric generation before formal scoring."
+    },
+    {
+      "id": "ADD-COUP-005",
+      "status": "resolved",
+      "problem": "Domain rubric confirmation and freezing were mixed into the optimization loop.",
+      "change": "Separated confirmation and version freezing into a dedicated design parameter."
+    },
+    {
+      "id": "ADD-COUP-006",
+      "status": "resolved",
+      "problem": "Common score, domain score, and composite decision were mixed in one scoring step.",
+      "change": "Separated common scoring, domain scoring, and composite decision."
+    },
+    {
+      "id": "ADD-COUP-007",
+      "status": "resolved",
+      "problem": "Domain research was mixed with domain rubric generation.",
+      "change": "Separated research acquisition and metadata into ADD-DP-003."
+    },
+    {
+      "id": "ADD-COUP-008",
+      "status": "resolved",
+      "problem": "Domain rubric quality evaluation was mixed with user confirmation and freezing.",
+      "change": "Separated quality evaluation into ADD-DP-006 before confirmation and freezing."
+    },
+    {
+      "id": "ADD-COUP-009",
+      "status": "resolved",
+      "problem": "Domain research and rubric quality details were only represented inside composite decision output.",
+      "change": "Separated report and public documentation output into ADD-DP-014."
     }
   ],
   "accepted_couplings": []

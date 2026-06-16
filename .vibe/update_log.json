@@ -37,6 +37,24 @@
       "checks": [
         "python scripts/check_project_docs.py"
       ]
+    },
+    {
+      "date": "2026-06-16",
+      "summary": "Refreshed MDD, TDD, RMD, TRACE, and machine-readable trace files for the 14-DP design with domain research and rubric quality evaluation.",
+      "changed_files": [
+        "docs/MDD.md",
+        "docs/TDD.md",
+        "docs/RMD.md",
+        "docs/TRACE.md",
+        "docs/CHANGELOG.md",
+        ".vibe/trace.json",
+        ".vibe/doc_state.json",
+        ".vibe/update_log.json",
+        "scripts/check_project_docs.py"
+      ],
+      "checks": [
+        "python scripts/check_project_docs.py"
+      ]
     }
   ]
 }

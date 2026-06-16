@@ -55,7 +55,7 @@ def check_required_files(findings: list[Finding]) -> None:
         ".vibe/update_log.json",
     ]
     for rel_path in required:
-        require((ROOT / rel_path).exists(), "TDD-TEST-008", f"Missing required file: {rel_path}", findings)
+        require((ROOT / rel_path).exists(), "TDD-TEST-046", f"Missing required file: {rel_path}", findings)
 
 
 def check_json_files(findings: list[Finding]) -> None:
@@ -69,13 +69,13 @@ def check_json_files(findings: list[Finding]) -> None:
         try:
             load_json(path)
         except Exception as exc:  # noqa: BLE001 - report parser errors without hiding details.
-            findings.append(Finding("TDD-TEST-022", f"{rel_path} is not valid JSON: {exc}"))
+            findings.append(Finding("TDD-TEST-050", f"{rel_path} is not valid JSON: {exc}"))
 
     coupling = load_json(ROOT / ".vibe/coupling_history.json")
     if isinstance(coupling, dict):
         require(
             coupling.get("status") == "decoupled_lower_triangular",
-            "TDD-TEST-023",
+            "TDD-TEST-051",
             ".vibe/coupling_history.json status must be decoupled_lower_triangular",
             findings,
         )
@@ -90,14 +90,52 @@ def check_trace_links(findings: list[Finding]) -> None:
         "## TDD 到 RMD",
     ]
     for section in required_sections:
-        require(section in trace, "TDD-TEST-019", f"TRACE missing section: {section}", findings)
+        require(section in trace, "TDD-TEST-047", f"TRACE missing section: {section}", findings)
 
+    for index in range(1, 50):
+        require(f"URD-REQ-{index:03d}" in trace, "TDD-TEST-047", f"TRACE missing URD-REQ-{index:03d}", findings)
     for index in range(1, 15):
-        require(f"URD-REQ-{index:03d}" in trace, "TDD-TEST-019", f"TRACE missing URD-REQ-{index:03d}", findings)
-    for index in range(1, 10):
-        require(f"ADD-DP-{index:03d}" in trace, "TDD-TEST-020", f"TRACE missing ADD-DP-{index:03d}", findings)
-        require(f"MDD-API-{index:03d}" in trace, "TDD-TEST-021", f"TRACE missing MDD-API-{index:03d}", findings)
-        require(f"TDD-TEST-{index + 9:03d}" in trace, "TDD-TEST-021", f"TRACE missing TDD-TEST-{index + 9:03d}", findings)
+        require(f"ADD-DP-{index:03d}" in trace, "TDD-TEST-048", f"TRACE missing ADD-DP-{index:03d}", findings)
+    for index in range(1, 15):
+        require(f"MDD-API-{index:03d}" in trace, "TDD-TEST-049", f"TRACE missing MDD-API-{index:03d}", findings)
+        require(f"TDD-TEST-{index + 31:03d}" in trace, "TDD-TEST-049", f"TRACE missing TDD-TEST-{index + 31:03d}", findings)
+
+
+def check_add_matrix(findings: list[Finding]) -> None:
+    add = read_text(ROOT / "docs/ADD.md")
+    lines = add.splitlines()
+    in_matrix = False
+    rows: list[str] = []
+    for line in lines:
+        if line == "## 4. 设计矩阵":
+            in_matrix = True
+            continue
+        if in_matrix and line.startswith("该矩阵"):
+            break
+        if in_matrix and line.startswith("| ADD-FR-"):
+            rows.append(line)
+
+    require(rows, "TDD-TEST-055", "ADD matrix rows not found", findings)
+    for row in rows:
+        cells = row.split("|")
+        if len(cells) < 16:
+            findings.append(Finding("TDD-TEST-055", f"ADD matrix row has too few cells: {row}"))
+            continue
+        label = cells[1].strip()
+        match = re.search(r"ADD-FR-(\d{3})", label)
+        if not match:
+            findings.append(Finding("TDD-TEST-055", f"ADD matrix row missing FR id: {row}"))
+            continue
+        fr_index = int(match.group(1))
+        for dp_index in range(fr_index + 1, 15):
+            cell_index = dp_index + 1
+            if cell_index < len(cells) and cells[cell_index].strip() == "X":
+                findings.append(
+                    Finding(
+                        "TDD-TEST-055",
+                        f"ADD matrix has upper-triangle dependency: ADD-FR-{fr_index:03d} uses ADD-DP-{dp_index:03d}",
+                    )
+                )
 
 
 def check_prompt_file(findings: list[Finding]) -> None:
@@ -185,7 +223,7 @@ def check_docs_language(findings: list[Finding]) -> None:
         text = read_text(path)
         for pattern in bad_patterns:
             if pattern in text:
-                findings.append(Finding("TDD-TEST-024", f"{path.relative_to(ROOT)} contains forbidden marker: {pattern}"))
+                findings.append(Finding("TDD-TEST-052", f"{path.relative_to(ROOT)} contains forbidden marker: {pattern}"))
 
 
 def check_no_wiki(findings: list[Finding]) -> None:
@@ -197,6 +235,7 @@ def main() -> int:
     check_required_files(findings)
     check_json_files(findings)
     check_trace_links(findings)
+    check_add_matrix(findings)
     check_prompt_file(findings)
     check_skill_contracts(findings)
     check_runtime_neutrality(findings)

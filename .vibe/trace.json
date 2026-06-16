@@ -10,6 +10,9 @@
     "templates/",
     "scripts/",
     "docs/index.html"
+    ,
+    "attachment:d1917728-be25-4aba-bda3-5b61cefaeb17/pasted-text.txt",
+    "user:URD supplement domain research and rubric quality evaluation"
   ],
   "documents": {
     "urd": "docs/URD.md",
@@ -95,20 +98,235 @@
       "id": "URD-REQ-014",
       "acceptance": ["URD-AC-009"],
       "sources": ["README.md", "references/skilllens-evidence.md", "references/runtime-neutrality.md"]
+    },
+    {
+      "id": "URD-REQ-015",
+      "acceptance": ["URD-AC-010"],
+      "sources": ["attachment:d1917728-be25-4aba-bda3-5b61cefaeb17/pasted-text.txt"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-016",
+      "acceptance": ["URD-AC-010"],
+      "sources": ["attachment:d1917728-be25-4aba-bda3-5b61cefaeb17/pasted-text.txt"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-017",
+      "acceptance": ["URD-AC-010"],
+      "sources": ["attachment:d1917728-be25-4aba-bda3-5b61cefaeb17/pasted-text.txt"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-018",
+      "acceptance": ["URD-AC-011"],
+      "sources": ["attachment:d1917728-be25-4aba-bda3-5b61cefaeb17/pasted-text.txt"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-019",
+      "acceptance": ["URD-AC-010"],
+      "sources": ["attachment:d1917728-be25-4aba-bda3-5b61cefaeb17/pasted-text.txt"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-020",
+      "acceptance": ["URD-AC-010"],
+      "sources": ["attachment:d1917728-be25-4aba-bda3-5b61cefaeb17/pasted-text.txt"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-021",
+      "acceptance": ["URD-AC-013"],
+      "sources": ["attachment:d1917728-be25-4aba-bda3-5b61cefaeb17/pasted-text.txt"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-022",
+      "acceptance": ["URD-AC-013"],
+      "sources": ["attachment:d1917728-be25-4aba-bda3-5b61cefaeb17/pasted-text.txt"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-023",
+      "acceptance": ["URD-AC-017"],
+      "sources": ["attachment:d1917728-be25-4aba-bda3-5b61cefaeb17/pasted-text.txt"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-024",
+      "acceptance": ["URD-AC-017"],
+      "sources": ["attachment:d1917728-be25-4aba-bda3-5b61cefaeb17/pasted-text.txt"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-025",
+      "acceptance": ["URD-AC-014"],
+      "sources": ["attachment:d1917728-be25-4aba-bda3-5b61cefaeb17/pasted-text.txt"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-026",
+      "acceptance": ["URD-AC-015", "URD-AC-016"],
+      "sources": ["attachment:d1917728-be25-4aba-bda3-5b61cefaeb17/pasted-text.txt"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-027",
+      "acceptance": ["URD-AC-019"],
+      "sources": ["attachment:d1917728-be25-4aba-bda3-5b61cefaeb17/pasted-text.txt"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-028",
+      "acceptance": ["URD-AC-012"],
+      "sources": ["attachment:d1917728-be25-4aba-bda3-5b61cefaeb17/pasted-text.txt"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-029",
+      "acceptance": ["URD-AC-018"],
+      "sources": ["attachment:d1917728-be25-4aba-bda3-5b61cefaeb17/pasted-text.txt"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-030",
+      "acceptance": ["URD-AC-020"],
+      "sources": ["user:URD supplement domain research and rubric quality evaluation"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-031",
+      "acceptance": ["URD-AC-021"],
+      "sources": ["user:URD supplement domain research and rubric quality evaluation"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-032",
+      "acceptance": ["URD-AC-022", "URD-AC-027"],
+      "sources": ["user:URD supplement domain research and rubric quality evaluation"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-033",
+      "acceptance": ["URD-AC-020"],
+      "sources": ["user:URD supplement domain research and rubric quality evaluation"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-034",
+      "acceptance": ["URD-AC-020", "URD-AC-022"],
+      "sources": ["user:URD supplement domain research and rubric quality evaluation"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-035",
+      "acceptance": ["URD-AC-023"],
+      "sources": ["user:URD supplement domain research and rubric quality evaluation"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-036",
+      "acceptance": ["URD-AC-023"],
+      "sources": ["user:URD supplement domain research and rubric quality evaluation"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-037",
+      "acceptance": ["URD-AC-023"],
+      "sources": ["user:URD supplement domain research and rubric quality evaluation"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-038",
+      "acceptance": ["URD-AC-024"],
+      "sources": ["user:URD supplement domain research and rubric quality evaluation"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-039",
+      "acceptance": ["URD-AC-024"],
+      "sources": ["user:URD supplement domain research and rubric quality evaluation"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-040",
+      "acceptance": ["URD-AC-025"],
+      "sources": ["user:URD supplement domain research and rubric quality evaluation"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-041",
+      "acceptance": ["URD-AC-026"],
+      "sources": ["user:URD supplement domain research and rubric quality evaluation"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-042",
+      "acceptance": ["URD-AC-026"],
+      "sources": ["user:URD supplement domain research and rubric quality evaluation"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-043",
+      "acceptance": ["URD-AC-027"],
+      "sources": ["user:URD supplement domain research and rubric quality evaluation"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-044",
+      "acceptance": ["URD-AC-028"],
+      "sources": ["user:URD supplement domain research and rubric quality evaluation"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-045",
+      "acceptance": ["URD-AC-029"],
+      "sources": ["user:URD supplement domain research and rubric quality evaluation"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-046",
+      "acceptance": ["URD-AC-030"],
+      "sources": ["user:URD supplement domain research and rubric quality evaluation"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-047",
+      "acceptance": ["URD-AC-031"],
+      "sources": ["user:URD supplement domain research and rubric quality evaluation"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-048",
+      "acceptance": ["URD-AC-027"],
+      "sources": ["user:URD supplement domain research and rubric quality evaluation"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
+    },
+    {
+      "id": "URD-REQ-049",
+      "acceptance": ["URD-AC-026"],
+      "sources": ["user:URD supplement domain research and rubric quality evaluation"],
+      "downstream_status": "mapped_to_add_mdd_tdd_rmd"
     }
   ],
   "add": {
     "status": "decoupled_lower_triangular",
     "fr_to_dp": [
-      {"fr": "ADD-FR-001", "dp": ["ADD-DP-001"], "urd": ["URD-REQ-002", "URD-REQ-010"]},
+      {"fr": "ADD-FR-001", "dp": ["ADD-DP-001"], "urd": ["URD-REQ-002", "URD-REQ-010", "URD-REQ-023", "URD-REQ-044"]},
       {"fr": "ADD-FR-002", "dp": ["ADD-DP-001", "ADD-DP-002"], "urd": ["URD-REQ-001"]},
-      {"fr": "ADD-FR-003", "dp": ["ADD-DP-001", "ADD-DP-002", "ADD-DP-003"], "urd": ["URD-REQ-002"]},
-      {"fr": "ADD-FR-004", "dp": ["ADD-DP-001", "ADD-DP-002", "ADD-DP-003", "ADD-DP-004"], "urd": ["URD-REQ-004", "URD-REQ-005"]},
-      {"fr": "ADD-FR-005", "dp": ["ADD-DP-001", "ADD-DP-002", "ADD-DP-003", "ADD-DP-004", "ADD-DP-005"], "urd": ["URD-REQ-003", "URD-REQ-004", "URD-REQ-005"]},
-      {"fr": "ADD-FR-006", "dp": ["ADD-DP-001", "ADD-DP-002", "ADD-DP-006"], "urd": ["URD-REQ-006"]},
-      {"fr": "ADD-FR-007", "dp": ["ADD-DP-001", "ADD-DP-002", "ADD-DP-003", "ADD-DP-004", "ADD-DP-005", "ADD-DP-006", "ADD-DP-007"], "urd": ["URD-REQ-007"]},
-      {"fr": "ADD-FR-008", "dp": ["ADD-DP-001", "ADD-DP-002", "ADD-DP-005", "ADD-DP-007", "ADD-DP-008"], "urd": ["URD-REQ-008", "URD-REQ-009", "URD-REQ-011"]},
-      {"fr": "ADD-FR-009", "dp": ["ADD-DP-001", "ADD-DP-005", "ADD-DP-008", "ADD-DP-009"], "urd": ["URD-REQ-012", "URD-REQ-013", "URD-REQ-014"]}
+      {"fr": "ADD-FR-003", "dp": ["ADD-DP-001", "ADD-DP-002", "ADD-DP-003"], "urd": ["URD-REQ-030", "URD-REQ-031", "URD-REQ-032", "URD-REQ-033", "URD-REQ-034", "URD-REQ-048"]},
+      {"fr": "ADD-FR-004", "dp": ["ADD-DP-001", "ADD-DP-002", "ADD-DP-003", "ADD-DP-004"], "urd": ["URD-REQ-015", "URD-REQ-016", "URD-REQ-017", "URD-REQ-018", "URD-REQ-021", "URD-REQ-022", "URD-REQ-028", "URD-REQ-029", "URD-REQ-035", "URD-REQ-036", "URD-REQ-037"]},
+      {"fr": "ADD-FR-005", "dp": ["ADD-DP-001", "ADD-DP-002", "ADD-DP-003", "ADD-DP-004", "ADD-DP-005"], "urd": ["URD-REQ-002", "URD-REQ-019"]},
+      {"fr": "ADD-FR-006", "dp": ["ADD-DP-001", "ADD-DP-002", "ADD-DP-003", "ADD-DP-004", "ADD-DP-005", "ADD-DP-006"], "urd": ["URD-REQ-038", "URD-REQ-039", "URD-REQ-040", "URD-REQ-041", "URD-REQ-042", "URD-REQ-043", "URD-REQ-049"]},
+      {"fr": "ADD-FR-007", "dp": ["ADD-DP-001", "ADD-DP-002", "ADD-DP-003", "ADD-DP-004", "ADD-DP-005", "ADD-DP-006", "ADD-DP-007"], "urd": ["URD-REQ-020", "URD-REQ-023", "URD-REQ-024", "URD-REQ-043", "URD-REQ-044", "URD-REQ-045", "URD-REQ-046"]},
+      {"fr": "ADD-FR-008", "dp": ["ADD-DP-001", "ADD-DP-002", "ADD-DP-003", "ADD-DP-004", "ADD-DP-005", "ADD-DP-007", "ADD-DP-008"], "urd": ["URD-REQ-004", "URD-REQ-005"]},
+      {"fr": "ADD-FR-009", "dp": ["ADD-DP-001", "ADD-DP-002", "ADD-DP-005", "ADD-DP-008", "ADD-DP-009"], "urd": ["URD-REQ-003", "URD-REQ-004", "URD-REQ-005"]},
+      {"fr": "ADD-FR-010", "dp": ["ADD-DP-001", "ADD-DP-002", "ADD-DP-003", "ADD-DP-004", "ADD-DP-005", "ADD-DP-006", "ADD-DP-007", "ADD-DP-008", "ADD-DP-010"], "urd": ["URD-REQ-025"]},
+      {"fr": "ADD-FR-011", "dp": ["ADD-DP-001", "ADD-DP-002", "ADD-DP-011"], "urd": ["URD-REQ-006"]},
+      {"fr": "ADD-FR-012", "dp": ["ADD-DP-001", "ADD-DP-002", "ADD-DP-003", "ADD-DP-004", "ADD-DP-005", "ADD-DP-006", "ADD-DP-007", "ADD-DP-008", "ADD-DP-009", "ADD-DP-010", "ADD-DP-011", "ADD-DP-012"], "urd": ["URD-REQ-007"]},
+      {"fr": "ADD-FR-013", "dp": ["ADD-DP-001", "ADD-DP-002", "ADD-DP-003", "ADD-DP-004", "ADD-DP-006", "ADD-DP-007", "ADD-DP-008", "ADD-DP-009", "ADD-DP-010", "ADD-DP-012", "ADD-DP-013"], "urd": ["URD-REQ-008", "URD-REQ-009", "URD-REQ-011", "URD-REQ-026", "URD-REQ-027", "URD-REQ-029", "URD-REQ-049"]},
+      {"fr": "ADD-FR-014", "dp": ["ADD-DP-001", "ADD-DP-003", "ADD-DP-004", "ADD-DP-006", "ADD-DP-007", "ADD-DP-009", "ADD-DP-010", "ADD-DP-013", "ADD-DP-014"], "urd": ["URD-REQ-012", "URD-REQ-013", "URD-REQ-014", "URD-REQ-025", "URD-REQ-047"]}
     ]
   },
   "mdd": {
@@ -121,20 +339,30 @@
       {"dp": "ADD-DP-006", "module": "MDD-MOD-006", "api": "MDD-API-006"},
       {"dp": "ADD-DP-007", "module": "MDD-MOD-007", "api": "MDD-API-007"},
       {"dp": "ADD-DP-008", "module": "MDD-MOD-008", "api": "MDD-API-008"},
-      {"dp": "ADD-DP-009", "module": "MDD-MOD-009", "api": "MDD-API-009"}
+      {"dp": "ADD-DP-009", "module": "MDD-MOD-009", "api": "MDD-API-009"},
+      {"dp": "ADD-DP-010", "module": "MDD-MOD-010", "api": "MDD-API-010"},
+      {"dp": "ADD-DP-011", "module": "MDD-MOD-011", "api": "MDD-API-011"},
+      {"dp": "ADD-DP-012", "module": "MDD-MOD-012", "api": "MDD-API-012"},
+      {"dp": "ADD-DP-013", "module": "MDD-MOD-013", "api": "MDD-API-013"},
+      {"dp": "ADD-DP-014", "module": "MDD-MOD-014", "api": "MDD-API-014"}
     ]
   },
   "tdd": {
     "api_tests": [
-      {"api": "MDD-API-001", "test": "TDD-TEST-010"},
-      {"api": "MDD-API-002", "test": "TDD-TEST-011"},
-      {"api": "MDD-API-003", "test": "TDD-TEST-012"},
-      {"api": "MDD-API-004", "test": "TDD-TEST-013"},
-      {"api": "MDD-API-005", "test": "TDD-TEST-014"},
-      {"api": "MDD-API-006", "test": "TDD-TEST-015"},
-      {"api": "MDD-API-007", "test": "TDD-TEST-016"},
-      {"api": "MDD-API-008", "test": "TDD-TEST-017"},
-      {"api": "MDD-API-009", "test": "TDD-TEST-018"}
+      {"api": "MDD-API-001", "test": "TDD-TEST-032"},
+      {"api": "MDD-API-002", "test": "TDD-TEST-033"},
+      {"api": "MDD-API-003", "test": "TDD-TEST-034"},
+      {"api": "MDD-API-004", "test": "TDD-TEST-035"},
+      {"api": "MDD-API-005", "test": "TDD-TEST-036"},
+      {"api": "MDD-API-006", "test": "TDD-TEST-037"},
+      {"api": "MDD-API-007", "test": "TDD-TEST-038"},
+      {"api": "MDD-API-008", "test": "TDD-TEST-039"},
+      {"api": "MDD-API-009", "test": "TDD-TEST-040"},
+      {"api": "MDD-API-010", "test": "TDD-TEST-041"},
+      {"api": "MDD-API-011", "test": "TDD-TEST-042"},
+      {"api": "MDD-API-012", "test": "TDD-TEST-043"},
+      {"api": "MDD-API-013", "test": "TDD-TEST-044"},
+      {"api": "MDD-API-014", "test": "TDD-TEST-045"}
     ]
   },
   "rmd": {
@@ -143,14 +371,19 @@
       "RMD-TASK-002",
       "RMD-TASK-003",
       "RMD-TASK-004",
-      "RMD-TASK-005"
+      "RMD-TASK-005",
+      "RMD-TASK-006",
+      "RMD-TASK-007",
+      "RMD-TASK-008",
+      "RMD-TASK-009"
     ],
     "doc_tasks_completed": [
       "RMD-TASK-DOC-001",
       "RMD-TASK-DOC-002",
       "RMD-TASK-DOC-003",
       "RMD-TASK-DOC-004",
-      "RMD-TASK-DOC-005"
+      "RMD-TASK-DOC-005",
+      "RMD-TASK-DOC-006"
     ],
     "implementation_tasks_completed": [
       "RMD-TASK-IMPL-001",
@@ -165,5 +398,5 @@
     "generated": false,
     "reason": "User requested documentation completion without wiki generation."
   },
-  "open_questions": ["URD-Q-001", "URD-Q-002", "URD-Q-003", "URD-Q-004"]
+  "open_questions": ["URD-Q-001", "URD-Q-002", "URD-Q-003", "URD-Q-004", "URD-Q-005", "URD-Q-006", "URD-Q-007", "URD-Q-008", "URD-Q-009", "URD-Q-010", "URD-Q-011", "URD-Q-012"]
 }
