@@ -1,0 +1,169 @@
+{
+  "version": 1,
+  "generated_from": [
+    "SKILL.md",
+    "README.md",
+    "README_EN.md",
+    "test-prompts.json",
+    "references/skilllens-evidence.md",
+    "references/runtime-neutrality.md",
+    "templates/",
+    "scripts/",
+    "docs/index.html"
+  ],
+  "documents": {
+    "urd": "docs/URD.md",
+    "add": "docs/ADD.md",
+    "mdd": "docs/MDD.md",
+    "tdd": "docs/TDD.md",
+    "rmd": "docs/RMD.md",
+    "trace": "docs/TRACE.md",
+    "changelog": "docs/CHANGELOG.md",
+    "parking_lot": "docs/PARKING_LOT.md",
+    "coupling_history": ".vibe/coupling_history.json",
+    "doc_state": ".vibe/doc_state.json",
+    "update_log": ".vibe/update_log.json",
+    "project_check": "scripts/check_project_docs.py"
+  },
+  "requirements": [
+    {
+      "id": "URD-REQ-001",
+      "acceptance": ["URD-AC-001"],
+      "sources": ["SKILL.md", "test-prompts.json"]
+    },
+    {
+      "id": "URD-REQ-002",
+      "acceptance": ["URD-AC-001"],
+      "sources": ["SKILL.md"]
+    },
+    {
+      "id": "URD-REQ-003",
+      "acceptance": ["URD-AC-002"],
+      "sources": ["SKILL.md"]
+    },
+    {
+      "id": "URD-REQ-004",
+      "acceptance": ["URD-AC-003"],
+      "sources": ["SKILL.md", "references/skilllens-evidence.md"]
+    },
+    {
+      "id": "URD-REQ-005",
+      "acceptance": ["URD-AC-003", "URD-AC-005"],
+      "sources": ["SKILL.md", "references/skilllens-evidence.md"]
+    },
+    {
+      "id": "URD-REQ-006",
+      "acceptance": ["URD-AC-004"],
+      "sources": ["references/runtime-neutrality.md"]
+    },
+    {
+      "id": "URD-REQ-007",
+      "acceptance": ["URD-AC-005"],
+      "sources": ["SKILL.md"]
+    },
+    {
+      "id": "URD-REQ-008",
+      "acceptance": ["URD-AC-005", "URD-AC-006"],
+      "sources": ["SKILL.md"]
+    },
+    {
+      "id": "URD-REQ-009",
+      "acceptance": ["URD-AC-006"],
+      "sources": ["SKILL.md"]
+    },
+    {
+      "id": "URD-REQ-010",
+      "acceptance": ["URD-AC-001", "URD-AC-005"],
+      "sources": ["SKILL.md"]
+    },
+    {
+      "id": "URD-REQ-011",
+      "acceptance": ["URD-AC-007"],
+      "sources": ["SKILL.md"]
+    },
+    {
+      "id": "URD-REQ-012",
+      "acceptance": ["URD-AC-008"],
+      "sources": ["SKILL.md", "templates/", "scripts/screenshot.mjs"]
+    },
+    {
+      "id": "URD-REQ-013",
+      "acceptance": ["URD-AC-009"],
+      "sources": ["README.md", "README_EN.md", "docs/index.html"]
+    },
+    {
+      "id": "URD-REQ-014",
+      "acceptance": ["URD-AC-009"],
+      "sources": ["README.md", "references/skilllens-evidence.md", "references/runtime-neutrality.md"]
+    }
+  ],
+  "add": {
+    "status": "decoupled_lower_triangular",
+    "fr_to_dp": [
+      {"fr": "ADD-FR-001", "dp": ["ADD-DP-001"], "urd": ["URD-REQ-002", "URD-REQ-010"]},
+      {"fr": "ADD-FR-002", "dp": ["ADD-DP-001", "ADD-DP-002"], "urd": ["URD-REQ-001"]},
+      {"fr": "ADD-FR-003", "dp": ["ADD-DP-001", "ADD-DP-002", "ADD-DP-003"], "urd": ["URD-REQ-002"]},
+      {"fr": "ADD-FR-004", "dp": ["ADD-DP-001", "ADD-DP-002", "ADD-DP-003", "ADD-DP-004"], "urd": ["URD-REQ-004", "URD-REQ-005"]},
+      {"fr": "ADD-FR-005", "dp": ["ADD-DP-001", "ADD-DP-002", "ADD-DP-003", "ADD-DP-004", "ADD-DP-005"], "urd": ["URD-REQ-003", "URD-REQ-004", "URD-REQ-005"]},
+      {"fr": "ADD-FR-006", "dp": ["ADD-DP-001", "ADD-DP-002", "ADD-DP-006"], "urd": ["URD-REQ-006"]},
+      {"fr": "ADD-FR-007", "dp": ["ADD-DP-001", "ADD-DP-002", "ADD-DP-003", "ADD-DP-004", "ADD-DP-005", "ADD-DP-006", "ADD-DP-007"], "urd": ["URD-REQ-007"]},
+      {"fr": "ADD-FR-008", "dp": ["ADD-DP-001", "ADD-DP-002", "ADD-DP-005", "ADD-DP-007", "ADD-DP-008"], "urd": ["URD-REQ-008", "URD-REQ-009", "URD-REQ-011"]},
+      {"fr": "ADD-FR-009", "dp": ["ADD-DP-001", "ADD-DP-005", "ADD-DP-008", "ADD-DP-009"], "urd": ["URD-REQ-012", "URD-REQ-013", "URD-REQ-014"]}
+    ]
+  },
+  "mdd": {
+    "dp_to_module": [
+      {"dp": "ADD-DP-001", "module": "MDD-MOD-001", "api": "MDD-API-001"},
+      {"dp": "ADD-DP-002", "module": "MDD-MOD-002", "api": "MDD-API-002"},
+      {"dp": "ADD-DP-003", "module": "MDD-MOD-003", "api": "MDD-API-003"},
+      {"dp": "ADD-DP-004", "module": "MDD-MOD-004", "api": "MDD-API-004"},
+      {"dp": "ADD-DP-005", "module": "MDD-MOD-005", "api": "MDD-API-005"},
+      {"dp": "ADD-DP-006", "module": "MDD-MOD-006", "api": "MDD-API-006"},
+      {"dp": "ADD-DP-007", "module": "MDD-MOD-007", "api": "MDD-API-007"},
+      {"dp": "ADD-DP-008", "module": "MDD-MOD-008", "api": "MDD-API-008"},
+      {"dp": "ADD-DP-009", "module": "MDD-MOD-009", "api": "MDD-API-009"}
+    ]
+  },
+  "tdd": {
+    "api_tests": [
+      {"api": "MDD-API-001", "test": "TDD-TEST-010"},
+      {"api": "MDD-API-002", "test": "TDD-TEST-011"},
+      {"api": "MDD-API-003", "test": "TDD-TEST-012"},
+      {"api": "MDD-API-004", "test": "TDD-TEST-013"},
+      {"api": "MDD-API-005", "test": "TDD-TEST-014"},
+      {"api": "MDD-API-006", "test": "TDD-TEST-015"},
+      {"api": "MDD-API-007", "test": "TDD-TEST-016"},
+      {"api": "MDD-API-008", "test": "TDD-TEST-017"},
+      {"api": "MDD-API-009", "test": "TDD-TEST-018"}
+    ]
+  },
+  "rmd": {
+    "tasks": [
+      "RMD-TASK-001",
+      "RMD-TASK-002",
+      "RMD-TASK-003",
+      "RMD-TASK-004",
+      "RMD-TASK-005"
+    ],
+    "doc_tasks_completed": [
+      "RMD-TASK-DOC-001",
+      "RMD-TASK-DOC-002",
+      "RMD-TASK-DOC-003",
+      "RMD-TASK-DOC-004",
+      "RMD-TASK-DOC-005"
+    ],
+    "implementation_tasks_completed": [
+      "RMD-TASK-IMPL-001",
+      "RMD-TASK-IMPL-002"
+    ]
+  },
+  "checks": {
+    "command": "python scripts/check_project_docs.py",
+    "last_known_status": "passed"
+  },
+  "wiki": {
+    "generated": false,
+    "reason": "User requested documentation completion without wiki generation."
+  },
+  "open_questions": ["URD-Q-001", "URD-Q-002", "URD-Q-003", "URD-Q-004"]
+}

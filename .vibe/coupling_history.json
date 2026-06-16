@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "document": "docs/ADD.md",
+  "status": "decoupled_lower_triangular",
+  "final_order": [
+    "ADD-DP-001",
+    "ADD-DP-002",
+    "ADD-DP-003",
+    "ADD-DP-004",
+    "ADD-DP-005",
+    "ADD-DP-006",
+    "ADD-DP-007",
+    "ADD-DP-008",
+    "ADD-DP-009"
+  ],
+  "functional_requirements": [
+    "ADD-FR-001",
+    "ADD-FR-002",
+    "ADD-FR-003",
+    "ADD-FR-004",
+    "ADD-FR-005",
+    "ADD-FR-006",
+    "ADD-FR-007",
+    "ADD-FR-008",
+    "ADD-FR-009"
+  ],
+  "retries": [
+    {
+      "id": "ADD-COUP-001",
+      "status": "resolved",
+      "problem": "User confirmation was placed after prompt, scoring, and optimization decisions.",
+      "change": "Moved confirmation into ADD-DP-001 as the first design parameter."
+    },
+    {
+      "id": "ADD-COUP-002",
+      "status": "resolved",
+      "problem": "Effect validation and rubric scoring were mixed in one design parameter.",
+      "change": "Separated ADD-DP-004 effect validation from ADD-DP-005 scoring."
+    },
+    {
+      "id": "ADD-COUP-003",
+      "status": "resolved",
+      "problem": "Runtime neutrality scanning was mixed with optimization planning.",
+      "change": "Separated ADD-DP-006 runtime scanning from ADD-DP-007 optimization control."
+    }
+  ],
+  "accepted_couplings": []
+}

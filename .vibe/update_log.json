@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "date": "2026-06-16",
+      "summary": "Created URD, ADD, MDD, TDD, RMD, TRACE, CHANGELOG, PARKING_LOT and .vibe state files without generating wiki files.",
+      "changed_files": [
+        "docs/URD.md",
+        "docs/ADD.md",
+        "docs/MDD.md",
+        "docs/TDD.md",
+        "docs/RMD.md",
+        "docs/TRACE.md",
+        "docs/CHANGELOG.md",
+        "docs/PARKING_LOT.md",
+        ".vibe/trace.json",
+        ".vibe/coupling_history.json",
+        ".vibe/doc_state.json",
+        ".vibe/update_log.json"
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "summary": "Implemented project document checks and revised runtime-neutral path wording in public project files.",
+      "changed_files": [
+        "scripts/check_project_docs.py",
+        "README.md",
+        "README_EN.md",
+        "SKILL.md",
+        "docs/TDD.md",
+        "docs/RMD.md",
+        "docs/CHANGELOG.md",
+        ".vibe/trace.json",
+        ".vibe/doc_state.json",
+        ".vibe/update_log.json"
+      ],
+      "checks": [
+        "python scripts/check_project_docs.py"
+      ]
+    }
+  ]
+}
