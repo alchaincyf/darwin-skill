@@ -70,6 +70,20 @@
       "checks": [
         "python scripts/check_project_docs.py"
       ]
+    },
+    {
+      "date": "2026-06-16",
+      "summary": "Removed a hardcoded local user directory from the screenshot script and added a project check for local user paths.",
+      "changed_files": [
+        "scripts/screenshot.mjs",
+        "scripts/check_project_docs.py",
+        "docs/CHANGELOG.md",
+        ".vibe/update_log.json"
+      ],
+      "checks": [
+        "python scripts/check_project_docs.py",
+        "searched for local user directory patterns"
+      ]
     }
   ]
 }

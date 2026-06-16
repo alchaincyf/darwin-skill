@@ -234,6 +234,53 @@ def check_docs_language(findings: list[Finding]) -> None:
                 findings.append(Finding("TDD-TEST-052", f"{path.relative_to(ROOT)} contains forbidden marker: {pattern}"))
 
 
+def check_no_local_user_paths(findings: list[Finding]) -> None:
+    text_suffixes = {
+        ".css",
+        ".html",
+        ".js",
+        ".json",
+        ".md",
+        ".mjs",
+        ".py",
+        ".svg",
+        ".ts",
+        ".tsx",
+        ".txt",
+        ".yaml",
+        ".yml",
+    }
+    excluded_dirs = {".git", "node_modules", "__pycache__", ".venv", "venv"}
+    personal_path_patterns = [
+        re.compile("/" + "Users" + r"/[^/\\\s\"'`]+"),
+        re.compile(r"(?i)\b[A-Z]:\\Users\\[^\\/\s\"'`]+"),
+        re.compile("/" + "home" + r"/[^/\\\s\"'`]+"),
+    ]
+
+    for path in ROOT.rglob("*"):
+        if not path.is_file():
+            continue
+        if any(part in excluded_dirs for part in path.relative_to(ROOT).parts):
+            continue
+        if path.suffix.lower() not in text_suffixes:
+            continue
+
+        try:
+            text = read_text(path)
+        except UnicodeDecodeError:
+            continue
+
+        for lineno, line in enumerate(text.splitlines(), start=1):
+            for pattern in personal_path_patterns:
+                if pattern.search(line):
+                    findings.append(
+                        Finding(
+                            "TDD-TEST-056",
+                            f"Local user path found in {path.relative_to(ROOT)}:{lineno}",
+                        )
+                    )
+
+
 def check_no_wiki(findings: list[Finding]) -> None:
     require(not (ROOT / "wiki").exists(), "RMD-CHECK-004", "wiki directory must not exist for this revision", findings)
 
@@ -248,6 +295,7 @@ def main() -> int:
     check_skill_contracts(findings)
     check_runtime_neutrality(findings)
     check_docs_language(findings)
+    check_no_local_user_paths(findings)
     check_no_wiki(findings)
 
     if findings:

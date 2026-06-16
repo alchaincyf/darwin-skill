@@ -12,13 +12,53 @@
  */
 
 import { createRequire } from 'module';
+import { spawnSync } from 'child_process';
+import { fileURLToPath, pathToFileURL } from 'url';
 const require = createRequire(import.meta.url);
 
-// 使用全局安装的 playwright-core
-const pw = require('/Users/alchain/.npm-global/lib/node_modules/playwright/node_modules/playwright-core');
+function loadPlaywright() {
+  const candidates = ['playwright-core', 'playwright'];
+  const errors = [];
 
-const htmlPath = process.argv[2] || new URL('../templates/result-card.html', import.meta.url).pathname;
-const outputPath = process.argv[3] || new URL('../templates/result-card.png', import.meta.url).pathname;
+  for (const packageName of candidates) {
+    try {
+      return require(packageName);
+    } catch (error) {
+      errors.push(`${packageName}: ${error.message}`);
+    }
+  }
+
+  throw new Error(
+    [
+      'Cannot load Playwright.',
+      'Install a project dependency with: npm install -D playwright',
+      'Resolution errors:',
+      ...errors.map(error => `- ${error}`),
+    ].join('\n'),
+  );
+}
+
+const pw = loadPlaywright();
+
+const htmlPath = process.argv[2] || fileURLToPath(new URL('../templates/result-card.html', import.meta.url));
+const outputPath = process.argv[3] || fileURLToPath(new URL('../templates/result-card.png', import.meta.url));
+
+function openOutputImage(path) {
+  if (process.env.DARWIN_SCREENSHOT_OPEN === '0') {
+    return;
+  }
+
+  const commandByPlatform = {
+    darwin: { command: 'open', args: [path] },
+    win32: { command: 'cmd', args: ['/c', 'start', '', path] },
+  };
+  const commandSpec = commandByPlatform[process.platform] || { command: 'xdg-open', args: [path] };
+  const result = spawnSync(commandSpec.command, commandSpec.args, { stdio: 'ignore' });
+
+  if (result.error) {
+    console.warn(`Could not open screenshot automatically: ${result.error.message}`);
+  }
+}
 
 async function screenshot() {
   const browser = await pw.chromium.launch();
@@ -31,7 +71,7 @@ async function screenshot() {
 
     const page = await context.newPage();
 
-    await page.goto(`file://${htmlPath}`, { waitUntil: 'networkidle' });
+    await page.goto(pathToFileURL(htmlPath).href, { waitUntil: 'networkidle' });
 
     // 等待字体加载
     await page.evaluate(() => document.fonts.ready);
@@ -56,9 +96,8 @@ async function screenshot() {
     await browser.close();
   }
 
-  // 自动打开图片
-  const { execSync } = require('child_process');
-  execSync(`open "${outputPath}"`);
+  // 自动打开图片；设置 DARWIN_SCREENSHOT_OPEN=0 可关闭。
+  openOutputImage(outputPath);
 }
 
 screenshot().catch(err => {

@@ -2,6 +2,8 @@
 
 ## 2026-06-16
 
+- 修订 `scripts/screenshot.mjs`，移除硬编码个人目录，改为正常模块解析加载 Playwright，并使用跨平台打开输出图片的方法。
+- 更新 `scripts/check_project_docs.py`，新增本地用户目录路径扫描，防止常见操作系统用户主目录路径再次进入文本文件。
 - 更新 `SKILL.md`，按文档要求加入 Phase 0.10、0.25、0.30、0.35，支持领域研究、领域评分标准生成、质量评估、用户确认冻结和报告扩展。
 - 更新 `README.md` 和 `README_EN.md`，说明领域研究、领域评分标准质量评估和新增阶段顺序。
 - 更新 `scripts/check_project_docs.py`，检查 `SKILL.md` 是否包含新增领域研究、质量评估、冻结和报告要求。
