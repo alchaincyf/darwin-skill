@@ -55,6 +55,21 @@
       "checks": [
         "python scripts/check_project_docs.py"
       ]
+    },
+    {
+      "date": "2026-06-16",
+      "summary": "Implemented the documented domain research and domain rubric quality evaluation flow in SKILL.md and public README files.",
+      "changed_files": [
+        "SKILL.md",
+        "README.md",
+        "README_EN.md",
+        "docs/CHANGELOG.md",
+        ".vibe/update_log.json",
+        "scripts/check_project_docs.py"
+      ],
+      "checks": [
+        "python scripts/check_project_docs.py"
+      ]
     }
   ]
 }

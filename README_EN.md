@@ -14,7 +14,7 @@ English | **[中文](README.md)**
 
 Inspired by [Karpathy's autoresearch](https://github.com/karpathy/autoresearch). Autonomous experiment loops, applied to skill optimization. A ratchet that only turns forward.
 
-**v2.0** · Updated 2026-05-28 · A structural upgrade integrating Microsoft Research's [SkillLens](https://arxiv.org/abs/2605.23899) and [SkillOpt](https://arxiv.org/abs/2605.23904) papers.
+**v2.0** · Updated 2026-06-16 · A structural upgrade integrating Microsoft Research's [SkillLens](https://arxiv.org/abs/2605.23899) and [SkillOpt](https://arxiv.org/abs/2605.23904) papers, now with domain research and domain-rubric quality evaluation.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-2.0-blue.svg)](#whats-new-in-20)
@@ -40,7 +40,7 @@ npx skills add alchaincyf/darwin-skill
 
 ## What's New in 2.0
 
-v2.0 is not a patch release. It's a structural upgrade absorbing two Microsoft Research papers published on 2026-05-22. Five concrete changes:
+v2.0 is not a patch release. It's a structural upgrade absorbing two Microsoft Research papers published on 2026-05-22. The current version has six concrete changes:
 
 **1. Rubric expanded from 8 → 9 dimensions** (integrating [SkillLens](https://arxiv.org/abs/2605.23899)'s empirically validated 73.8% rubric recipe)
 
@@ -62,7 +62,7 @@ v2.0 is not a patch release. It's a structural upgrade absorbing two Microsoft R
 - Phase 2.5 test-prompt run (optional)
 - Phase 3 regression test: 🛑 STOP if gain falls below threshold
 
-**4. Anti-pattern blacklist with 8 explicit forbidden behaviors**
+**4. Anti-pattern blacklist with 10 explicit forbidden behaviors**
 
 1. Same AI both edits and scores (SkillLens empirical: LLM self-eval accuracy only 46.4%)
 2. Using `git reset --hard` as a rollback mechanism (use `git revert`)
@@ -72,11 +72,20 @@ v2.0 is not a patch release. It's a structural upgrade absorbing two Microsoft R
 6. Dry-run ratio > 30%
 7. Silently swallowing exceptions
 8. Ignoring correlated dimension clusters
+9. Faking domain research sources
+10. Using a low-quality domain rubric for optimization
 
 **5. Empirical validation data**
 
 - huashu-gpt-image skill: **80.8 → 91.5 → 91.65** (+10.85, consensus across 6 independent judges)
 - darwin-skill self-eval: **86.05 → 92.05 → 92.7**
+
+**6. Evidence-backed domain rubrics**
+
+- Generates `domain-research.md` and `domain-research-meta.json` before `domain-rubric.md`
+- Generates `domain-rubric-evaluation.md` and `domain-rubric-evaluation.json` before freezing a domain rubric
+- Scores rubric quality across RQ1-RQ9; scores below 80 do not enter formal optimization by default
+- Low-confidence research requires user confirmation and cannot auto-freeze a rubric
 
 ---
 
@@ -147,7 +156,16 @@ The three new dimensions (SkillLens 73.8% rubric recipe):
 
 ## The Optimization Cycle
 
-Five phases. The system runs autonomously within each phase but pauses between phases for human confirmation.
+The system runs autonomously within each phase but pauses between phases for human confirmation. When domain scoring is enabled, the phase order is:
+
+1. Phase 0 initialization
+2. Phase 0.10 domain research
+3. Phase 0.25 personalized domain rubric generation
+4. Phase 0.30 domain rubric quality evaluation
+5. Phase 0.35 user confirmation and rubric freeze
+6. Phase 0.5 test prompt design
+7. Phase 1 baseline evaluation
+8. Phase 2 optimization loop and Phase 3 summary report
 
 ![Optimization Lifecycle](assets/chart-phases-en.png)
 

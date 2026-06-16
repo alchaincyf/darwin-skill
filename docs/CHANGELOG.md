@@ -2,6 +2,9 @@
 
 ## 2026-06-16
 
+- 更新 `SKILL.md`，按文档要求加入 Phase 0.10、0.25、0.30、0.35，支持领域研究、领域评分标准生成、质量评估、用户确认冻结和报告扩展。
+- 更新 `README.md` 和 `README_EN.md`，说明领域研究、领域评分标准质量评估和新增阶段顺序。
+- 更新 `scripts/check_project_docs.py`，检查 `SKILL.md` 是否包含新增领域研究、质量评估、冻结和报告要求。
 - 更新 `docs/URD.md`，加入领域调查研究、领域评分标准质量评估、用户确认冻结、研究元数据、质量门槛和失败处理要求。
 - 更新 `docs/TRACE.md`、`.vibe/trace.json` 和 `scripts/check_project_docs.py`，追踪 `URD-REQ-030` 到 `URD-REQ-049` 的新增需求。
 - 更新 `docs/ADD.md`，将领域调查研究、领域评分标准质量评估和用户确认冻结纳入公理设计，形成 14 个 FR/DP 的下三角矩阵。

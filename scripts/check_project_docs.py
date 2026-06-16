@@ -161,6 +161,14 @@ def check_skill_contracts(findings: list[Finding]) -> None:
         "TDD-TEST-005": r"每轮 1 个维度|每轮只改一个维度",
         "TDD-TEST-006": r"新总分 > 旧总分|严格高于",
         "TDD-TEST-007": r"timestamp\s+commit\s+skill\s+old_score\s+new_score\s+status\s+dimension\s+note\s+eval_mode",
+        "TDD-TEST-020": r"Phase 0\.10: 领域调查研究",
+        "TDD-TEST-024": r"domain-rubric-evaluation\.md|domain-rubric-evaluation\.json",
+        "TDD-TEST-025": r"RQ1.*RQ9|RQ1-RQ9",
+        "TDD-TEST-026": r"overall_score < 65|低于 65",
+        "TDD-TEST-027": r"confidence_level.*high|置信度不得为 `high`",
+        "TDD-TEST-028": r"Phase 0\.35: 用户确认并冻结领域评分标准",
+        "TDD-TEST-030": r"rubric_quality_score|rubric_quality_decision",
+        "TDD-TEST-031": r"Domain Research|Domain Rubric Quality",
     }
     for check_id, pattern in required_patterns.items():
         require(re.search(pattern, skill), check_id, f"SKILL.md missing required pattern: {pattern}", findings)

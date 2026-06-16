@@ -1,11 +1,11 @@
 ---
 name: darwin-skill
-description: "Darwin Skill 2.0 (达尔文.skill 2.0): autonomous skill optimizer, v2.0 integrates Microsoft Research SkillLens (arXiv 2605.23899) 9-dim rubric + SkillOpt (arXiv 2605.23904) validation-gated design + human-in-the-loop checkpoints. Evaluates SKILL.md files using a 9-dimension rubric (structure + effectiveness + meta-skill blacklists), runs hill-climbing with git version control, spawns independent judge agents for blind evaluation, validates improvements through test prompts with auto-break on diminishing returns, and generates visual result cards. Use when user mentions \"优化skill\", \"skill评分\", \"自动优化\", \"auto optimize\", \"skill质量检查\", \"达尔文\", \"darwin\", \"帮我改改skill\", \"skill怎么样\", \"提升skill质量\", \"skill review\", \"skill打分\"."
+description: "Darwin Skill 2.0 (达尔文.skill 2.0): autonomous skill optimizer, integrating SkillLens 9-dim rubric, SkillOpt validation gates, evidence-backed domain rubrics, domain rubric quality evaluation, git checkpoints, independent judges, test prompts, and visual result cards. Use when user mentions \"优化skill\", \"skill评分\", \"自动优化\", \"auto optimize\", \"skill质量检查\", \"达尔文\", \"darwin\", \"帮我改改skill\", \"skill怎么样\", \"提升skill质量\", \"skill review\", \"skill打分\"."
 ---
 
 # Darwin Skill 2.0
 
-> **v2.0 · 2026-05-28** — 吸收 Microsoft Research SkillLens（arXiv 2605.23899）的 9 维评分药方 + SkillOpt（arXiv 2605.23904）的 validation-gated 验证机制 + human in the loop 三层守关。
+> **v2.0 · 2026-05-28** — 吸收 Microsoft Research SkillLens（arXiv 2605.23899）的 9 维评分药方 + SkillOpt（arXiv 2605.23904）的 validation-gated 验证机制 + human in the loop 三层守关；当前版本新增领域研究、个体化领域评分标准和领域评分标准质量评估。
 >
 > 借鉴 Karpathy autoresearch 的自主实验循环，对 skills 进行持续优化。
 > 核心理念：**评估 → 改进 → 实测验证 → 人类确认 → 保留或回滚 → 生成成果卡片**
@@ -21,6 +21,7 @@ autoresearch 的精髓：
 3. **棘轮机制** — 只保留改进，自动回滚退步
 4. **独立评分** — 评分用子agent，避免「自己改自己评」的偏差
 5. **人在回路** — 每个skill优化完后暂停，用户确认再继续
+6. **领域依据可查** — 领域评分标准必须来自目标任务、用户资料、项目文件、研究结果或失败风险；不能凭文件名和少量关键词套用固定评分表
 
 与纯结构审查的区别：不只看 SKILL.md 写得规不规范，更看改完后**实际跑出来的效果是否更好**。
 
@@ -86,6 +87,79 @@ rubric 设计依据来自 **SkillLens 论文（arXiv 2605.23899）** + **本机 
 
 ---
 
+## 个体化领域评分标准
+
+公共 9 维 rubric 只评价 skill 文件质量和通用执行质量。为了判断目标 skill 是否真的完成自己的任务，Darwin 在正式评分前可以生成并冻结一份领域评分标准。
+
+### 领域评分产物
+
+| 文件 | 作用 |
+|---|---|
+| `domain-research.md` | 记录领域调查研究结果：研究范围、目标任务、证据、发现、失败模式、证据空白和置信度 |
+| `domain-research-meta.json` | 记录研究版本、创建时间、研究方法、来源、置信度和证据空白 |
+| `domain-rubric.md` | 记录领域评分标准：任务目标、输入输出、评分维度、权重、1/5/10 分锚点、hard gates 和待确认问题 |
+| `domain-test-prompts.json` | 记录领域测试 prompt，每条包含目的、预期检查点、目标维度和目标 hard gate |
+| `domain-rubric-evaluation.md` | 记录领域评分标准本身的质量评估说明 |
+| `domain-rubric-evaluation.json` | 记录质量总分、RQ1-RQ9 维度分、hard gate 检查、结论和必要修订 |
+| `domain-rubric-meta.json` | 记录 rubric 版本、研究版本、质量分、质量结论、确认要求和冻结状态 |
+
+### 领域研究路径
+
+生成 `domain-rubric.md` 前，必须先执行领域调查研究。研究路径按以下顺序选择，记录实际使用的方法：
+
+1. 当前系统有 deep research 类型 skill：优先调用该 skill 做简要研究。
+2. 用户提供领域资料、项目文档或参考文件：优先读取这些材料。
+3. 当前系统具备联网搜索能力：查找权威资料、官方文档、标准、专业指南或高质量来源。
+4. 没有搜索能力：根据 `SKILL.md`、用户目标、测试 prompt、输出样本和失败案例做内部推断。
+5. 仍无法可靠判断任务标准：生成低置信度研究结果，并要求用户确认。
+
+硬性规则：
+
+- 不得假装已经搜索、读取资料或调用研究工具。
+- 不得把模型已有知识写成外部资料。
+- 使用联网资料时，必须记录来源。
+- 使用内部 skill 或知识库时，必须记录调用对象。
+- 只使用模型已有知识或一般推断时，`confidence_level` 不得为 `high`。
+- 资料不足时，必须记录 `evidence_gaps` 并要求用户确认。
+
+### 领域评分标准质量评估
+
+领域评分标准冻结前，必须先评估该评分标准本身是否值得使用。总分 100，维度如下：
+
+| ID | 维度 | 权重 |
+|---|---|---:|
+| RQ1 | 目标匹配度 | 15 |
+| RQ2 | 研究依据充分性 | 15 |
+| RQ3 | 维度完整性 | 10 |
+| RQ4 | 维度独立性 | 10 |
+| RQ5 | 可观察性与可评分性 | 15 |
+| RQ6 | 权重合理性 | 10 |
+| RQ7 | hard gates 合理性 | 10 |
+| RQ8 | 测试 prompt 匹配度 | 10 |
+| RQ9 | 抗模板污染能力 | 5 |
+
+质量门槛：
+
+- `overall_score >= 80`：可进入用户确认阶段。
+- `65 <= overall_score < 80`：必须修订后再确认。
+- `overall_score < 65`：默认拒绝，不进入正式优化流程。
+- RQ1 低于 10/15、RQ5 低于 10/15、RQ7 低于 6/10：不得接受。
+- 研究置信度为 `low`：必须进入用户确认，不得自动冻结。
+- 发现模板污染且 `reject_on_template_contamination = true`：必须修订。
+
+默认配置：
+
+```json
+{
+  "domain_rubric_quality_threshold": 80,
+  "allow_low_confidence_rubric": false,
+  "require_user_confirmation_for_low_confidence": true,
+  "reject_on_template_contamination": true
+}
+```
+
+---
+
 ## Runtime 适配性审查（gate 项，独立于 9 维度评分）
 
 skill 应当能在 Claude Code / Codex / Cursor / OpenClaw / Hermes / Gemini CLI / OpenCode 等 50+ skills-compatible runtime 通用——否则其他 agent 解析时会被「在 Claude Code 里」「Claude Code skill」等措辞误判为「不是给我用的」直接拒装（实例：nuwa-skill 因此被 Marvis agent 拒绝）。
@@ -119,6 +193,141 @@ frontmatter 触发词、花叔生态内部 skill 名引用、明确标注 runtim
 4. 读取现有 results.tsv 了解历史优化记录
 ```
 
+### Phase 0.10: 领域调查研究
+
+在生成领域评分标准前，先为每个目标 skill 形成最小可复查研究记录。
+
+```
+for each skill:
+  1. 读取 SKILL.md、用户目标、任务说明、已有 test-prompts.json、输出样本和失败案例
+  2. 探测可用研究能力：
+     - deep research 类型 skill
+     - 用户提供资料或项目文件
+     - 联网搜索能力
+     - 仅内部知识或一般推断
+  3. 按优先级选择实际研究路径
+  4. 生成 domain-research.md：
+     - Research Scope
+     - Skill Goal Summary
+     - Expected Task Outcome
+     - Available Evidence
+     - Research Method
+     - Key Findings
+     - Candidate Evaluation Concerns
+     - Common Failure Modes
+     - High-Risk Failure Modes
+     - Evidence Gaps
+     - Confidence Level
+     - Notes
+  5. 生成 domain-research-meta.json：
+     {
+       "research_version": "...",
+       "created_at": "YYYY-MM-DDTHH:mm:ssZ",
+       "source_skill_path": "SKILL.md",
+       "research_methods": ["user_provided_materials"],
+       "sources": [],
+       "confidence_level": "medium",
+       "evidence_gaps": [],
+       "notes": ""
+     }
+```
+
+如果没有研究工具，不停止流程；改用内部推断，`research_methods` 写 `internal_knowledge` 或 `generic_inference`，置信度只能为 `low` 或 `medium`，并要求用户确认。
+
+### Phase 0.25: 生成个体化领域评分标准
+
+领域评分标准必须读取 Phase 0.10 的研究结果，不能只看文件名或目录名。
+
+```
+for each skill:
+  1. 读取 SKILL.md、用户目标、domain-research.md、domain-research-meta.json、测试 prompt、输出样本和失败案例
+  2. 生成 domain-rubric.md：
+     - domain_name
+     - skill_goal
+     - expected_input
+     - expected_output
+     - user_intent
+     - success_criteria
+     - dimensions（每项含 id、weight、1/5/10 anchors、common_failures、evidence_to_check、source_refs）
+     - hard_gates
+     - confidence_level
+     - questions_for_user
+  3. 生成初始 domain-rubric-meta.json：
+     - rubric_version
+     - research_version
+     - source_skill_path
+     - common_weight
+     - domain_weight
+     - research_confidence_level
+     - requires_user_confirmation
+     - is_frozen = false
+```
+
+规则：
+
+- 每个领域评分维度必须能追溯到任务目标、研究发现、用户资料或失败风险。
+- 不得把无关背景信息改写成评分维度。
+- 不得把公共 9 维 rubric 重新命名后当作领域评分维度。
+- 研究置信度为 `low` 时，领域评分标准也必须标记低置信度。
+- 证据不足时，必须在 `questions_for_user` 中列出待确认问题。
+
+### Phase 0.30: 领域评分标准质量评估
+
+领域评分标准不得直接进入优化流程，必须先评估其自身质量。
+
+```
+for each skill:
+  1. 读取 domain-rubric.md、domain-research.md、domain-rubric-meta.json、domain-test-prompts.json、SKILL.md 和用户目标
+  2. 按 RQ1-RQ9 打分，总分 100
+  3. 生成 domain-rubric-evaluation.md
+  4. 生成 domain-rubric-evaluation.json：
+     {
+       "rubric_version": "...",
+       "evaluation_version": "...",
+       "created_at": "YYYY-MM-DDTHH:mm:ssZ",
+       "overall_score": 0,
+       "dimension_scores": [],
+       "hard_gate_review": {"passed": true, "issues": []},
+       "decision": "accept",
+       "required_revisions": [],
+       "notes": ""
+     }
+  5. 把质量分、质量结论和 evaluation_version 写回 domain-rubric-meta.json
+```
+
+允许的 `decision`：
+
+- `accept`
+- `revise`
+- `reject`
+- `needs_user_confirmation`
+
+如果质量不合格，不能进入正式优化循环。先根据 `required_revisions` 修订 `domain-rubric.md`，再重新运行 Phase 0.30。连续修订仍失败时，停止并要求用户介入。
+
+### Phase 0.35: 用户确认并冻结领域评分标准
+
+质量评估完成后，展示以下材料给用户：
+
+1. `domain-rubric.md`
+2. `domain-research.md`
+3. `domain-rubric-evaluation.md`
+4. `domain-test-prompts.json`
+
+用户可选择：
+
+1. 接受并冻结
+2. 修改后冻结
+3. 要求重新研究
+4. 要求重新生成评分标准
+5. 跳过领域评分
+
+冻结规则：
+
+- 冻结后，当前优化轮不得自动修改 `domain-rubric.md`。
+- 冻结后，当前优化轮不得自动修改 `domain-rubric-evaluation.md`。
+- 用户修改领域评分标准后，必须重新运行 Phase 0.30。
+- 研究依据变化后，必须重新运行 Phase 0.25 和 Phase 0.30。
+
 ### Phase 0.5: 测试Prompt设计
 
 在评估之前，为每个skill设计测试prompt。这步很关键——没有测试prompt，「实测表现」维度就打不了分。
@@ -126,7 +335,7 @@ frontmatter 触发词、花叔生态内部 skill 名引用、明确标注 runtim
 ```
 for each skill:
   1. 读取 SKILL.md，理解它做什么
-  2. 设计2-3个测试prompt，覆盖：
+  2. 设计2-3个公共测试prompt，覆盖：
      - 最典型的使用场景（happy path）
      - 一个稍复杂或有歧义的场景
   3. 保存到 skill目录/test-prompts.json：
@@ -134,9 +343,20 @@ for each skill:
        {"id": 1, "prompt": "用户会说的话", "expected": "期望输出的简短描述"},
        {"id": 2, "prompt": "...", "expected": "..."}
      ]
+  4. 如果启用领域评分，读取 domain-rubric.md，生成至少3个 domain-test-prompts.json 条目：
+     [
+       {
+         "id": "domain-1",
+         "prompt": "...",
+         "purpose": "检查什么任务质量",
+         "expected_checks": ["..."],
+         "target_dimensions": ["D1"],
+         "target_hard_gates": []
+       }
+     ]
 ```
 
-展示所有测试prompt给用户，**确认后再进入评估**。测试prompt的质量决定了优化方向是否正确。
+展示所有公共测试 prompt 和领域测试 prompt 给用户，**确认后再进入评估**。测试 prompt 的质量决定了优化方向是否正确。
 
 ### Phase 1: 基线评估（Baseline）
 
@@ -154,8 +374,15 @@ for each skill in 优化范围:
   4. 对比两组输出，打维度8的分
 
   # 汇总
-  5. 计算加权总分
-  6. 记录到 results.tsv
+  5. 计算 common_score
+  6. 如果领域评分已启用并冻结：
+     - 按 domain-rubric.md 计算 domain_score
+     - 检查 hard gates
+     - 计算 composite_score = common_score * common_weight + domain_score * domain_weight
+  7. 如果领域评分被跳过：
+     - composite_score = common_score
+     - 报告中标注 domain scoring skipped
+  8. 记录到 results.tsv 或兼容的新结果记录
 ```
 
 **如果子agent不可用**（超时、环境限制），维度8用干跑验证打分，标注 `dry_run`。不要因为跑不了测试就跳过这个维度——哪怕是模拟推演也比完全不看效果好。
@@ -174,6 +401,17 @@ for each skill in 优化范围:
 ```
 
 **🔴 CHECKPOINT · 🛑 STOP：暂停等用户确认，再进入优化循环。**
+
+基线报告必须同时列出：
+
+- `common_score`
+- `domain_score`（如启用）
+- `composite_score`
+- `domain_name`
+- `rubric_version`
+- `rubric_quality_score`
+- `rubric_quality_decision`
+- `hard_gate_status`
 
 ### Phase 2: 优化循环
 
@@ -205,7 +443,20 @@ for each skill:
     - 效果维度：spawn独立子agent重跑测试prompt（关键！不能自己评自己）
 
     # Step 5: 决策
-    if 新总分 > 旧总分:
+    if hard_gate 触发:
+      status = "revert"
+      git revert HEAD
+      记录 hard_gate_reason
+      break
+    else if common_score 下降:
+      status = "revert"
+      git revert HEAD
+      break
+    else if domain_score 下降且领域评分未被用户跳过:
+      status = "revert"
+      git revert HEAD
+      break
+    else if composite_score > 旧 composite_score:
       status = "keep"，更新旧总分
       # HL-4 见好就收：连续2轮 Δ < 2 分 → break 进 Phase 3
       if last_delta < 2.0 and this_delta < 2.0:
@@ -223,7 +474,9 @@ for each skill:
   # === 🔴 CHECKPOINT · 每个 skill 优化完后强制人审 ===
   展示该skill的改动摘要：
     - git diff（改前 vs 改后）
-    - 分数变化（哪些维度提升/下降）
+    - 公共评分、领域评分、综合评分变化
+    - hard gates 状态
+    - 领域评分标准质量结论
     - 测试prompt输出对比（如果跑过的话）
   等用户确认 OK 再继续下一个skill。
   如果用户说"不好"，回滚到该skill的优化前版本。
@@ -270,6 +523,19 @@ for each skill:
 ### 主要改进
 1. [skill-A] 补充了边界条件处理，测试输出质量提升明显
 2. [skill-B] 重组了workflow结构，baseline对比优势增大
+
+### Domain Research
+- Research Version:
+- Research Methods:
+- Confidence Level:
+- Evidence Gaps:
+
+### Domain Rubric Quality
+- Rubric Version:
+- Quality Score:
+- Decision:
+- Required Revisions:
+- Forced Low-Quality Use Risk:
 ```
 
 ---
@@ -285,6 +551,14 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 
 新增 `eval_mode` 列：`full_test`（跑了子agent测试）或 `dry_run`（模拟推演）。
 文件位置：当前 darwin-skill 目录下的 `results.tsv`
+
+兼容扩展字段：
+
+```tsv
+common_score	domain_score	composite_score	domain_name	rubric_version	hard_gate_status	hard_gate_reason	rubric_quality_score	rubric_quality_decision	research_confidence_level
+```
+
+旧 `results.tsv` 缺少这些字段时必须能读取。新增记录时，优先写入扩展字段；如果用户要求保持旧格式，则报告中必须说明领域评分结果未写入旧文件。
 
 ---
 
@@ -348,6 +622,11 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 | test-prompts.json 已存在 | 文件已在 skill 目录 | 默认复用并展示，问用户「复用 / 重写 / 追加」三选一 |
 | SKILL.md 找不到 | 目录存在但无 SKILL.md | 该 skill 终止，results.tsv 记 `status=error`，继续下一个 |
 | 分数计算规则 | 浮点精度漂移 | 总分保留 1 位小数，改进需严格 > 旧分（不靠四舍五入） |
+| 无研究工具 | 无 deep research、无用户资料、无联网搜索 | 用内部推断生成 `domain-research.md`，置信度标记 `low` 或 `medium`，要求用户确认 |
+| 研究资料不足 | 证据空白影响评分维度判断 | 生成初步领域评分标准，列出 `evidence_gaps` 和待确认问题，降低置信度 |
+| 质量评估不合格 | `domain-rubric-evaluation.json` 结论为 `revise` 或 `reject` | 不进入正式优化循环，按 `required_revisions` 修订后重新评估 |
+| 低置信度未确认 | `research_confidence_level=low` 且用户未确认 | 不冻结领域评分标准，不执行正式领域评分 |
+| 冻结后被自动改写 | 优化循环试图修改 `domain-rubric.md` 或质量评估文件 | 拒绝改写，记录原因，要求用户显式重新研究或重新生成 |
 
 **原则**：异常先告知用户，再按规则处理；绝不静默跳过或静默失败。
 
@@ -367,6 +646,8 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 | 6 | **dry_run 比例 > 30%** | dim8 实测维度形同虚设，分数虚高（早期 40 次记录 67% dry_run，0 revert） | 强制至少 1 个真实 full_test；dry_run 多的优化在 results.tsv 显式打 ⚠️ |
 | 7 | **静默跳过异常** | 遇到 git/tsv 异常时静默继续，破坏 ratchet 完整性 | 异常表 10 条 fallback 必须先告知用户再处理 |
 | 8 | **忽视维度相关性单独优化** | dim2/3/4 是相关簇，单独优化 dim2 时常发现已被前轮 dim3 修复推到顶 | 找最低维度时同时看相关簇短板，决定是否同步改 |
+| 9 | **伪造领域研究来源** | 没有搜索、读取或调用却写成外部依据，会误导评分标准 | 只记录实际使用的资料；内部推断必须标为低证据等级 |
+| 10 | **低质量领域评分标准直接优化** | 错误评分标准会引导 skill 改向错误目标 | 先修订并重新运行 Phase 0.30；不达标不得进入正式优化循环 |
 
 **触发场景**：每轮 Phase 2 改动前对照本表一次。任一反模式命中 → 改方案重写。
 

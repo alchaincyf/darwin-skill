@@ -20,7 +20,7 @@
 
 受 [Andrej Karpathy 的 autoresearch](https://github.com/karpathy/autoresearch) 启发，将自主实验循环从模型训练搬到 Skill 优化领域。一个只能向前转的棘轮。
 
-**v2.0** · 更新于 2026-05-28 · 吸收微软研究院 [SkillLens](https://arxiv.org/abs/2605.23899) 与 [SkillOpt](https://arxiv.org/abs/2605.23904) 两篇论文做的系统性升级。
+**v2.0** · 更新于 2026-06-16 · 吸收微软研究院 [SkillLens](https://arxiv.org/abs/2605.23899) 与 [SkillOpt](https://arxiv.org/abs/2605.23904) 两篇论文做的系统性升级，并新增领域研究与领域评分标准质量评估。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-2.0-blue.svg)](#whats-new-in-20)
@@ -46,7 +46,7 @@ npx skills add alchaincyf/darwin-skill
 
 ## What's New in 2.0
 
-2.0 不是缝缝补补，是系统性吸收微软研究院 2026-05-22 两篇论文后的结构性升级。五个变化：
+2.0 不是缝缝补补，是系统性吸收微软研究院 2026-05-22 两篇论文后的结构性升级。当前版本包含六个变化：
 
 **1. 评分标准 8 维 → 9 维**（吸收 [SkillLens](https://arxiv.org/abs/2605.23899) 实证的 73.8% rubric 药方）
 
@@ -68,7 +68,7 @@ npx skills add alchaincyf/darwin-skill
 - Phase 2.5 测试提示词跑（可选）
 - Phase 3 回归测试：🛑 STOP 涨幅低于阈值强制停手
 
-**4. 反例黑名单 8 条**（明文禁止的反模式）
+**4. 反例黑名单 10 条**（明文禁止的反模式）
 
 1. 同一个 AI 又改又评（SkillLens 实证：LLM 自评准确率仅 46.4%）
 2. 用 `git reset --hard` 当回滚手段（应用 `git revert`）
@@ -78,11 +78,20 @@ npx skills add alchaincyf/darwin-skill
 6. 干跑比例 > 30%
 7. 静默跳过异常
 8. 忽视维度相关簇
+9. 伪造领域研究来源
+10. 低质量领域评分标准直接优化
 
 **5. 实测验证数据**
 
 - huashu-gpt-image skill：**80.8 → 91.5 → 91.65**（+10.85，6 个独立评委共识）
 - darwin-skill 自评：**86.05 → 92.05 → 92.7**
+
+**6. 有依据的领域评分标准**
+
+- 生成 `domain-rubric.md` 前先生成 `domain-research.md` 和 `domain-research-meta.json`
+- 领域评分标准冻结前先生成 `domain-rubric-evaluation.md` 和 `domain-rubric-evaluation.json`
+- 质量评估按 RQ1 到 RQ9 打分，总分低于 80 默认不能进入正式优化
+- 低置信度研究必须要求用户确认，不能自动冻结评分标准
 
 ---
 
@@ -149,9 +158,18 @@ Agent Skill 生态在快速扩张。Claude Code、Codex、OpenClaw、Trae、Code
 
 ---
 
-## 优化循环：5 个阶段
+## 优化循环：8 个阶段
 
-系统在每个阶段内自主运行，但在阶段之间暂停等待人类确认。
+系统在每个阶段内自主运行，但在阶段之间暂停等待人类确认。领域评分启用时，流程为：
+
+1. Phase 0 初始化
+2. Phase 0.10 领域调查研究
+3. Phase 0.25 生成个体化领域评分标准
+4. Phase 0.30 评估领域评分标准质量
+5. Phase 0.35 用户确认并冻结领域评分标准
+6. Phase 0.5 测试提示词设计
+7. Phase 1 基线评估
+8. Phase 2 优化循环和 Phase 3 汇总报告
 
 ![Optimization Lifecycle](assets/chart-phases.png)
 
