@@ -181,7 +181,7 @@ npx skills add alchaincyf/darwin-skill
 
 After installation, tell your agent: "optimize all skills" or "optimize [skill-name]". Works with any tool that supports the SKILL.md format.
 
-Can't access GitHub? Download the zip: [darwin-skill.zip](https://pub-161ae4b5ed0644c4a43b5c6412287e03.r2.dev/skills/darwin-skill.zip). Extract and place SKILL.md in `~/.claude/skills/darwin-skill/`.
+Can't access GitHub? Download the zip: [darwin-skill.zip](https://pub-161ae4b5ed0644c4a43b5c6412287e03.r2.dev/skills/darwin-skill.zip). Extract it, then place the full `darwin-skill` directory in your agent runtime's skills directory. If that runtime does not support a skills directory, add `SKILL.md` to the current context as reference material.
 
 ---
 
