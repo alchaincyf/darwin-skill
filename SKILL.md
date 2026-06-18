@@ -88,10 +88,13 @@ rubric 设计依据来自 **SkillLens 论文（arXiv 2605.23899）** + **本机 
 **结论**：rubric 能识别 gross degradation，但 fine-grained quality difference 仍不可信，**重要决策必须人审**。
 
 → 详细论文证据 + 5 judges 完整数据 + HL 实战案例数字见 [references/skilllens-evidence.md](references/skilllens-evidence.md)
-→ 用户偏好适配模式（直接执行/中文/简洁格式等）见 [references/user-preference-patterns.md](references/user-preference-patterns.md)
-→ Runtime 中立性红灯/绿灯规则 + 例外清单见 [references/runtime-neutrality.md](references/runtime-neutrality.md)
-→ 新建 skill 从零到优化的完整案例见 [references/prd-optimization-case-study.md](references/prd-optimization-case-study.md)
-
+→ 用户偏好适配模式见 [references/user-preference-patterns.md](references/user-preference-patterns.md)
+→ Runtime 中立性红灯/绿灯规则见 [references/runtime-neutrality.md](references/runtime-neutrality.md)
+→ 新建 skill 从零到优化案例见 [references/prd-optimization-case-study.md](references/prd-optimization-case-study.md)
+→ B2B skill 优化案例: [references/google-ads-optimization-case-study.md](references/google-ads-optimization-case-study.md)
+→ 前端类 skill 优化案例: [references/nature-design-optimization-case-study.md](references/nature-design-optimization-case-study.md)
+→ 前端类 skill 并行化改造案例: [references/nature-design-parallel-case-study.md](references/nature-design-parallel-case-study.md)
+→ 自指优化案例: [references/self-optimization-case-study.md](references/self-optimization-case-study.md)
 ### 关于「实测表现」维度
 
 这是与纯结构评分最大的区别。评分方式：
@@ -109,7 +112,7 @@ rubric 设计依据来自 **SkillLens 论文（arXiv 2605.23899）** + **本机 
 
 ## Runtime 适配性审查（gate 项，独立于 9 维度评分）
 
-skill 应当能在 Claude Code / Codex / Cursor / OpenClaw / Hermes / Gemini CLI / OpenCode 等 50+ skills-compatible runtime 通用——否则其他 agent 解析时会被「在 Claude Code 里」「Claude Code skill」等措辞误判为「不是给我用的」直接拒装（实例：nuwa-skill 因此被 Marvis agent 拒绝）。
+skill 应当能在任何 skills-compatible runtime（如 Claude Code、Codex、Cursor、Hermes、Gemini CLI、OpenCode 等）通用——否则其他 agent 解析时会被 runtime-specific 措辞误判为「不是给我用的」直接拒装（实例：nuwa-skill 因此被 Marvis agent 拒绝）。
 
 ### Phase 1 基线评估时强制跑一次红灯扫描
 
@@ -303,6 +306,11 @@ for each skill:
 ### 主要改进
 1. [skill-A] 补充了边界条件处理，测试输出质量提升明显
 2. [skill-B] 重组了workflow结构，baseline对比优势增大
+
+### 合并后体积检查
+- 合并后立即执行：`wc -l SKILL.md && python3 -c "n=open('SKILL.md').read().count(chr(10)); print(f'{n/original*100:.1f}%')"`
+- 若体积 > 150%，直接在 master 精简（压缩 CSS/表格化反例），不再开新分支
+- 体积合规后删除 feature 分支
 ```
 
 ---
@@ -323,13 +331,17 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 
 ## 实战 high-leverage 操作（精髓速查）
 
-4 条经实战验证（huashu-gpt-image +10.85 / huashu-weread-advisor +14.9 / claude-design +16.5）。详细案例数据见 [references/skilllens-evidence.md](references/skilllens-evidence.md) 的「HL 实战案例」节。
+4 条经实战验证（huashu-gpt-image +10.85 / huashu-weread-advisor +14.9 / claude-design +16.5 / **google-ads-strategist +23.9**）。详细案例数据见 [references/skilllens-evidence.md](references/skilllens-evidence.md) 的「HL 实战案例」节，完整优化过程见 [references/google-ads-optimization-case-study.md](references/google-ads-optimization-case-study.md)。
 
 - **HL-1（dim4）显性视觉标记是杠杆**：加 🔴 CHECKPOINT / 🛑 STOP，靠「必须」措辞不行——LLM 解析时扫描视觉标记。4 行改动撬动 dim4 +3 分
 - **HL-2（dim3）if-then 三段式 fallback 表**：把「症状/解法」两列升级为「触发条件 / 一线修复 / 仍失败兜底」三段式。SkillLens failure-mechanism encoding 维度的落地
 - **HL-3（Phase 2 诊断）维度相关簇警告**：dim2/3/4 是相关簇——修 dim3 时 dim2 常跟着涨。「找最低维度」时同时看相关簇短板再决定是否同步改
 - **HL-4（Phase 2 退出）触顶自动 break**：连续 2 轮 Δ < 2 分 → break 进 Phase 3。+0.15 是停手信号不是继续信号；硬凑 MAX_ROUNDS=3 引入 over-engineering
 - **HL-5（用户偏好适配）直接执行模式**：用户说"不用再询问我"或"直接执行"时，立即切换自主模式——跳过基线后 CHECKPOINT，每轮展示 diff 不阻塞，仅在 Phase 2.5 探索性重写前保留确认（高风险操作）。已在异常表中编码为正式 fallback
+- **HL-7（体积控制）CSS 代码块压缩策略**：当 SKILL.md 体积接近 150% 限制时，优先压缩 CSS 代码块（删除换行/缩进，改为单行规则），而非删除内容。4 个扩展组件模板从 40 行压缩到 8 行，节省 32 行，体积从 178% 降到 150% 以内，内容零损失。详见 [references/nature-design-optimization-case-study.md](references/nature-design-optimization-case-study.md)
+- **HL-8（反例示例表格化）**：把 4 个独立代码块反例（颜色硬编码/缺少状态/SVG几何化/响应式缺失）合并为 1 个 4 行表格，节省 30+ 行，可读性反而提升（横向对比 ❌/✅）。详见 [references/nature-design-optimization-case-study.md](references/nature-design-optimization-case-study.md)
+- **HL-9（合并后体积反弹检查）**：合并 feature 分支到 master 后，git 合并策略可能导致体积膨胀。实例：Round 3b 压缩到 149.6%，合并后反弹到 155.8%。**必须在合并后立即执行体积检查**，若超标直接在 master 精简。详见 [references/nature-design-optimization-case-study.md](references/nature-design-optimization-case-study.md)
+- **HL-10（合并后删除 feature 分支前检查）**：合并后立即执行 `wc -l && python3 -c` 体积检查，确认 < 150% 后再删除 feature 分支。若超标，直接在 master 精简（压缩 CSS/表格化反例），不再开新分支。将体积检查加入 Phase 3 汇总报告标准步骤
 
 ---
 
@@ -338,7 +350,7 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 按优先级排序，每轮只做最高优先级的一个：
 
 ### P0: Runtime 适配性问题（gate 项命中 → 必须先修）
-- README/SKILL.md 出现红灯措辞（如「在 Claude Code 里」「Claude Code skill」）→ 替换为 runtime-neutral 措辞
+- README/SKILL.md 出现红灯措辞（如特定 runtime 名称）→ 替换为 runtime-neutral 措辞
 - Badge 钉死单一 runtime → 改为 `Agent Skills Standard` + `skills.sh` + `Multi-Runtime` 三个中立 badge
 - 安装章节只给一种 runtime 的路径 → 改为「一行命令（auto-detect）+ 手动路径表 + 作为参考资料」三层结构
 - 工作流硬编码 runtime-specific 工具且无 fallback → 给出通用替代方案或标注「仅在某 runtime 可用」
@@ -390,6 +402,7 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 | **用户说"不用再询问我"或"直接执行"** | 用户明确授权自主执行，厌恶逐步确认 | **立即切换为自主模式**：跳过 Phase 1 基线评估后的 CHECKPOINT，直接进入 Phase 2 优化循环；每轮改动后展示 diff 和分数变化，不再停下来等确认；Phase 3 汇总后直接输出最终报告。仅在探索性重写（Phase 2.5）前保留一次确认（因涉及 stash/重写高风险操作）。记录用户偏好到 memory："用户偏好直接执行 over 逐步确认" |
 | **用户要求"用中文交流"** | 用户明确中文偏好 | 所有输出、评分卡、测试prompt、results.tsv 注释均使用中文；skill 优化后的 SKILL.md 保持原文语言（不强制翻译），但评估报告和沟通语言切换为中文。记录到 memory |
 | **用户偏好简洁列表格式** | 用户说"一行一个"或类似 | 输出列表时采用 clean one-item-per-line 格式，不添加 bullet points、编号或额外评论。记录到 memory |
+| **体积控制** | 优化后 SKILL.md > 原始 × 1.5 | 拒绝提交，回到改进步骤精简（删冗余/合并重复/压缩CSS代码块为单行），再评。用 `python3 -c "n=open('SKILL.md').read().count(chr(10)); print(f'{n/original*100:.1f}%')"` 替代 `bc` 计算比例 |
 
 **原则**：异常先告知用户，再按规则处理；绝不静默跳过或静默失败。
 
@@ -409,8 +422,9 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 | 6 | **dry_run 比例 > 30%** | dim8 实测维度形同虚设，分数虚高（早期 40 次记录 67% dry_run，0 revert） | 强制至少 1 个真实 full_test；dry_run 多的优化在 results.tsv 显式打 ⚠️ |
 | 7 | **静默跳过异常** | 遇到 git/tsv 异常时静默继续，破坏 ratchet 完整性 | 异常表 10 条 fallback 必须先告知用户再处理 |
 | 8 | **忽视维度相关性单独优化** | dim2/3/4 是相关簇，单独优化 dim2 时常发现已被前轮 dim3 修复推到顶 | 找最低维度时同时看相关簇短板，决定是否同步改 |
-| 9 | **`replace_all=true` 在 patch 时误用** | 当前 session 实例：用 `replace_all=true` 修复双 `---` 分隔符，old_string 中「每轮 Phase 3...」在文件 15 处匹配，整文件被连环改写导致结构崩溃（标题、段落、表格被随机拼接）。根本原因：`replace_all` 不检查匹配位置的上下文一致性，只要 old_string 子串出现就替换 | ① NEVER 使用 `replace_all=true`，除非 old_string 已被验证为**全文件唯一**（如某行开头的完整 UUID 或极长特定短语） ② 若需批量替换已知模式（如统一单词），先 `grep -c` 确认命中数后再决定 ③ 出事后立即 `git checkout -- SKILL.md` 恢复文件，重新用更精准的唯一锚点 patch ④ 宁可多写几个单独的精准 patch，也不要用 `replace_all` 扫射 |
+| 9 | **`replace_all=true` 在 patch 时误用** | 当前 session 实例：用 `replace_all=true` 修复双 `---` 分隔符，old_string 中「每轮 Phase 3...」在文件 15 处匹配，整文件被连环改写导致结构崩溃（标题、段落、表格被随机拼接）。根本原因：`replace_all` 不检查匹配位置的上下文一致性，只要 old_string 子串出现就替换 | ① NEVER 使用 `replace_all=true`，除非 old_string 已被验证为**全文件唯一**（如某行开头的完整 UUID 或极长特定短语） ② 若需批量替换已知模式（如统一单词），先 `grep -c` 确认命中数后再决定 ③ **patch 连续失败 2 次 → 立即切换策略**：用 `terminal` 的 `cat >> file << 'EOF'` 追加内容，或先用 `read_file` 读取精确上下文再 patch ④ 出事后立即 `git checkout -- SKILL.md` 恢复文件，重新用更精准的唯一锚点 patch ⑤ 宁可多写几个单独的精准 patch，也不要用 `replace_all` 扫射 |
 | 10 | **假设环境有 bc/playwright/chromium** | 文件大小比例计算依赖 `bc`，截图依赖 Playwright/chromium——这些在精简容器环境中常缺失，导致流程中断 | ① 数值计算一律用 Python（`python3 -c`）替代 shell 工具 ② 截图失败时优雅降级为「HTML 已生成，请浏览器查看」③ 在 Phase 0 初始化时检测关键工具可用性，提前告知用户 |
+| 11 | **合并分支后删除 feature 分支前未检查体积** | 合并到 master 后 feature 分支被删除，但合并后的 SKILL.md 可能因 git 合并策略（如 ort 的三方合并）或 feature 分支后续新增内容导致体积膨胀。实例：Round 3b 压缩到 149.6% 后，合并到 master 时体积反弹到 155.8%（606/389），超过 150% 限制 | ① **合并后立即执行体积检查**：`wc -l SKILL.md && python3 -c "n=open('SKILL.md').read().count(chr(10)); print(f'{n/original*100:.1f}%')"` ② 若超标，在 master 分支直接精简（压缩 CSS/表格化反例），不再开新分支 ③ **删除 feature 分支前确认体积合规** ④ 将体积检查加入 Phase 3 汇总报告的标准步骤 |
 
 **触发场景**：每轮 Phase 2 改动前对照本表一次。任一反模式命中 → 改方案重写。
 
@@ -421,11 +435,11 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 1. **不改变skill的核心功能和用途** — 只优化"怎么写"和"怎么执行"，不改"做什么"
 2. **不引入新依赖** — 不添加skill原本没有的scripts或references文件
 3. **每轮只改一个维度** — 避免多个变更导致无法归因
-4. **保持文件大小合理** — 优化后SKILL.md不应超过原始大小的150%
+4. **保持文件大小合理** — 优化后SKILL.md不应超过原始大小的150%。**合并到 master 后必须立即检查体积**，git 合并策略可能导致体积反弹
 5. **尊重花叔风格** — 中文为主、简洁为上
 6. **可回滚** — 所有改动在git分支上，用git revert而非reset --hard
 7. **评分独立性** — 效果维度必须用子agent或至少干跑验证，不能在同一上下文里「改完直接评」
-8. **Runtime 中立性** — skill 必须能在 Claude Code、Codex、Cursor、OpenClaw、Hermes 等任何 skills-compatible runtime 中正常运行。除非 skill 名明确绑定单一 runtime（如 `xxx-codex`、`huashu-slides-codex`），任何「在 Claude Code 里」「Claude Code skill」「单一 badge 钉死」「安装命令只给 `.claude/skills/` 一种路径」都视为 gate 不通过，须在 P0 优先修复（详见「Runtime 适配性审查」章节）
+8. **Runtime 中立性** — skill 必须能在任何 skills-compatible runtime（如 Claude Code、Codex、Cursor、Hermes 等）中正常运行。除非 skill 名明确绑定单一 runtime（如 `xxx-codex`），任何 runtime-specific 措辞、单一 badge 钉死、安装命令只给一种路径都视为 gate 不通过，须在 P0 优先修复（详见「Runtime 适配性审查」章节）
 
 ---
 
@@ -451,6 +465,7 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 → 决策：改造现有skill 或 创建新skill
 → 创建新skill → 直接编写SKILL.md → Phase 1基线评估 → Phase 2优化
 → 参考案例: references/prd-optimization-case-study.md
+→ B2B skill 优化案例（含 dim3/dim4/dim9 短板修复全过程）: references/google-ads-optimization-case-study.md
 ```
 
 ### 仅评估不改

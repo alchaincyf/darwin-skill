@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>google-ads-strategist 优化成果卡</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0f0f12;
+    font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+    display: flex; justify-content: center; align-items: center;
+    min-height: 100vh; padding: 40px;
+  }
+  .card {
+    background: #1a1a20;
+    border: 1px solid #2a2a35;
+    border-radius: 16px;
+    width: 720px;
+    padding: 48px;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+  }
+  .header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 32px;
+  }
+  .brand {
+    color: #00d4aa;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .skill-name {
+    color: #f0f0f5;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  .date {
+    color: #6b6b7b;
+    font-size: 12px;
+    text-align: right;
+  }
+  .score-row {
+    display: flex; gap: 24px; margin-bottom: 40px;
+  }
+  .score-box {
+    flex: 1;
+    background: #121218;
+    border: 1px solid #2a2a35;
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+  }
+  .score-box.before { border-color: #ff6b6b33; }
+  .score-box.after { border-color: #00d4aa33; }
+  .score-label {
+    color: #6b6b7b;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .score-value {
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .before .score-value { color: #ff6b6b; }
+  .after .score-value { color: #00d4aa; }
+  .delta {
+    color: #00d4aa;
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 8px;
+  }
+  .section-title {
+    color: #f0f0f5;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    letter-spacing: 0.5px;
+  }
+  .dim-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .dim-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #121218;
+    border: 1px solid #2a2a35;
+    border-radius: 8px;
+    padding: 12px 16px;
+  }
+  .dim-name {
+    color: #a0a0b0;
+    font-size: 12px;
+  }
+  .dim-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .bar-track {
+    width: 80px;
+    height: 6px;
+    background: #2a2a35;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.5s ease;
+  }
+  .bar-before { background: #ff6b6b; }
+  .bar-after { background: #00d4aa; }
+  .dim-score {
+    color: #f0f0f5;
+    font-size: 12px;
+    font-weight: 600;
+    width: 36px;
+    text-align: right;
+  }
+  .improvements {
+    margin-bottom: 32px;
+  }
+  .imp-item {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    color: #c0c0d0;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .imp-num {
+    color: #00d4aa;
+    font-weight: 700;
+    min-width: 20px;
+  }
+  .footer {
+    border-top: 1px solid #2a2a35;
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-tagline {
+    color: #6b6b7b;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+  }
+  .footer-brand {
+    color: #00d4aa;
+    font-size: 11px;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <div>
+      <div class="brand">Darwin.skill Optimization</div>
+      <div class="skill-name">google-ads-strategist</div>
+    </div>
+    <div class="date">2026-06-03</div>
+  </div>
+
+  <div class="score-row">
+    <div class="score-box before">
+      <div class="score-label">Before</div>
+      <div class="score-value">61.9</div>
+    </div>
+    <div class="score-box after">
+      <div class="score-label">After</div>
+      <div class="score-value">85.8</div>
+      <div class="delta">+23.9 ↑</div>
+    </div>
+  </div>
+
+  <div class="section-title">9-DIMENSION BREAKDOWN</div>
+  <div class="dim-grid">
+    <div class="dim-item">
+      <span class="dim-name">Frontmatter</span>
+      <div class="dim-bar">
+        <div class="bar-track"><div class="bar-fill bar-before" style="width:60%"></div></div>
+        <div class="bar-track"><div class="bar-fill bar-after" style="width:90%"></div></div>
+        <span class="dim-score">6→9</span>
+      </div>
+    </div>
+    <div class="dim-item">
+      <span class="dim-name">Workflow</span>
+      <div class="dim-bar">
+        <div class="bar-track"><div class="bar-fill bar-before" style="width:80%"></div></div>
+        <div class="bar-track"><div class="bar-fill bar-after" style="width:100%"></div></div>
+        <span class="dim-score">8→10</span>
+      </div>
+    </div>
+    <div class="dim-item">
+      <span class="dim-name">Failure Modes</span>
+      <div class="dim-bar">
+        <div class="bar-track"><div class="bar-fill bar-before" style="width:30%"></div></div>
+        <div class="bar-track"><div class="bar-fill bar-after" style="width:80%"></div></div>
+        <span class="dim-score">3→8</span>
+      </div>
+    </div>
+    <div class="dim-item">
+      <span class="dim-name">Checkpoints</span>
+      <div class="dim-bar">
+        <div class="bar-track"><div class="bar-fill bar-before" style="width:20%"></div></div>
+        <div class="bar-track"><div class="bar-fill bar-after" style="width:80%"></div></div>
+        <span class="dim-score">2→8</span>
+      </div>
+    </div>
+    <div class="dim-item">
+      <span class="dim-name">Actionability</span>
+      <div class="dim-bar">
+        <div class="bar-track"><div class="bar-fill bar-before" style="width:100%"></div></div>
+        <div class="bar-track"><div class="bar-fill bar-after" style="width:100%"></div></div>
+        <span class="dim-score">10→10</span>
+      </div>
+    </div>
+    <div class="dim-item">
+      <span class="dim-name">Resources</span>
+      <div class="dim-bar">
+        <div class="bar-track"><div class="bar-fill bar-before" style="width:30%"></div></div>
+        <div class="bar-track"><div class="bar-fill bar-after" style="width:80%"></div></div>
+        <span class="dim-score">3→8</span>
+      </div>
+    </div>
+    <div class="dim-item">
+      <span class="dim-name">Architecture</span>
+      <div class="dim-bar">
+        <div class="bar-track"><div class="bar-fill bar-before" style="width:90%"></div></div>
+        <div class="bar-track"><div class="bar-fill bar-after" style="width:90%"></div></div>
+        <span class="dim-score">9→9</span>
+      </div>
+    </div>
+    <div class="dim-item">
+      <span class="dim-name">Tested Performance</span>
+      <div class="dim-bar">
+        <div class="bar-track"><div class="bar-fill bar-before" style="width:57%"></div></div>
+        <div class="bar-track"><div class="bar-fill bar-after" style="width:75%"></div></div>
+        <span class="dim-score">5.7→7.5</span>
+      </div>
+    </div>
+    <div class="dim-item" style="grid-column: 1 / -1;">
+      <span class="dim-name">Blacklist / Anti-patterns</span>
+      <div class="dim-bar">
+        <div class="bar-track"><div class="bar-fill bar-before" style="width:20%"></div></div>
+        <div class="bar-track"><div class="bar-fill bar-after" style="width:80%"></div></div>
+        <span class="dim-score">2→8</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">TOP IMPROVEMENTS</div>
+  <div class="improvements">
+    <div class="imp-item"><span class="imp-num">1</span>新增「前置检查与失败处理」章节：5种if-then fallback覆盖URL无效、网站不可访问、竞对不足、B2C误用、地理不明</div>
+    <div class="imp-item"><span class="imp-num">2</span>新增4个🔴显性检查点（STOP/CHECKPOINT），防止600行报告直接dump</div>
+    <div class="imp-item"><span class="imp-num">3</span>新增Agent反例黑名单（8条反模式），覆盖虚构数据、地理忽略、CSV格式错误等实战坑</div>
+    <div class="imp-item"><span class="imp-num">4</span>4个references全部补充内容摘要，用户不打开也知道价值</div>
+    <div class="imp-item"><span class="imp-num">5</span>新增B2B工业网站地理范围强制澄清约束（US/EU/China），解决用户历史痛点</div>
+  </div>
+
+  <div class="footer">
+    <span class="footer-tagline">Train your Skills like you train your models</span>
+    <span class="footer-brand">darwin-skill v2.0</span>
+  </div>
+</div>
+</body>
+</html>
