@@ -1,0 +1,1297 @@
+timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
+2026-07-15T16:25	baseline	astryx	-	62	baseline	-	dim2_no_workflow,dim4_no_checkpoint,dim6_no_resources	dry_run
+2026-07-15T16:25	baseline	auto-learning	-	40	baseline	-	dim1_missing_name,dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources,dim7_too_short,dim9_no_blacklist	dry_run
+2026-07-15T16:25	baseline	autocli-skill	-	83	baseline	-	dim7_too_long	dry_run
+2026-07-15T16:25	baseline	autoresearch	-	62	baseline	-	dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources	dry_run
+2026-07-15T16:25	baseline	cybersecurity-expert	-	41	baseline	-	dim2_no_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T16:25	baseline	darwin-skill	-	88	baseline	-		dry_run
+2026-07-15T16:25	baseline	knowledge-bridge	-	26	baseline	-	dim1_missing_name,dim2_no_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources,dim7_too_short,dim9_no_blacklist	dry_run
+2026-07-15T16:25	baseline	openspec	-	41	baseline	-	dim2_no_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T16:25	baseline	plan-review-gate	-	62	baseline	-	dim3_no_failure_mode,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T16:25	baseline	planning-with-files	-	74	baseline	-	dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T16:25	baseline	playwright-connect-existing	-	62	baseline	-	dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources	dry_run
+2026-07-15T16:25	baseline	project-analysis	-	68	baseline	-	dim1_missing_name,dim4_no_checkpoint,dim6_no_resources	dry_run
+2026-07-15T16:25	baseline	siriusec-dev	-	48	baseline	-	dim2_no_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources	dry_run
+2026-07-15T16:25	baseline	viral-content	-	65	baseline	-	dim3_no_failure_mode,dim6_no_resources,dim7_too_long	dry_run
+2026-07-15T16:25	baseline	web-access	-	88	baseline	-		dry_run
+2026-07-15T16:27	baseline	astryx	62	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T16:27	baseline	auto-learning	40	24	baseline	-	dim1_missing_name,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:27	baseline	autocli-skill	83	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T16:27	baseline	autoresearch	62	72	baseline	-		dry_run
+2026-07-15T16:27	baseline	cybersecurity-expert	41	45	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T16:27	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T16:27	baseline	knowledge-bridge	26	19	baseline	-	dim1_missing_name,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:27	baseline	openspec	41	41	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T16:27	baseline	plan-review-gate	62	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:27	baseline	planning-with-files	74	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T16:27	baseline	playwright-connect-existing	62	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:27	baseline	project-analysis	68	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T16:27	baseline	siriusec-dev	48	48	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint	dry_run
+2026-07-15T16:27	baseline	viral-content	65	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T16:27	baseline	web-access	88	82	baseline	-		dry_run
+2026-07-15T16:27	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T16:27	baseline	auto-learning	24	24	baseline	-	dim1_missing_name,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:27	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T16:27	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T16:27	baseline	cybersecurity-expert	45	45	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T16:27	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T16:27	baseline	knowledge-bridge	19	19	baseline	-	dim1_missing_name,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:27	baseline	openspec	41	41	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T16:27	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:27	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T16:27	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:27	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T16:27	baseline	siriusec-dev	48	48	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint	dry_run
+2026-07-15T16:27	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T16:27	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T16:33	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T16:33	baseline	auto-learning	24	24	baseline	-	dim1_missing_name,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:33	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T16:33	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T16:33	baseline	cybersecurity-expert	45	45	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T16:33	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T16:33	baseline	knowledge-bridge	19	19	baseline	-	dim1_missing_name,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:33	baseline	openspec	41	41	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T16:33	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:33	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T16:33	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:33	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T16:33	baseline	siriusec-dev	48	48	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint	dry_run
+2026-07-15T16:33	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T16:33	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T16:33	baseline	auto-configs	-	45	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T16:33	baseline	auto-decisions	-	48	baseline	-	dim1_no_description,dim3_no_failure_mode,dim7_too_long,dim9_no_blacklist	dry_run
+2026-07-15T16:33	baseline	auto-code-snippets	-	50	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources	dry_run
+2026-07-15T16:33	baseline	auto-commands	-	72	baseline	-	dim1_no_description,dim7_too_long	dry_run
+2026-07-15T16:33	baseline	auto-errors	-	44	baseline	-	dim1_no_description,dim2_weak_workflow,dim4_no_checkpoint,dim7_too_long,dim9_no_blacklist	dry_run
+2026-07-15T16:33	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T16:35	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T16:35	baseline	auto-learning	24	24	baseline	-	dim1_missing_name,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T16:35	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T16:35	baseline	cybersecurity-expert	45	45	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T16:35	baseline	knowledge-bridge	19	19	baseline	-	dim1_missing_name,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	openspec	41	41	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:35	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:35	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	siriusec-dev	48	48	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T16:35	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T16:35	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T16:35	baseline	auto-learning	24	24	baseline	-	dim1_missing_name,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T16:35	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T16:35	baseline	cybersecurity-expert	45	45	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T16:35	baseline	knowledge-bridge	19	19	baseline	-	dim1_missing_name,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	openspec	41	41	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:35	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:35	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	siriusec-dev	48	48	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T16:35	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T16:35	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T16:35	baseline	auto-learning	24	24	baseline	-	dim1_missing_name,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T16:35	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T16:35	baseline	cybersecurity-expert	45	45	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T16:35	baseline	knowledge-bridge	19	19	baseline	-	dim1_missing_name,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	openspec	41	41	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:35	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:35	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	siriusec-dev	48	48	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T16:35	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T16:35	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T16:35	baseline	auto-learning	24	24	baseline	-	dim1_missing_name,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T16:35	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T16:35	baseline	cybersecurity-expert	45	45	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T16:35	baseline	knowledge-bridge	19	19	baseline	-	dim1_missing_name,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	openspec	41	41	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:35	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:35	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	siriusec-dev	48	48	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T16:35	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T16:35	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T16:35	baseline	auto-learning	24	24	baseline	-	dim1_missing_name,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T16:35	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T16:35	baseline	cybersecurity-expert	45	45	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T16:35	baseline	knowledge-bridge	19	19	baseline	-	dim1_missing_name,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	openspec	41	41	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:35	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:35	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	siriusec-dev	48	48	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T16:35	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T16:35	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T16:35	baseline	auto-learning	24	24	baseline	-	dim1_missing_name,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T16:35	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T16:35	baseline	cybersecurity-expert	45	45	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T16:35	baseline	knowledge-bridge	19	19	baseline	-	dim1_missing_name,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	openspec	41	41	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:35	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:35	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	siriusec-dev	48	48	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T16:35	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T16:35	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T16:35	baseline	auto-learning	24	24	baseline	-	dim1_missing_name,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T16:35	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T16:35	baseline	cybersecurity-expert	45	45	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T16:35	baseline	knowledge-bridge	19	19	baseline	-	dim1_missing_name,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	openspec	41	41	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:35	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:35	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	siriusec-dev	48	48	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T16:35	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T16:35	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T16:35	baseline	auto-learning	24	24	baseline	-	dim1_missing_name,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T16:35	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T16:35	baseline	cybersecurity-expert	45	45	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T16:35	baseline	knowledge-bridge	19	19	baseline	-	dim1_missing_name,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	openspec	41	41	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:35	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:35	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	siriusec-dev	48	48	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T16:35	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T16:35	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T16:35	baseline	auto-learning	24	24	baseline	-	dim1_missing_name,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T16:35	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T16:35	baseline	cybersecurity-expert	45	45	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T16:35	baseline	knowledge-bridge	19	19	baseline	-	dim1_missing_name,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	openspec	41	41	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:35	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:35	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	siriusec-dev	48	48	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T16:35	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T16:35	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T16:35	baseline	auto-learning	24	24	baseline	-	dim1_missing_name,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T16:35	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T16:35	baseline	cybersecurity-expert	45	45	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T16:35	baseline	knowledge-bridge	19	19	baseline	-	dim1_missing_name,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	openspec	41	41	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T16:35	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:35	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:35	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	siriusec-dev	48	48	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint	dry_run
+2026-07-15T16:35	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T16:35	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T16:36	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T16:36	baseline	auto-learning	24	24	baseline	-	dim1_missing_name,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:36	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T16:36	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T16:36	baseline	cybersecurity-expert	45	45	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T16:36	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T16:36	baseline	knowledge-bridge	19	19	baseline	-	dim1_missing_name,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:36	baseline	openspec	41	41	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T16:36	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:36	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T16:36	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:36	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T16:36	baseline	siriusec-dev	48	48	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint	dry_run
+2026-07-15T16:36	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T16:36	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T16:36	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T16:36	baseline	auto-learning	24	24	baseline	-	dim1_missing_name,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:36	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T16:36	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T16:36	baseline	cybersecurity-expert	45	45	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T16:36	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T16:36	baseline	knowledge-bridge	19	19	baseline	-	dim1_missing_name,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:36	baseline	openspec	41	41	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T16:36	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:36	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T16:36	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:36	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T16:36	baseline	siriusec-dev	48	48	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint	dry_run
+2026-07-15T16:36	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T16:36	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T16:36	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T16:36	baseline	auto-learning	24	24	baseline	-	dim1_missing_name,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:36	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T16:36	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T16:36	baseline	cybersecurity-expert	45	45	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T16:36	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T16:36	baseline	knowledge-bridge	19	19	baseline	-	dim1_missing_name,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:36	baseline	openspec	41	41	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T16:36	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:36	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T16:36	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:36	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T16:36	baseline	siriusec-dev	48	48	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint	dry_run
+2026-07-15T16:36	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T16:36	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T16:43	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T16:43	baseline	auto-learning	24	24	baseline	-	dim1_missing_name,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:43	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T16:43	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T16:43	baseline	cybersecurity-expert	45	45	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T16:43	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T16:43	baseline	knowledge-bridge	19	19	baseline	-	dim1_missing_name,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:43	baseline	openspec	41	41	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T16:43	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:43	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T16:43	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:43	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T16:43	baseline	siriusec-dev	48	48	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint	dry_run
+2026-07-15T16:43	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T16:43	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T16:44	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T16:44	baseline	auto-learning	24	24	baseline	-	dim1_missing_name,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:44	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T16:44	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T16:44	baseline	cybersecurity-expert	45	45	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T16:44	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T16:44	baseline	knowledge-bridge	19	19	baseline	-	dim1_missing_name,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:44	baseline	openspec	41	41	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T16:44	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:44	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T16:44	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:44	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T16:44	baseline	siriusec-dev	48	48	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint	dry_run
+2026-07-15T16:44	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T16:44	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T16:53	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T16:53	baseline	auto-learning	24	24	baseline	-	dim1_missing_name,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:53	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T16:53	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T16:53	baseline	cybersecurity-expert	45	45	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T16:53	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T16:53	baseline	knowledge-bridge	19	19	baseline	-	dim1_missing_name,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:53	baseline	openspec	41	41	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T16:53	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:53	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T16:53	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:53	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T16:53	baseline	siriusec-dev	48	48	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint	dry_run
+2026-07-15T16:53	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T16:53	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T16:54	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T16:54	baseline	auto-learning	24	24	baseline	-	dim1_missing_name,dim3_no_failure_mode,dim4_no_checkpoint,dim5_not_specific,dim7_short,dim9_no_blacklist	dry_run
+2026-07-15T16:54	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T16:54	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T16:54	baseline	cybersecurity-expert	45	45	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T16:54	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T16:54	baseline	knowledge-bridge	19	62	baseline	-	dim2_weak_workflow,dim3_no_failure_mode	dry_run
+2026-07-15T16:54	baseline	openspec	41	41	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T16:54	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:54	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T16:54	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:54	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T16:54	baseline	siriusec-dev	48	48	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint	dry_run
+2026-07-15T16:54	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T16:54	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T16:56	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T16:56	baseline	auto-learning	24	82	baseline	-		dry_run
+2026-07-15T16:56	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T16:56	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T16:56	baseline	cybersecurity-expert	45	45	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T16:56	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T16:56	baseline	knowledge-bridge	62	62	baseline	-	dim2_weak_workflow,dim3_no_failure_mode	dry_run
+2026-07-15T16:56	baseline	openspec	41	41	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T16:56	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:56	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T16:56	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:56	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T16:56	baseline	siriusec-dev	48	48	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint	dry_run
+2026-07-15T16:56	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T16:56	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T16:57	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T16:57	baseline	auto-learning	82	82	baseline	-		dry_run
+2026-07-15T16:57	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T16:57	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T16:57	baseline	cybersecurity-expert	45	45	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T16:57	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T16:57	baseline	knowledge-bridge	62	62	baseline	-	dim2_weak_workflow,dim3_no_failure_mode	dry_run
+2026-07-15T16:57	baseline	openspec	41	83	baseline	-	dim7_long	dry_run
+2026-07-15T16:57	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:57	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T16:57	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:57	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T16:57	baseline	siriusec-dev	48	48	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint	dry_run
+2026-07-15T16:57	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T16:57	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T16:59	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T16:59	baseline	auto-learning	82	82	baseline	-		dry_run
+2026-07-15T16:59	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T16:59	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T16:59	baseline	cybersecurity-expert	45	45	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T16:59	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T16:59	baseline	knowledge-bridge	62	62	baseline	-	dim2_weak_workflow,dim3_no_failure_mode	dry_run
+2026-07-15T16:59	baseline	openspec	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T16:59	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:59	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T16:59	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:59	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T16:59	baseline	siriusec-dev	48	48	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint	dry_run
+2026-07-15T16:59	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T16:59	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T16:59	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T16:59	baseline	auto-learning	82	82	baseline	-		dry_run
+2026-07-15T16:59	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T16:59	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T16:59	baseline	cybersecurity-expert	45	45	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T16:59	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T16:59	baseline	knowledge-bridge	62	62	baseline	-	dim2_weak_workflow,dim3_no_failure_mode	dry_run
+2026-07-15T16:59	baseline	openspec	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T16:59	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:59	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T16:59	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T16:59	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T16:59	baseline	siriusec-dev	48	48	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint	dry_run
+2026-07-15T16:59	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T16:59	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T17:01	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:01	baseline	auto-learning	82	82	baseline	-		dry_run
+2026-07-15T17:01	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T17:01	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T17:01	baseline	cybersecurity-expert	45	45	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T17:01	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T17:01	baseline	knowledge-bridge	62	62	baseline	-	dim2_weak_workflow,dim3_no_failure_mode	dry_run
+2026-07-15T17:01	baseline	openspec	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T17:01	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:01	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:01	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:01	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T17:01	baseline	siriusec-dev	48	48	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint	dry_run
+2026-07-15T17:01	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T17:01	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T17:04	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:04	baseline	planning-with-files	76	69	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:04	baseline	planning-with-files	69	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:04	baseline	planning-with-files	76	52	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:04	baseline	planning-with-files	52	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:04	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:04	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:04	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:04	baseline	planning-with-files	76	59	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:04	baseline	planning-with-files	59	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:04	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:04	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:04	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:04	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:04	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T17:04	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T17:04	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T17:04	baseline	auto-configs	45	45	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:04	baseline	auto-decisions	48	48	baseline	-	dim1_no_description,dim3_no_failure_mode,dim7_too_long,dim9_no_blacklist	dry_run
+2026-07-15T17:04	baseline	auto-code-snippets	50	50	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources	dry_run
+2026-07-15T17:04	baseline	auto-commands	72	72	baseline	-	dim1_no_description,dim7_too_long	dry_run
+2026-07-15T17:04	baseline	auto-errors	44	86	baseline	-		dry_run
+2026-07-15T17:04	baseline	auto-learning	82	82	baseline	-		dry_run
+2026-07-15T17:04	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T17:04	baseline	knowledge-bridge	62	62	baseline	-	dim2_weak_workflow,dim3_no_failure_mode	dry_run
+2026-07-15T17:04	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T17:04	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T17:04	baseline	siriusec-dev	48	48	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint	dry_run
+2026-07-15T17:04	baseline	cybersecurity-expert	45	45	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T17:04	baseline	using-git-worktrees	-	51	baseline	-	dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:04	baseline	test-driven-development	-	60	baseline	-	dim2_weak_workflow,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:04	baseline	systematic-debugging	-	69	baseline	-	dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:04	baseline	using-superpowers	-	51	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T17:04	baseline	dispatching-parallel-agents	-	40	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim5_not_specific,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:04	baseline	executing-plans	-	48	baseline	-	dim3_no_failure_mode,dim5_not_specific,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:04	baseline	finishing-a-development-branch	-	55	baseline	-	dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:04	baseline	brainstorming	-	40	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim5_not_specific,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:04	baseline	writing-plans	-	56	baseline	-	dim4_no_checkpoint,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:04	baseline	requesting-code-review	-	39	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:04	baseline	receiving-code-review	-	53	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim6_no_resources	dry_run
+2026-07-15T17:04	baseline	writing-skills	-	79	baseline	-	dim7_long	dry_run
+2026-07-15T17:04	baseline	verification-before-completion	-	61	baseline	-	dim2_weak_workflow,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:04	baseline	subagent-driven-development	-	39	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:04	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:04	baseline	openspec	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T17:19	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:19	baseline	planning-with-files	76	69	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:19	baseline	planning-with-files	69	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:19	baseline	planning-with-files	76	52	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:19	baseline	planning-with-files	52	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:19	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:19	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:19	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:19	baseline	planning-with-files	76	59	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:19	baseline	planning-with-files	59	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:19	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:19	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:19	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:19	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:19	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T17:19	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T17:19	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T17:19	baseline	auto-configs	45	86	baseline	-		dry_run
+2026-07-15T17:19	baseline	auto-decisions	48	86	baseline	-		dry_run
+2026-07-15T17:19	baseline	auto-code-snippets	50	79	baseline	-		dry_run
+2026-07-15T17:19	baseline	auto-commands	72	72	baseline	-	dim1_no_description,dim7_too_long	dry_run
+2026-07-15T17:19	baseline	auto-errors	86	86	baseline	-		dry_run
+2026-07-15T17:19	baseline	auto-learning	82	82	baseline	-		dry_run
+2026-07-15T17:19	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T17:19	baseline	knowledge-bridge	62	62	baseline	-	dim2_weak_workflow,dim3_no_failure_mode	dry_run
+2026-07-15T17:19	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T17:19	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T17:19	baseline	siriusec-dev	48	86	baseline	-		dry_run
+2026-07-15T17:19	baseline	cybersecurity-expert	45	86	baseline	-		dry_run
+2026-07-15T17:19	baseline	using-git-worktrees	51	51	baseline	-	dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:19	baseline	test-driven-development	60	60	baseline	-	dim2_weak_workflow,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:19	baseline	systematic-debugging	69	69	baseline	-	dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:19	baseline	using-superpowers	51	51	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T17:19	baseline	dispatching-parallel-agents	40	40	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim5_not_specific,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:19	baseline	executing-plans	48	48	baseline	-	dim3_no_failure_mode,dim5_not_specific,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:19	baseline	finishing-a-development-branch	55	55	baseline	-	dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:19	baseline	brainstorming	40	40	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim5_not_specific,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:19	baseline	writing-plans	56	56	baseline	-	dim4_no_checkpoint,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:19	baseline	requesting-code-review	39	39	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:19	baseline	receiving-code-review	53	53	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim6_no_resources	dry_run
+2026-07-15T17:19	baseline	writing-skills	79	79	baseline	-	dim7_long	dry_run
+2026-07-15T17:19	baseline	verification-before-completion	61	61	baseline	-	dim2_weak_workflow,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:19	baseline	subagent-driven-development	39	39	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:19	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:19	baseline	openspec	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T17:19	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:19	baseline	planning-with-files	76	69	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:19	baseline	planning-with-files	69	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:19	baseline	planning-with-files	76	52	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:19	baseline	planning-with-files	52	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:19	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:19	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:19	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:19	baseline	planning-with-files	76	59	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:19	baseline	planning-with-files	59	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:19	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:19	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:19	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:19	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:19	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T17:19	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T17:19	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T17:19	baseline	auto-configs	86	86	baseline	-		dry_run
+2026-07-15T17:19	baseline	auto-decisions	86	86	baseline	-		dry_run
+2026-07-15T17:19	baseline	auto-code-snippets	79	79	baseline	-		dry_run
+2026-07-15T17:19	baseline	auto-commands	72	72	baseline	-	dim1_no_description,dim7_too_long	dry_run
+2026-07-15T17:19	baseline	auto-errors	86	86	baseline	-		dry_run
+2026-07-15T17:19	baseline	auto-learning	82	82	baseline	-		dry_run
+2026-07-15T17:19	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T17:19	baseline	knowledge-bridge	62	62	baseline	-	dim2_weak_workflow,dim3_no_failure_mode	dry_run
+2026-07-15T17:19	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T17:19	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T17:19	baseline	siriusec-dev	86	86	baseline	-		dry_run
+2026-07-15T17:19	baseline	cybersecurity-expert	86	86	baseline	-		dry_run
+2026-07-15T17:19	baseline	using-git-worktrees	51	51	baseline	-	dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:19	baseline	test-driven-development	60	60	baseline	-	dim2_weak_workflow,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:20	baseline	systematic-debugging	69	69	baseline	-	dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:20	baseline	using-superpowers	51	51	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T17:20	baseline	dispatching-parallel-agents	40	40	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim5_not_specific,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:20	baseline	executing-plans	48	48	baseline	-	dim3_no_failure_mode,dim5_not_specific,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:20	baseline	finishing-a-development-branch	55	55	baseline	-	dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:20	baseline	brainstorming	40	40	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim5_not_specific,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:20	baseline	writing-plans	56	56	baseline	-	dim4_no_checkpoint,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:20	baseline	requesting-code-review	39	39	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:20	baseline	receiving-code-review	53	53	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim6_no_resources	dry_run
+2026-07-15T17:20	baseline	writing-skills	79	79	baseline	-	dim7_long	dry_run
+2026-07-15T17:20	baseline	verification-before-completion	61	61	baseline	-	dim2_weak_workflow,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:20	baseline	subagent-driven-development	39	39	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:20	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:20	baseline	openspec	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T17:22	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:22	baseline	planning-with-files	76	69	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:22	baseline	planning-with-files	69	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:22	baseline	planning-with-files	76	52	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:22	baseline	planning-with-files	52	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:22	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:22	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:22	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:22	baseline	planning-with-files	76	59	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:22	baseline	planning-with-files	59	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:22	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:22	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:22	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:22	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:22	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T17:22	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T17:22	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T17:22	baseline	auto-configs	86	86	baseline	-		dry_run
+2026-07-15T17:22	baseline	auto-decisions	86	86	baseline	-		dry_run
+2026-07-15T17:22	baseline	auto-code-snippets	79	79	baseline	-		dry_run
+2026-07-15T17:22	baseline	auto-commands	72	72	baseline	-	dim1_no_description,dim7_too_long	dry_run
+2026-07-15T17:22	baseline	auto-errors	86	86	baseline	-		dry_run
+2026-07-15T17:22	baseline	auto-learning	82	82	baseline	-		dry_run
+2026-07-15T17:22	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T17:22	baseline	knowledge-bridge	62	62	baseline	-	dim2_weak_workflow,dim3_no_failure_mode	dry_run
+2026-07-15T17:22	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T17:22	baseline	project-analysis	58	58	baseline	-	dim1_missing_name,dim4_no_checkpoint	dry_run
+2026-07-15T17:22	baseline	siriusec-dev	86	86	baseline	-		dry_run
+2026-07-15T17:22	baseline	cybersecurity-expert	86	86	baseline	-		dry_run
+2026-07-15T17:22	baseline	using-git-worktrees	51	51	baseline	-	dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:22	baseline	test-driven-development	60	60	baseline	-	dim2_weak_workflow,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:22	baseline	systematic-debugging	69	69	baseline	-	dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:22	baseline	using-superpowers	51	51	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim9_no_blacklist	dry_run
+2026-07-15T17:22	baseline	dispatching-parallel-agents	40	40	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim5_not_specific,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:22	baseline	executing-plans	48	48	baseline	-	dim3_no_failure_mode,dim5_not_specific,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:22	baseline	finishing-a-development-branch	55	55	baseline	-	dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:22	baseline	brainstorming	40	40	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim5_not_specific,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:22	baseline	writing-plans	56	56	baseline	-	dim4_no_checkpoint,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:22	baseline	requesting-code-review	39	39	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:22	baseline	receiving-code-review	53	53	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim6_no_resources	dry_run
+2026-07-15T17:22	baseline	writing-skills	79	79	baseline	-	dim7_long	dry_run
+2026-07-15T17:22	baseline	verification-before-completion	61	61	baseline	-	dim2_weak_workflow,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:22	baseline	subagent-driven-development	39	39	baseline	-	dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:22	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:22	baseline	openspec	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	69	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	69	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	52	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:28	baseline	planning-with-files	52	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	59	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:28	baseline	planning-with-files	59	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:28	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:28	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T17:28	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T17:28	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T17:28	baseline	auto-configs	86	86	baseline	-		dry_run
+2026-07-15T17:28	baseline	auto-decisions	86	86	baseline	-		dry_run
+2026-07-15T17:28	baseline	auto-code-snippets	79	79	baseline	-		dry_run
+2026-07-15T17:28	baseline	auto-commands	72	72	baseline	-	dim1_no_description,dim7_too_long	dry_run
+2026-07-15T17:28	baseline	auto-errors	86	86	baseline	-		dry_run
+2026-07-15T17:28	baseline	auto-learning	82	82	baseline	-		dry_run
+2026-07-15T17:28	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T17:28	baseline	knowledge-bridge	62	62	baseline	-	dim2_weak_workflow,dim3_no_failure_mode	dry_run
+2026-07-15T17:28	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T17:28	baseline	project-analysis	58	72	baseline	-	dim1_missing_name	dry_run
+2026-07-15T17:28	baseline	siriusec-dev	86	86	baseline	-		dry_run
+2026-07-15T17:28	baseline	cybersecurity-expert	86	86	baseline	-		dry_run
+2026-07-15T17:28	baseline	using-git-worktrees	51	81	baseline	-		dry_run
+2026-07-15T17:28	baseline	test-driven-development	60	60	baseline	-	dim2_weak_workflow,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:28	baseline	systematic-debugging	69	69	baseline	-	dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:28	baseline	using-superpowers	51	70	baseline	-		dry_run
+2026-07-15T17:28	baseline	dispatching-parallel-agents	40	62	baseline	-	dim2_weak_workflow,dim5_not_specific	dry_run
+2026-07-15T17:28	baseline	executing-plans	48	72	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:28	baseline	finishing-a-development-branch	55	83	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:28	baseline	brainstorming	40	61	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:28	baseline	writing-plans	56	79	baseline	-		dry_run
+2026-07-15T17:28	baseline	requesting-code-review	39	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:28	baseline	receiving-code-review	53	66	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:28	baseline	writing-skills	79	79	baseline	-	dim7_long	dry_run
+2026-07-15T17:28	baseline	verification-before-completion	61	61	baseline	-	dim2_weak_workflow,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:28	baseline	subagent-driven-development	39	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:28	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:28	baseline	openspec	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	69	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	69	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	52	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:28	baseline	planning-with-files	52	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	59	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:28	baseline	planning-with-files	59	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:28	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:28	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T17:28	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T17:28	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T17:28	baseline	auto-configs	86	86	baseline	-		dry_run
+2026-07-15T17:28	baseline	auto-decisions	86	86	baseline	-		dry_run
+2026-07-15T17:28	baseline	auto-code-snippets	79	79	baseline	-		dry_run
+2026-07-15T17:28	baseline	auto-commands	72	72	baseline	-	dim1_no_description,dim7_too_long	dry_run
+2026-07-15T17:28	baseline	auto-errors	86	86	baseline	-		dry_run
+2026-07-15T17:28	baseline	auto-learning	82	82	baseline	-		dry_run
+2026-07-15T17:28	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T17:28	baseline	knowledge-bridge	62	62	baseline	-	dim2_weak_workflow,dim3_no_failure_mode	dry_run
+2026-07-15T17:28	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T17:28	baseline	project-analysis	72	72	baseline	-	dim1_missing_name	dry_run
+2026-07-15T17:28	baseline	siriusec-dev	86	86	baseline	-		dry_run
+2026-07-15T17:28	baseline	cybersecurity-expert	86	86	baseline	-		dry_run
+2026-07-15T17:28	baseline	using-git-worktrees	81	81	baseline	-		dry_run
+2026-07-15T17:28	baseline	test-driven-development	60	60	baseline	-	dim2_weak_workflow,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:28	baseline	systematic-debugging	69	69	baseline	-	dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:28	baseline	using-superpowers	70	70	baseline	-		dry_run
+2026-07-15T17:28	baseline	dispatching-parallel-agents	62	62	baseline	-	dim2_weak_workflow,dim5_not_specific	dry_run
+2026-07-15T17:28	baseline	executing-plans	72	72	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:28	baseline	finishing-a-development-branch	83	83	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:28	baseline	brainstorming	61	61	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:28	baseline	writing-plans	79	79	baseline	-		dry_run
+2026-07-15T17:28	baseline	requesting-code-review	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:28	baseline	receiving-code-review	66	66	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:28	baseline	writing-skills	79	79	baseline	-	dim7_long	dry_run
+2026-07-15T17:28	baseline	verification-before-completion	61	61	baseline	-	dim2_weak_workflow,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:28	baseline	subagent-driven-development	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:28	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:28	baseline	openspec	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	69	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	69	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	52	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:28	baseline	planning-with-files	52	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	59	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:28	baseline	planning-with-files	59	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:28	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:28	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T17:28	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T17:28	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T17:28	baseline	auto-configs	86	86	baseline	-		dry_run
+2026-07-15T17:28	baseline	auto-decisions	86	86	baseline	-		dry_run
+2026-07-15T17:28	baseline	auto-code-snippets	79	79	baseline	-		dry_run
+2026-07-15T17:28	baseline	auto-commands	72	72	baseline	-	dim1_no_description,dim7_too_long	dry_run
+2026-07-15T17:28	baseline	auto-errors	86	86	baseline	-		dry_run
+2026-07-15T17:28	baseline	auto-learning	82	82	baseline	-		dry_run
+2026-07-15T17:28	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T17:28	baseline	knowledge-bridge	62	62	baseline	-	dim2_weak_workflow,dim3_no_failure_mode	dry_run
+2026-07-15T17:28	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T17:28	baseline	project-analysis	72	72	baseline	-	dim1_missing_name	dry_run
+2026-07-15T17:28	baseline	siriusec-dev	86	86	baseline	-		dry_run
+2026-07-15T17:28	baseline	cybersecurity-expert	86	86	baseline	-		dry_run
+2026-07-15T17:28	baseline	using-git-worktrees	81	81	baseline	-		dry_run
+2026-07-15T17:28	baseline	test-driven-development	60	60	baseline	-	dim2_weak_workflow,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:28	baseline	systematic-debugging	69	69	baseline	-	dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:28	baseline	using-superpowers	70	70	baseline	-		dry_run
+2026-07-15T17:28	baseline	dispatching-parallel-agents	62	62	baseline	-	dim2_weak_workflow,dim5_not_specific	dry_run
+2026-07-15T17:28	baseline	executing-plans	72	72	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:28	baseline	finishing-a-development-branch	83	83	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:28	baseline	brainstorming	61	61	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:28	baseline	writing-plans	79	79	baseline	-		dry_run
+2026-07-15T17:28	baseline	requesting-code-review	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:28	baseline	receiving-code-review	66	66	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:28	baseline	writing-skills	79	79	baseline	-	dim7_long	dry_run
+2026-07-15T17:28	baseline	verification-before-completion	61	61	baseline	-	dim2_weak_workflow,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:28	baseline	subagent-driven-development	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:28	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:28	baseline	openspec	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	69	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	69	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	52	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:28	baseline	planning-with-files	52	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	59	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:28	baseline	planning-with-files	59	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:28	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:28	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:28	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T17:28	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T17:28	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T17:28	baseline	auto-configs	86	86	baseline	-		dry_run
+2026-07-15T17:28	baseline	auto-decisions	86	86	baseline	-		dry_run
+2026-07-15T17:28	baseline	auto-code-snippets	79	79	baseline	-		dry_run
+2026-07-15T17:28	baseline	auto-commands	72	72	baseline	-	dim1_no_description,dim7_too_long	dry_run
+2026-07-15T17:28	baseline	auto-errors	86	86	baseline	-		dry_run
+2026-07-15T17:28	baseline	auto-learning	82	82	baseline	-		dry_run
+2026-07-15T17:28	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T17:28	baseline	knowledge-bridge	62	62	baseline	-	dim2_weak_workflow,dim3_no_failure_mode	dry_run
+2026-07-15T17:28	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T17:28	baseline	project-analysis	72	72	baseline	-	dim1_missing_name	dry_run
+2026-07-15T17:28	baseline	siriusec-dev	86	86	baseline	-		dry_run
+2026-07-15T17:28	baseline	cybersecurity-expert	86	86	baseline	-		dry_run
+2026-07-15T17:28	baseline	using-git-worktrees	81	81	baseline	-		dry_run
+2026-07-15T17:28	baseline	test-driven-development	60	60	baseline	-	dim2_weak_workflow,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:28	baseline	systematic-debugging	69	69	baseline	-	dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:28	baseline	using-superpowers	70	70	baseline	-		dry_run
+2026-07-15T17:28	baseline	dispatching-parallel-agents	62	62	baseline	-	dim2_weak_workflow,dim5_not_specific	dry_run
+2026-07-15T17:28	baseline	executing-plans	72	72	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:28	baseline	finishing-a-development-branch	83	83	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:28	baseline	brainstorming	61	61	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:28	baseline	writing-plans	79	79	baseline	-		dry_run
+2026-07-15T17:28	baseline	requesting-code-review	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:28	baseline	receiving-code-review	66	66	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:28	baseline	writing-skills	79	79	baseline	-	dim7_long	dry_run
+2026-07-15T17:28	baseline	verification-before-completion	61	61	baseline	-	dim2_weak_workflow,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:28	baseline	subagent-driven-development	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:28	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:28	baseline	openspec	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T17:30	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:30	baseline	planning-with-files	76	69	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:30	baseline	planning-with-files	69	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:30	baseline	planning-with-files	76	52	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:30	baseline	planning-with-files	52	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:30	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:30	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:30	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:30	baseline	planning-with-files	76	59	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:30	baseline	planning-with-files	59	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:30	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:30	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:30	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:30	baseline	astryx	67	67	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:30	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T17:30	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T17:30	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T17:30	baseline	auto-configs	86	45	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:30	baseline	auto-decisions	86	48	baseline	-	dim1_no_description,dim3_no_failure_mode,dim7_too_long,dim9_no_blacklist	dry_run
+2026-07-15T17:30	baseline	auto-code-snippets	79	50	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources	dry_run
+2026-07-15T17:30	baseline	auto-commands	72	72	baseline	-	dim1_no_description,dim7_too_long	dry_run
+2026-07-15T17:30	baseline	auto-errors	86	44	baseline	-	dim1_no_description,dim2_weak_workflow,dim4_no_checkpoint,dim7_too_long,dim9_no_blacklist	dry_run
+2026-07-15T17:30	baseline	auto-learning	82	82	baseline	-		dry_run
+2026-07-15T17:30	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T17:30	baseline	knowledge-bridge	62	62	baseline	-	dim2_weak_workflow,dim3_no_failure_mode	dry_run
+2026-07-15T17:30	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T17:30	baseline	project-analysis	72	72	baseline	-	dim1_missing_name	dry_run
+2026-07-15T17:30	baseline	siriusec-dev	86	86	baseline	-		dry_run
+2026-07-15T17:30	baseline	cybersecurity-expert	86	86	baseline	-		dry_run
+2026-07-15T17:30	baseline	using-git-worktrees	81	81	baseline	-		dry_run
+2026-07-15T17:30	baseline	test-driven-development	60	60	baseline	-	dim2_weak_workflow,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:30	baseline	systematic-debugging	69	69	baseline	-	dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:30	baseline	using-superpowers	70	70	baseline	-		dry_run
+2026-07-15T17:30	baseline	dispatching-parallel-agents	62	62	baseline	-	dim2_weak_workflow,dim5_not_specific	dry_run
+2026-07-15T17:30	baseline	executing-plans	72	72	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:30	baseline	finishing-a-development-branch	83	83	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:30	baseline	brainstorming	61	61	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:30	baseline	writing-plans	79	79	baseline	-		dry_run
+2026-07-15T17:30	baseline	requesting-code-review	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:30	baseline	receiving-code-review	66	66	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:30	baseline	writing-skills	79	79	baseline	-	dim7_long	dry_run
+2026-07-15T17:30	baseline	verification-before-completion	61	61	baseline	-	dim2_weak_workflow,dim6_no_resources,dim9_no_blacklist	dry_run
+2026-07-15T17:30	baseline	subagent-driven-development	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:30	baseline	playwright-connect-existing	68	68	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:30	baseline	openspec	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T17:34	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:34	baseline	planning-with-files	76	69	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:34	baseline	planning-with-files	69	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:34	baseline	planning-with-files	76	52	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:34	baseline	planning-with-files	52	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:34	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:34	baseline	planning-with-files	76	83	baseline	-		dry_run
+2026-07-15T17:34	baseline	planning-with-files	83	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:34	baseline	planning-with-files	76	59	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:34	baseline	planning-with-files	59	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:34	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:34	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:34	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:34	baseline	astryx	67	70	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:34	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T17:34	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T17:34	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T17:34	baseline	auto-configs	45	45	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:34	baseline	auto-decisions	48	48	baseline	-	dim1_no_description,dim3_no_failure_mode,dim7_too_long,dim9_no_blacklist	dry_run
+2026-07-15T17:34	baseline	auto-code-snippets	50	50	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources	dry_run
+2026-07-15T17:34	baseline	auto-commands	72	72	baseline	-	dim1_no_description,dim7_too_long	dry_run
+2026-07-15T17:34	baseline	auto-errors	44	44	baseline	-	dim1_no_description,dim2_weak_workflow,dim4_no_checkpoint,dim7_too_long,dim9_no_blacklist	dry_run
+2026-07-15T17:34	baseline	auto-learning	82	82	baseline	-		dry_run
+2026-07-15T17:34	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T17:34	baseline	knowledge-bridge	62	62	baseline	-	dim2_weak_workflow,dim3_no_failure_mode	dry_run
+2026-07-15T17:34	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T17:34	baseline	project-analysis	72	72	baseline	-	dim1_missing_name	dry_run
+2026-07-15T17:34	baseline	siriusec-dev	86	86	baseline	-		dry_run
+2026-07-15T17:34	baseline	cybersecurity-expert	86	86	baseline	-		dry_run
+2026-07-15T17:34	baseline	using-git-worktrees	81	81	baseline	-		dry_run
+2026-07-15T17:34	baseline	test-driven-development	60	74	baseline	-		dry_run
+2026-07-15T17:34	baseline	systematic-debugging	69	79	baseline	-		dry_run
+2026-07-15T17:34	baseline	using-superpowers	70	70	baseline	-		dry_run
+2026-07-15T17:34	baseline	dispatching-parallel-agents	62	62	baseline	-	dim2_weak_workflow,dim5_not_specific	dry_run
+2026-07-15T17:34	baseline	executing-plans	72	72	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:34	baseline	finishing-a-development-branch	83	83	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:34	baseline	brainstorming	61	61	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:34	baseline	writing-plans	79	79	baseline	-		dry_run
+2026-07-15T17:34	baseline	requesting-code-review	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:34	baseline	receiving-code-review	66	66	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:34	baseline	writing-skills	79	83	baseline	-	dim7_long	dry_run
+2026-07-15T17:34	baseline	verification-before-completion	61	74	baseline	-	dim2_weak_workflow,dim6_no_resources	dry_run
+2026-07-15T17:34	baseline	subagent-driven-development	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:34	baseline	playwright-connect-existing	68	80	baseline	-		dry_run
+2026-07-15T17:34	baseline	openspec	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T17:36	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:36	baseline	planning-with-files	76	69	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:36	baseline	planning-with-files	69	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:36	baseline	planning-with-files	76	52	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:36	baseline	planning-with-files	52	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:36	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:36	baseline	planning-with-files	76	83	baseline	-		dry_run
+2026-07-15T17:36	baseline	planning-with-files	83	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:36	baseline	planning-with-files	76	59	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:36	baseline	planning-with-files	59	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:36	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:36	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:36	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:36	baseline	astryx	70	70	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:36	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T17:36	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T17:36	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T17:36	baseline	auto-configs	45	45	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:36	baseline	auto-decisions	48	48	baseline	-	dim1_no_description,dim3_no_failure_mode,dim7_too_long,dim9_no_blacklist	dry_run
+2026-07-15T17:36	baseline	auto-code-snippets	50	50	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources	dry_run
+2026-07-15T17:36	baseline	auto-commands	72	72	baseline	-	dim1_no_description,dim7_too_long	dry_run
+2026-07-15T17:36	baseline	auto-errors	44	44	baseline	-	dim1_no_description,dim2_weak_workflow,dim4_no_checkpoint,dim7_too_long,dim9_no_blacklist	dry_run
+2026-07-15T17:36	baseline	auto-learning	82	82	baseline	-		dry_run
+2026-07-15T17:36	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T17:36	baseline	knowledge-bridge	62	62	baseline	-	dim2_weak_workflow,dim3_no_failure_mode	dry_run
+2026-07-15T17:36	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T17:36	baseline	project-analysis	72	72	baseline	-	dim1_missing_name	dry_run
+2026-07-15T17:36	baseline	siriusec-dev	86	86	baseline	-		dry_run
+2026-07-15T17:36	baseline	cybersecurity-expert	86	86	baseline	-		dry_run
+2026-07-15T17:36	baseline	using-git-worktrees	81	81	baseline	-		dry_run
+2026-07-15T17:36	baseline	test-driven-development	74	74	baseline	-		dry_run
+2026-07-15T17:36	baseline	systematic-debugging	79	79	baseline	-		dry_run
+2026-07-15T17:36	baseline	using-superpowers	70	70	baseline	-		dry_run
+2026-07-15T17:36	baseline	dispatching-parallel-agents	62	62	baseline	-	dim2_weak_workflow,dim5_not_specific	dry_run
+2026-07-15T17:36	baseline	executing-plans	72	72	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:36	baseline	finishing-a-development-branch	83	83	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:36	baseline	brainstorming	61	61	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:36	baseline	writing-plans	79	79	baseline	-		dry_run
+2026-07-15T17:36	baseline	requesting-code-review	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:36	baseline	receiving-code-review	66	66	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:36	baseline	writing-skills	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T17:36	baseline	verification-before-completion	74	74	baseline	-	dim2_weak_workflow,dim6_no_resources	dry_run
+2026-07-15T17:36	baseline	subagent-driven-development	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:36	baseline	playwright-connect-existing	80	80	baseline	-		dry_run
+2026-07-15T17:36	baseline	openspec	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T17:38	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:38	baseline	planning-with-files	76	69	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:38	baseline	planning-with-files	69	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:38	baseline	planning-with-files	76	52	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:38	baseline	planning-with-files	52	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:38	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:38	baseline	planning-with-files	76	83	baseline	-		dry_run
+2026-07-15T17:38	baseline	planning-with-files	83	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:38	baseline	planning-with-files	76	59	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:38	baseline	planning-with-files	59	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:38	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:38	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:38	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:38	baseline	astryx	70	75	baseline	-		dry_run
+2026-07-15T17:38	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T17:38	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T17:38	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T17:38	baseline	auto-configs	45	45	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:38	baseline	auto-decisions	48	48	baseline	-	dim1_no_description,dim3_no_failure_mode,dim7_too_long,dim9_no_blacklist	dry_run
+2026-07-15T17:38	baseline	auto-code-snippets	50	50	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources	dry_run
+2026-07-15T17:38	baseline	auto-commands	72	72	baseline	-	dim1_no_description,dim7_too_long	dry_run
+2026-07-15T17:38	baseline	auto-errors	44	44	baseline	-	dim1_no_description,dim2_weak_workflow,dim4_no_checkpoint,dim7_too_long,dim9_no_blacklist	dry_run
+2026-07-15T17:38	baseline	auto-learning	82	82	baseline	-		dry_run
+2026-07-15T17:38	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T17:38	baseline	knowledge-bridge	62	62	baseline	-	dim2_weak_workflow,dim3_no_failure_mode	dry_run
+2026-07-15T17:38	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T17:38	baseline	project-analysis	72	72	baseline	-	dim1_missing_name	dry_run
+2026-07-15T17:38	baseline	siriusec-dev	86	86	baseline	-		dry_run
+2026-07-15T17:38	baseline	cybersecurity-expert	86	86	baseline	-		dry_run
+2026-07-15T17:38	baseline	using-git-worktrees	81	81	baseline	-		dry_run
+2026-07-15T17:38	baseline	test-driven-development	74	74	baseline	-		dry_run
+2026-07-15T17:38	baseline	systematic-debugging	79	79	baseline	-		dry_run
+2026-07-15T17:38	baseline	using-superpowers	70	70	baseline	-		dry_run
+2026-07-15T17:38	baseline	dispatching-parallel-agents	62	62	baseline	-	dim2_weak_workflow,dim5_not_specific	dry_run
+2026-07-15T17:38	baseline	executing-plans	72	72	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:38	baseline	finishing-a-development-branch	83	83	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:38	baseline	brainstorming	61	61	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:38	baseline	writing-plans	79	79	baseline	-		dry_run
+2026-07-15T17:38	baseline	requesting-code-review	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:38	baseline	receiving-code-review	66	66	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:38	baseline	writing-skills	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T17:38	baseline	verification-before-completion	74	74	baseline	-	dim2_weak_workflow,dim6_no_resources	dry_run
+2026-07-15T17:38	baseline	subagent-driven-development	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:38	baseline	playwright-connect-existing	80	80	baseline	-		dry_run
+2026-07-15T17:38	baseline	openspec	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T17:38	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:38	baseline	planning-with-files	76	69	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:38	baseline	planning-with-files	69	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:38	baseline	planning-with-files	76	52	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:38	baseline	planning-with-files	52	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:38	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:38	baseline	planning-with-files	76	83	baseline	-		dry_run
+2026-07-15T17:38	baseline	planning-with-files	83	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:38	baseline	planning-with-files	76	59	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:38	baseline	planning-with-files	59	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:38	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:38	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:38	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:38	baseline	astryx	75	75	baseline	-		dry_run
+2026-07-15T17:38	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T17:38	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T17:38	baseline	viral-content	70	70	baseline	-	dim7_too_long	dry_run
+2026-07-15T17:38	baseline	auto-configs	45	45	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:38	baseline	auto-decisions	48	48	baseline	-	dim1_no_description,dim3_no_failure_mode,dim7_too_long,dim9_no_blacklist	dry_run
+2026-07-15T17:38	baseline	auto-code-snippets	50	50	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources	dry_run
+2026-07-15T17:38	baseline	auto-commands	72	72	baseline	-	dim1_no_description,dim7_too_long	dry_run
+2026-07-15T17:38	baseline	auto-errors	44	44	baseline	-	dim1_no_description,dim2_weak_workflow,dim4_no_checkpoint,dim7_too_long,dim9_no_blacklist	dry_run
+2026-07-15T17:38	baseline	auto-learning	82	82	baseline	-		dry_run
+2026-07-15T17:38	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T17:38	baseline	knowledge-bridge	62	62	baseline	-	dim2_weak_workflow,dim3_no_failure_mode	dry_run
+2026-07-15T17:38	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T17:38	baseline	project-analysis	72	72	baseline	-	dim1_missing_name	dry_run
+2026-07-15T17:38	baseline	siriusec-dev	86	86	baseline	-		dry_run
+2026-07-15T17:38	baseline	cybersecurity-expert	86	86	baseline	-		dry_run
+2026-07-15T17:38	baseline	using-git-worktrees	81	81	baseline	-		dry_run
+2026-07-15T17:38	baseline	test-driven-development	74	74	baseline	-		dry_run
+2026-07-15T17:38	baseline	systematic-debugging	79	79	baseline	-		dry_run
+2026-07-15T17:38	baseline	using-superpowers	70	70	baseline	-		dry_run
+2026-07-15T17:38	baseline	dispatching-parallel-agents	62	62	baseline	-	dim2_weak_workflow,dim5_not_specific	dry_run
+2026-07-15T17:38	baseline	executing-plans	72	72	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:38	baseline	finishing-a-development-branch	83	83	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:38	baseline	brainstorming	61	61	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:38	baseline	writing-plans	79	79	baseline	-		dry_run
+2026-07-15T17:38	baseline	requesting-code-review	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:38	baseline	receiving-code-review	66	66	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:38	baseline	writing-skills	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T17:38	baseline	verification-before-completion	74	74	baseline	-	dim2_weak_workflow,dim6_no_resources	dry_run
+2026-07-15T17:38	baseline	subagent-driven-development	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:38	baseline	playwright-connect-existing	80	80	baseline	-		dry_run
+2026-07-15T17:38	baseline	openspec	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T17:46	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:46	baseline	planning-with-files	76	69	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:46	baseline	planning-with-files	69	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:46	baseline	planning-with-files	76	52	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:46	baseline	planning-with-files	52	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:46	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:46	baseline	planning-with-files	76	88	baseline	-		dry_run
+2026-07-15T17:46	baseline	planning-with-files	88	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:46	baseline	planning-with-files	76	59	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:46	baseline	planning-with-files	59	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:46	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:46	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:46	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:46	baseline	astryx	75	76	baseline	-	dim7_long	dry_run
+2026-07-15T17:46	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T17:46	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T17:46	baseline	viral-content	70	80	baseline	-		dry_run
+2026-07-15T17:46	baseline	auto-configs	45	45	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:46	baseline	auto-decisions	48	48	baseline	-	dim1_no_description,dim3_no_failure_mode,dim7_too_long,dim9_no_blacklist	dry_run
+2026-07-15T17:46	baseline	auto-code-snippets	50	50	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources	dry_run
+2026-07-15T17:46	baseline	auto-commands	72	72	baseline	-	dim1_no_description,dim7_too_long	dry_run
+2026-07-15T17:46	baseline	auto-errors	44	44	baseline	-	dim1_no_description,dim2_weak_workflow,dim4_no_checkpoint,dim7_too_long,dim9_no_blacklist	dry_run
+2026-07-15T17:46	baseline	auto-learning	82	82	baseline	-		dry_run
+2026-07-15T17:46	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T17:46	baseline	knowledge-bridge	62	62	baseline	-	dim2_weak_workflow,dim3_no_failure_mode	dry_run
+2026-07-15T17:46	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T17:46	baseline	project-analysis	72	72	baseline	-	dim1_missing_name	dry_run
+2026-07-15T17:46	baseline	siriusec-dev	86	86	baseline	-		dry_run
+2026-07-15T17:46	baseline	cybersecurity-expert	86	86	baseline	-		dry_run
+2026-07-15T17:46	baseline	using-git-worktrees	81	81	baseline	-		dry_run
+2026-07-15T17:46	baseline	test-driven-development	74	81	baseline	-		dry_run
+2026-07-15T17:46	baseline	systematic-debugging	79	79	baseline	-		dry_run
+2026-07-15T17:46	baseline	using-superpowers	70	70	baseline	-		dry_run
+2026-07-15T17:46	baseline	dispatching-parallel-agents	62	62	baseline	-	dim2_weak_workflow,dim5_not_specific	dry_run
+2026-07-15T17:46	baseline	executing-plans	72	72	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:46	baseline	finishing-a-development-branch	83	83	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:46	baseline	brainstorming	61	61	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:46	baseline	writing-plans	79	79	baseline	-		dry_run
+2026-07-15T17:46	baseline	requesting-code-review	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:46	baseline	receiving-code-review	66	66	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:46	baseline	writing-skills	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T17:46	baseline	verification-before-completion	74	79	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:46	baseline	subagent-driven-development	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:46	baseline	playwright-connect-existing	80	80	baseline	-		dry_run
+2026-07-15T17:46	baseline	openspec	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T17:47	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:47	baseline	planning-with-files	76	69	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:47	baseline	planning-with-files	69	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:47	baseline	planning-with-files	76	52	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:47	baseline	planning-with-files	52	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:47	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:47	baseline	planning-with-files	76	88	baseline	-		dry_run
+2026-07-15T17:47	baseline	planning-with-files	88	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:47	baseline	planning-with-files	76	59	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:47	baseline	planning-with-files	59	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:47	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:47	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:47	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:47	baseline	astryx	76	79	baseline	-	dim7_long	dry_run
+2026-07-15T17:47	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T17:47	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T17:47	baseline	viral-content	80	80	baseline	-		dry_run
+2026-07-15T17:47	baseline	auto-configs	45	45	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:47	baseline	auto-decisions	48	48	baseline	-	dim1_no_description,dim3_no_failure_mode,dim7_too_long,dim9_no_blacklist	dry_run
+2026-07-15T17:47	baseline	auto-code-snippets	50	50	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources	dry_run
+2026-07-15T17:47	baseline	auto-commands	72	72	baseline	-	dim1_no_description,dim7_too_long	dry_run
+2026-07-15T17:47	baseline	auto-errors	44	44	baseline	-	dim1_no_description,dim2_weak_workflow,dim4_no_checkpoint,dim7_too_long,dim9_no_blacklist	dry_run
+2026-07-15T17:47	baseline	auto-learning	82	82	baseline	-		dry_run
+2026-07-15T17:47	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T17:47	baseline	knowledge-bridge	62	62	baseline	-	dim2_weak_workflow,dim3_no_failure_mode	dry_run
+2026-07-15T17:47	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T17:47	baseline	project-analysis	72	72	baseline	-	dim1_missing_name	dry_run
+2026-07-15T17:47	baseline	siriusec-dev	86	86	baseline	-		dry_run
+2026-07-15T17:47	baseline	cybersecurity-expert	86	86	baseline	-		dry_run
+2026-07-15T17:47	baseline	using-git-worktrees	81	81	baseline	-		dry_run
+2026-07-15T17:47	baseline	test-driven-development	81	81	baseline	-		dry_run
+2026-07-15T17:47	baseline	systematic-debugging	79	81	baseline	-		dry_run
+2026-07-15T17:47	baseline	using-superpowers	70	70	baseline	-		dry_run
+2026-07-15T17:47	baseline	dispatching-parallel-agents	62	62	baseline	-	dim2_weak_workflow,dim5_not_specific	dry_run
+2026-07-15T17:48	baseline	executing-plans	72	72	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:48	baseline	finishing-a-development-branch	83	83	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:48	baseline	brainstorming	61	61	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:48	baseline	writing-plans	79	79	baseline	-		dry_run
+2026-07-15T17:48	baseline	requesting-code-review	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:48	baseline	receiving-code-review	66	66	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:48	baseline	writing-skills	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T17:48	baseline	verification-before-completion	79	83	baseline	-		dry_run
+2026-07-15T17:48	baseline	subagent-driven-development	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:48	baseline	playwright-connect-existing	80	80	baseline	-		dry_run
+2026-07-15T17:48	baseline	openspec	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T17:50	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:50	baseline	planning-with-files	76	69	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:50	baseline	planning-with-files	69	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:50	baseline	planning-with-files	76	52	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:50	baseline	planning-with-files	52	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:50	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:50	baseline	planning-with-files	76	88	baseline	-		dry_run
+2026-07-15T17:50	baseline	planning-with-files	88	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:50	baseline	planning-with-files	76	59	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:50	baseline	planning-with-files	59	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:50	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:50	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:50	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:50	baseline	astryx	79	83	baseline	-		dry_run
+2026-07-15T17:50	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T17:50	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T17:50	baseline	viral-content	80	80	baseline	-		dry_run
+2026-07-15T17:50	baseline	auto-configs	45	45	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:50	baseline	auto-decisions	48	48	baseline	-	dim1_no_description,dim3_no_failure_mode,dim7_too_long,dim9_no_blacklist	dry_run
+2026-07-15T17:50	baseline	auto-code-snippets	50	50	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources	dry_run
+2026-07-15T17:50	baseline	auto-commands	72	72	baseline	-	dim1_no_description,dim7_too_long	dry_run
+2026-07-15T17:50	baseline	auto-errors	44	44	baseline	-	dim1_no_description,dim2_weak_workflow,dim4_no_checkpoint,dim7_too_long,dim9_no_blacklist	dry_run
+2026-07-15T17:50	baseline	auto-learning	82	82	baseline	-		dry_run
+2026-07-15T17:50	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T17:50	baseline	knowledge-bridge	62	62	baseline	-	dim2_weak_workflow,dim3_no_failure_mode	dry_run
+2026-07-15T17:50	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T17:50	baseline	project-analysis	72	72	baseline	-	dim1_missing_name	dry_run
+2026-07-15T17:50	baseline	siriusec-dev	86	86	baseline	-		dry_run
+2026-07-15T17:50	baseline	cybersecurity-expert	86	86	baseline	-		dry_run
+2026-07-15T17:50	baseline	using-git-worktrees	81	81	baseline	-		dry_run
+2026-07-15T17:50	baseline	test-driven-development	81	81	baseline	-		dry_run
+2026-07-15T17:50	baseline	systematic-debugging	81	81	baseline	-		dry_run
+2026-07-15T17:50	baseline	using-superpowers	70	70	baseline	-		dry_run
+2026-07-15T17:50	baseline	dispatching-parallel-agents	62	62	baseline	-	dim2_weak_workflow,dim5_not_specific	dry_run
+2026-07-15T17:50	baseline	executing-plans	72	72	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:50	baseline	finishing-a-development-branch	83	83	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:50	baseline	brainstorming	61	61	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:50	baseline	writing-plans	79	79	baseline	-		dry_run
+2026-07-15T17:50	baseline	requesting-code-review	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:50	baseline	receiving-code-review	66	66	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:50	baseline	writing-skills	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T17:50	baseline	verification-before-completion	83	83	baseline	-		dry_run
+2026-07-15T17:50	baseline	subagent-driven-development	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:50	baseline	playwright-connect-existing	80	80	baseline	-		dry_run
+2026-07-15T17:50	baseline	openspec	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T17:51	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:51	baseline	planning-with-files	76	69	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:51	baseline	planning-with-files	69	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:51	baseline	planning-with-files	76	52	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:51	baseline	planning-with-files	52	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:51	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:51	baseline	planning-with-files	76	88	baseline	-		dry_run
+2026-07-15T17:51	baseline	planning-with-files	88	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:51	baseline	planning-with-files	76	59	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:51	baseline	planning-with-files	59	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:51	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:51	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:51	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:51	baseline	astryx	83	83	baseline	-		dry_run
+2026-07-15T17:51	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T17:51	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T17:51	baseline	viral-content	80	80	baseline	-		dry_run
+2026-07-15T17:51	baseline	auto-configs	45	45	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:51	baseline	auto-decisions	48	48	baseline	-	dim1_no_description,dim3_no_failure_mode,dim7_too_long,dim9_no_blacklist	dry_run
+2026-07-15T17:51	baseline	auto-code-snippets	50	50	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources	dry_run
+2026-07-15T17:51	baseline	auto-commands	72	72	baseline	-	dim1_no_description,dim7_too_long	dry_run
+2026-07-15T17:51	baseline	auto-errors	44	44	baseline	-	dim1_no_description,dim2_weak_workflow,dim4_no_checkpoint,dim7_too_long,dim9_no_blacklist	dry_run
+2026-07-15T17:51	baseline	auto-learning	82	82	baseline	-		dry_run
+2026-07-15T17:51	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T17:51	baseline	knowledge-bridge	62	62	baseline	-	dim2_weak_workflow,dim3_no_failure_mode	dry_run
+2026-07-15T17:51	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T17:51	baseline	project-analysis	72	72	baseline	-	dim1_missing_name	dry_run
+2026-07-15T17:51	baseline	siriusec-dev	86	86	baseline	-		dry_run
+2026-07-15T17:51	baseline	cybersecurity-expert	86	86	baseline	-		dry_run
+2026-07-15T17:51	baseline	using-git-worktrees	81	81	baseline	-		dry_run
+2026-07-15T17:51	baseline	test-driven-development	81	81	baseline	-		dry_run
+2026-07-15T17:51	baseline	systematic-debugging	81	81	baseline	-		dry_run
+2026-07-15T17:51	baseline	using-superpowers	70	70	baseline	-		dry_run
+2026-07-15T17:51	baseline	dispatching-parallel-agents	62	62	baseline	-	dim2_weak_workflow,dim5_not_specific	dry_run
+2026-07-15T17:51	baseline	executing-plans	72	72	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:51	baseline	finishing-a-development-branch	83	83	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:51	baseline	brainstorming	61	61	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:51	baseline	writing-plans	79	79	baseline	-		dry_run
+2026-07-15T17:51	baseline	requesting-code-review	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:51	baseline	receiving-code-review	66	66	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:51	baseline	writing-skills	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T17:51	baseline	verification-before-completion	83	83	baseline	-		dry_run
+2026-07-15T17:51	baseline	subagent-driven-development	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:51	baseline	playwright-connect-existing	80	80	baseline	-		dry_run
+2026-07-15T17:51	baseline	openspec	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T17:51	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:51	baseline	planning-with-files	76	69	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:51	baseline	planning-with-files	69	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:51	baseline	planning-with-files	76	52	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:51	baseline	planning-with-files	52	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:51	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:51	baseline	planning-with-files	76	88	baseline	-		dry_run
+2026-07-15T17:51	baseline	planning-with-files	88	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:51	baseline	planning-with-files	76	59	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:51	baseline	planning-with-files	59	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:51	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:51	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-15T17:51	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-15T17:51	baseline	astryx	83	83	baseline	-		dry_run
+2026-07-15T17:51	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-15T17:51	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-15T17:51	baseline	viral-content	80	80	baseline	-		dry_run
+2026-07-15T17:51	baseline	auto-configs	45	45	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-15T17:51	baseline	auto-decisions	48	48	baseline	-	dim1_no_description,dim3_no_failure_mode,dim7_too_long,dim9_no_blacklist	dry_run
+2026-07-15T17:51	baseline	auto-code-snippets	50	50	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources	dry_run
+2026-07-15T17:51	baseline	auto-commands	72	72	baseline	-	dim1_no_description,dim7_too_long	dry_run
+2026-07-15T17:51	baseline	auto-errors	44	44	baseline	-	dim1_no_description,dim2_weak_workflow,dim4_no_checkpoint,dim7_too_long,dim9_no_blacklist	dry_run
+2026-07-15T17:51	baseline	auto-learning	82	82	baseline	-		dry_run
+2026-07-15T17:51	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-15T17:51	baseline	knowledge-bridge	62	62	baseline	-	dim2_weak_workflow,dim3_no_failure_mode	dry_run
+2026-07-15T17:51	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-15T17:51	baseline	project-analysis	72	72	baseline	-	dim1_missing_name	dry_run
+2026-07-15T17:51	baseline	siriusec-dev	86	86	baseline	-		dry_run
+2026-07-15T17:51	baseline	cybersecurity-expert	86	86	baseline	-		dry_run
+2026-07-15T17:51	baseline	using-git-worktrees	81	81	baseline	-		dry_run
+2026-07-15T17:51	baseline	test-driven-development	81	81	baseline	-		dry_run
+2026-07-15T17:51	baseline	systematic-debugging	81	81	baseline	-		dry_run
+2026-07-15T17:51	baseline	using-superpowers	70	70	baseline	-		dry_run
+2026-07-15T17:51	baseline	dispatching-parallel-agents	62	62	baseline	-	dim2_weak_workflow,dim5_not_specific	dry_run
+2026-07-15T17:51	baseline	executing-plans	72	72	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:51	baseline	finishing-a-development-branch	83	83	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:51	baseline	brainstorming	61	61	baseline	-	dim5_not_specific	dry_run
+2026-07-15T17:51	baseline	writing-plans	79	79	baseline	-		dry_run
+2026-07-15T17:51	baseline	requesting-code-review	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:51	baseline	receiving-code-review	66	66	baseline	-	dim6_no_resources	dry_run
+2026-07-15T17:51	baseline	writing-skills	83	83	baseline	-	dim7_long	dry_run
+2026-07-15T17:51	baseline	verification-before-completion	83	83	baseline	-		dry_run
+2026-07-15T17:51	baseline	subagent-driven-development	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-15T17:51	baseline	playwright-connect-existing	80	80	baseline	-		dry_run
+2026-07-15T17:51	baseline	openspec	83	83	baseline	-	dim7_long	dry_run
+2026-07-16T17:30	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-16T17:30	baseline	planning-with-files	76	69	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-16T17:30	baseline	planning-with-files	69	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-16T17:30	baseline	planning-with-files	76	52	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-16T17:30	baseline	planning-with-files	52	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-16T17:30	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-16T17:30	baseline	planning-with-files	76	88	baseline	-		dry_run
+2026-07-16T17:30	baseline	planning-with-files	88	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-16T17:30	baseline	planning-with-files	76	59	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-16T17:30	baseline	planning-with-files	59	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-16T17:30	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-16T17:30	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-16T17:30	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-16T17:30	baseline	astryx	83	83	baseline	-		dry_run
+2026-07-16T17:30	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-16T17:30	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-16T17:30	baseline	viral-content	80	80	baseline	-		dry_run
+2026-07-16T17:30	baseline	auto-configs	45	45	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-16T17:30	baseline	auto-decisions	48	48	baseline	-	dim1_no_description,dim3_no_failure_mode,dim7_too_long,dim9_no_blacklist	dry_run
+2026-07-16T17:30	baseline	auto-code-snippets	50	50	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources	dry_run
+2026-07-16T17:30	baseline	auto-commands	72	72	baseline	-	dim1_no_description,dim7_too_long	dry_run
+2026-07-16T17:30	baseline	auto-errors	44	44	baseline	-	dim1_no_description,dim2_weak_workflow,dim4_no_checkpoint,dim7_too_long,dim9_no_blacklist	dry_run
+2026-07-16T17:30	baseline	auto-learning	82	82	baseline	-		dry_run
+2026-07-16T17:30	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-16T17:30	baseline	knowledge-bridge	62	62	baseline	-	dim2_weak_workflow,dim3_no_failure_mode	dry_run
+2026-07-16T17:30	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-16T17:30	baseline	project-analysis	72	72	baseline	-	dim1_missing_name	dry_run
+2026-07-16T17:30	baseline	siriusec-dev	86	86	baseline	-		dry_run
+2026-07-16T17:30	baseline	cybersecurity-expert	86	86	baseline	-		dry_run
+2026-07-16T17:30	baseline	using-git-worktrees	81	81	baseline	-		dry_run
+2026-07-16T17:30	baseline	test-driven-development	81	81	baseline	-		dry_run
+2026-07-16T17:30	baseline	systematic-debugging	81	81	baseline	-		dry_run
+2026-07-16T17:30	baseline	using-superpowers	70	70	baseline	-		dry_run
+2026-07-16T17:30	baseline	dispatching-parallel-agents	62	62	baseline	-	dim2_weak_workflow,dim5_not_specific	dry_run
+2026-07-16T17:30	baseline	executing-plans	72	72	baseline	-	dim5_not_specific	dry_run
+2026-07-16T17:30	baseline	finishing-a-development-branch	83	83	baseline	-	dim6_no_resources	dry_run
+2026-07-16T17:30	baseline	brainstorming	61	61	baseline	-	dim5_not_specific	dry_run
+2026-07-16T17:30	baseline	writing-plans	79	79	baseline	-		dry_run
+2026-07-16T17:30	baseline	requesting-code-review	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-16T17:30	baseline	receiving-code-review	66	66	baseline	-	dim6_no_resources	dry_run
+2026-07-16T17:30	baseline	writing-skills	83	83	baseline	-	dim7_long	dry_run
+2026-07-16T17:30	baseline	verification-before-completion	83	83	baseline	-		dry_run
+2026-07-16T17:30	baseline	subagent-driven-development	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-16T17:30	baseline	playwright-connect-existing	80	80	baseline	-		dry_run
+2026-07-16T17:30	baseline	openspec	83	83	baseline	-	dim7_long	dry_run
+2026-07-17T17:30	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-17T17:30	baseline	planning-with-files	76	69	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-17T17:30	baseline	planning-with-files	69	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-17T17:30	baseline	planning-with-files	76	52	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-17T17:30	baseline	planning-with-files	52	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-17T17:30	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-17T17:30	baseline	planning-with-files	76	88	baseline	-		dry_run
+2026-07-17T17:30	baseline	planning-with-files	88	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-17T17:30	baseline	planning-with-files	76	59	baseline	-	dim2_weak_workflow,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-17T17:30	baseline	planning-with-files	59	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-17T17:30	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-17T17:30	baseline	planning-with-files	76	76	baseline	-	dim4_no_checkpoint	dry_run
+2026-07-17T17:30	baseline	plan-review-gate	65	65	baseline	-	dim3_no_failure_mode	dry_run
+2026-07-17T17:30	baseline	astryx	83	83	baseline	-		dry_run
+2026-07-17T17:30	baseline	autoresearch	72	72	baseline	-		dry_run
+2026-07-17T17:30	baseline	web-access	82	82	baseline	-		dry_run
+2026-07-17T17:30	baseline	viral-content	80	80	baseline	-		dry_run
+2026-07-17T17:30	baseline	auto-configs	45	45	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim9_no_blacklist	dry_run
+2026-07-17T17:30	baseline	auto-decisions	48	48	baseline	-	dim1_no_description,dim3_no_failure_mode,dim7_too_long,dim9_no_blacklist	dry_run
+2026-07-17T17:30	baseline	auto-code-snippets	50	50	baseline	-	dim1_no_description,dim2_weak_workflow,dim3_no_failure_mode,dim4_no_checkpoint,dim6_no_resources	dry_run
+2026-07-17T17:30	baseline	auto-commands	72	72	baseline	-	dim1_no_description,dim7_too_long	dry_run
+2026-07-17T17:30	baseline	auto-errors	44	44	baseline	-	dim1_no_description,dim2_weak_workflow,dim4_no_checkpoint,dim7_too_long,dim9_no_blacklist	dry_run
+2026-07-17T17:30	baseline	auto-learning	82	82	baseline	-		dry_run
+2026-07-17T17:30	baseline	autocli-skill	68	68	baseline	-	dim2_weak_workflow,dim7_long	dry_run
+2026-07-17T17:30	baseline	knowledge-bridge	62	62	baseline	-	dim2_weak_workflow,dim3_no_failure_mode	dry_run
+2026-07-17T17:30	baseline	darwin-skill	88	88	baseline	-		dry_run
+2026-07-17T17:30	baseline	project-analysis	72	72	baseline	-	dim1_missing_name	dry_run
+2026-07-17T17:30	baseline	siriusec-dev	86	86	baseline	-		dry_run
+2026-07-17T17:30	baseline	cybersecurity-expert	86	86	baseline	-		dry_run
+2026-07-17T17:30	baseline	using-git-worktrees	81	81	baseline	-		dry_run
+2026-07-17T17:30	baseline	test-driven-development	81	81	baseline	-		dry_run
+2026-07-17T17:30	baseline	systematic-debugging	81	81	baseline	-		dry_run
+2026-07-17T17:30	baseline	using-superpowers	70	70	baseline	-		dry_run
+2026-07-17T17:30	baseline	dispatching-parallel-agents	62	62	baseline	-	dim2_weak_workflow,dim5_not_specific	dry_run
+2026-07-17T17:30	baseline	executing-plans	72	72	baseline	-	dim5_not_specific	dry_run
+2026-07-17T17:30	baseline	finishing-a-development-branch	83	83	baseline	-	dim6_no_resources	dry_run
+2026-07-17T17:30	baseline	brainstorming	61	61	baseline	-	dim5_not_specific	dry_run
+2026-07-17T17:30	baseline	writing-plans	79	79	baseline	-		dry_run
+2026-07-17T17:30	baseline	requesting-code-review	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-17T17:30	baseline	receiving-code-review	66	66	baseline	-	dim6_no_resources	dry_run
+2026-07-17T17:30	baseline	writing-skills	83	83	baseline	-	dim7_long	dry_run
+2026-07-17T17:30	baseline	verification-before-completion	83	83	baseline	-		dry_run
+2026-07-17T17:30	baseline	subagent-driven-development	63	63	baseline	-	dim2_weak_workflow	dry_run
+2026-07-17T17:30	baseline	playwright-connect-existing	80	80	baseline	-		dry_run
+2026-07-17T17:30	baseline	openspec	83	83	baseline	-	dim7_long	dry_run
