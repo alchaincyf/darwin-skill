@@ -157,7 +157,7 @@ Agent Skill 生态在快速扩张。Claude Code、Codex、OpenClaw、Trae、Code
 
 **Phase 2 的核心逻辑**（v2.0 强化）：
 
-1. 找出得分最低的维度
+1. 找出加权短板最大的维度（weighted_gap = weight × (10 − score) / 10，避免低权重维度制造进步幻觉）
 2. 针对该维度生成 1 个具体改进方案（一轮只改一个维度，反例黑名单第 5 条）
 3. 编辑 SKILL.md，git commit
 4. 启动 **2 个独立子 agent** 重新评分（下一轮换全新评委，避免锚定）
