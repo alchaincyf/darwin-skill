@@ -153,7 +153,7 @@ Five phases. The system runs autonomously within each phase but pauses between p
 
 **Phase 2 (the heart, hardened in v2.0):**
 
-1. Find the lowest-scoring dimension
+1. Find the dimension with the largest weighted gap (weighted_gap = weight × (10 − score) / 10, so low-weight dimensions can't fake progress)
 2. Generate one targeted improvement (one dimension per round, blacklist #5)
 3. Edit SKILL.md, git commit
 4. **Spawn 2 independent sub-agents** to re-score (next round spawns fresh judges to avoid anchoring)

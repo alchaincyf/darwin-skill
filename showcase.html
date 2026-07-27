@@ -713,17 +713,21 @@
 <div class="container">
   <section class="section">
     <div class="section-num">02</div>
-    <h2 class="section-title">8维度<br>评估体系</h2>
-    <p class="section-lead">100分评估体系。结构维度捕捉你能看到的问题，效果维度捕捉只有运行时才能感知的问题。</p>
+    <h2 class="section-title">9维度<br>评估体系</h2>
+    <p class="section-lead">100分评估体系。结构维度捕捉你能看到的问题，效果维度捕捉只有运行时才能感知的问题，Meta 维度检查「不要做什么」的反例编码。</p>
 
     <div class="rubric-header">
       <div class="rubric-stat">
-        <div class="rubric-stat-num">60</div>
+        <div class="rubric-stat-num">59</div>
         <div class="rubric-stat-label">结构<br>分值</div>
       </div>
       <div class="rubric-stat">
-        <div class="rubric-stat-num rubric-stat-num--accent">40</div>
+        <div class="rubric-stat-num rubric-stat-num--accent">35</div>
         <div class="rubric-stat-label">效果<br>分值</div>
+      </div>
+      <div class="rubric-stat">
+        <div class="rubric-stat-num">6</div>
+        <div class="rubric-stat-label">Meta<br>分值</div>
       </div>
     </div>
 
@@ -741,37 +745,37 @@
         <tr>
           <td class="dim-num">1</td>
           <td class="dim-name">Frontmatter质量</td>
-          <td class="dim-weight">8</td>
-          <td class="dim-desc">名称正确，描述包含功能/触发条件/使用场景，不超过1024字符</td>
+          <td class="dim-weight">7</td>
+          <td class="dim-desc">名称正确，描述包含功能/触发条件/使用场景，不超过1024字符，禁空话尾巴</td>
         </tr>
         <tr>
           <td class="dim-num">2</td>
           <td class="dim-name">工作流清晰度</td>
-          <td class="dim-weight">15</td>
+          <td class="dim-weight">12</td>
           <td class="dim-desc">步骤有编号、可执行，每步都有明确的输入/输出</td>
         </tr>
         <tr>
           <td class="dim-num">3</td>
-          <td class="dim-name">边界条件覆盖</td>
-          <td class="dim-weight">10</td>
-          <td class="dim-desc">错误处理、降级方案、常见故障恢复</td>
+          <td class="dim-name">失败模式编码</td>
+          <td class="dim-weight">12</td>
+          <td class="dim-desc">显式写出「如果 X 失败 → Y」的分支，有 fallback 路径与错误恢复</td>
         </tr>
         <tr>
           <td class="dim-num">4</td>
           <td class="dim-name">检查点设计</td>
-          <td class="dim-weight">7</td>
-          <td class="dim-desc">关键决策前需用户确认，防止自主失控</td>
+          <td class="dim-weight">6</td>
+          <td class="dim-desc">关键决策前需用户确认，检查点须显性标记（🔴/STOP/CHECKPOINT）</td>
         </tr>
         <tr>
           <td class="dim-num">5</td>
-          <td class="dim-name">指令具体性</td>
-          <td class="dim-weight">15</td>
-          <td class="dim-desc">无歧义，具体的参数/格式/示例，可直接执行</td>
+          <td class="dim-name">可执行具体性</td>
+          <td class="dim-weight">18</td>
+          <td class="dim-desc">无歧义，具体的参数/格式/示例，禁「视情况而定」类软化措辞</td>
         </tr>
         <tr>
           <td class="dim-num">6</td>
           <td class="dim-name">资源整合度</td>
-          <td class="dim-weight">5</td>
+          <td class="dim-weight">4</td>
           <td class="dim-desc">所有引用的脚本/资产路径存在且可访问</td>
         </tr>
       </tbody>
@@ -791,14 +795,34 @@
         <tr>
           <td class="dim-num">7</td>
           <td class="dim-name">整体架构</td>
-          <td class="dim-weight">15</td>
+          <td class="dim-weight">12</td>
           <td class="dim-desc">层次清晰，无冗余或遗漏，符合生态系统约定</td>
         </tr>
         <tr>
           <td class="dim-num">8</td>
           <td class="dim-name">实测表现</td>
-          <td class="dim-weight">25</td>
+          <td class="dim-weight">23</td>
           <td class="dim-desc">运行2-3个测试提示词，对比启用 Skill 和 baseline 的输出质量</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="rubric-table">
+      <caption>Meta-skill 维度 &mdash; 反例与黑名单</caption>
+      <thead>
+        <tr>
+          <th style="width:36px">#</th>
+          <th style="width:180px">维度</th>
+          <th style="width:60px">权重</th>
+          <th>评分标准</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="dim-num">9</td>
+          <td class="dim-name">反例与黑名单</td>
+          <td class="dim-weight">6</td>
+          <td class="dim-desc">必须有「不要做什么」的反例清单，红灯/危险动作/反模式单独章节列出</td>
         </tr>
       </tbody>
     </table>
@@ -872,9 +896,9 @@
         </div>
         <div class="phase-body">
           <h3>Hill-Climbing 循环</h3>
-          <p>按分数从低到高处理 Skill。每轮：诊断最弱维度，提出一个针对性修复，执行，重新评分，做出决定。</p>
+          <p>按分数从低到高处理 Skill。每轮：诊断加权短板最大的维度，提出一个针对性修复，执行，重新评分，做出决定。</p>
           <ol class="phase-steps">
-            <li>找出该 Skill 得分最低的维度</li>
+            <li>找出该 Skill 加权短板最大的维度（weight × (10 − score) / 10）</li>
             <li>生成一项具体改进（改什么，为什么改，预期分数变化）</li>
             <li>编辑 SKILL.md，用结构化消息 git commit</li>
             <li>重新评分：结构由主 Agent，效果由独立子 Agent</li>
@@ -1009,13 +1033,13 @@
         </tr>
         <tr>
           <td>评估指标</td>
-          <td>8维度评估体系</td>
-          <td>跨结构（60分）和效果（40分）的加权评分，总计100分。</td>
+          <td>9维度评估体系</td>
+          <td>跨结构（59分）、效果（35分）和 Meta（6分）的加权评分，总计100分。</td>
         </tr>
         <tr>
           <td>实验循环</td>
           <td>阶段2 hill-climbing</td>
-          <td>诊断最弱维度，提出修复，执行，重新评分，保留或回滚。每个 Skill 最多3轮。</td>
+          <td>诊断加权短板最大的维度，提出修复，执行，重新评分，保留或回滚。每个 Skill 最多3轮。</td>
         </tr>
         <tr>
           <td>版本控制</td>
