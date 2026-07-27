@@ -5,6 +5,7 @@ description: "Darwin Skill 2.0 (达尔文.skill 2.0): autonomous skill optimizer
 
 # Darwin Skill 2.0
 
+> **v2.1 · 2026-06-10** — keep/revert 棘轮从「绝对分数 delta」改为「**paired 同-judge 比较 + 奇数 N 多数决**」（绝对分数 ±8 judge 噪音淹没保守编辑的真实增益、是 false-revert 源；within-judge 比较消除换尺污染）。绝对分数降级为 triage-only。
 > **v2.0 · 2026-05-28** — 吸收 Microsoft Research SkillLens（arXiv 2605.23899）的 9 维评分药方 + SkillOpt（arXiv 2605.23904）的 validation-gated 验证机制 + human in the loop 三层守关。
 >
 > 借鉴 Karpathy autoresearch 的自主实验循环，对 skills 进行持续优化。
@@ -58,7 +59,8 @@ autoresearch 的精髓：
 - 维度1-7、9：每个维度打 1-10 分，乘以权重得到该维度得分
 - 维度8（实测表现）：跑2-3个测试prompt，按输出质量打1-10分
 - **总分 = Σ(维度分 × 权重) / 10**，满分100
-- 改进后总分必须 **严格高于** 改进前才保留
+- ⚠️ **绝对总分只用于 triage（粗排「哪支最弱、先改谁」），绝不用于 keep/revert**。实测：同一份**未改**文字换个 judge 评，总分可摆 **±8**（一支只加了 3 个 🔴 字元的 skill、单评却 −8.5，全是 judge 换尺、非真实退步）。keep/revert 一律走 **Phase 2 的 paired 比较**。
+  - **为什么**：LLM judge 给的是**抽样、不是测量**——分数住在「文字 × 该 judge 当下选的标准」里，不是文字属性。绝对总分 = 用**两台未校准磅秤**量节食前后，差值大半是磅秤差；paired = **同一台磅秤**量前后，误差相减抵销。pairwise preference >> absolute scoring 是 LLM judge 的已知结论（RLHF 用 pairwise 不用绝对分同因）。
 
 ### Rubric 的实证基础
 
@@ -138,7 +140,9 @@ for each skill:
 
 展示所有测试prompt给用户，**确认后再进入评估**。测试prompt的质量决定了优化方向是否正确。
 
-### Phase 1: 基线评估（Baseline）
+### Phase 1: 基线评估（Baseline）— triage 用途
+
+> **本阶段绝对分数是 triage 排名（决定先改谁），不是 keep/revert 基准**。judge 对 gross 差异会一致（「哪支最弱」可信），对 fine-grained delta 不可信（±8 噪音）。keep/revert 在 Phase 2 用 paired 比较。
 
 ```
 for each skill in 优化范围:
@@ -204,22 +208,25 @@ for each skill:
     编辑 SKILL.md
     git add + commit（message: "optimize {skill}: {改进摘要}"）
 
-    # Step 4: 重新评估
-    - 结构维度：主agent重新打分
-    - 效果维度：spawn独立子agent重跑测试prompt（关键！不能自己评自己）
+    # Step 4: Paired 重新评估（取代绝对重打分——绝对分数 judge 噪音 ±8、淹没保守编辑的 +3~8 真实增益）
+    spawn N=3 独立 judge，每个【同一次 call 内】读两版：
+      - 改前版：git show HEAD:<skill-path>/SKILL.md（上一个 kept commit）
+      - 改后版：working tree 当前 SKILL.md
+    照 9 维 rubric 当【比较准则】（不是各打绝对分），回 {better | worse | tie} + margin{clear|slight} + 一句理由。
+    关键：同一 judge 在一次 call 内比两版 → 它那把不准的尺对两版【等量作用、在比较时抵销】(within-judge cancellation)，
+    这正是 paired 优于绝对的机制。N 取奇数（默认 3；close call 升 5）。
 
-    # Step 5: 决策
-    if 新总分 > 旧总分:
-      status = "keep"，更新旧总分
-      # HL-4 见好就收：连续2轮 Δ < 2 分 → break 进 Phase 3
-      if last_delta < 2.0 and this_delta < 2.0:
-        print("触顶信号：连续2轮边际收益 < 2 分，停止优化避免过度调整")
-        break
-    else:
+    # Step 5: 共识决策（多数决，取代「新总分 > 旧总分」）
+    cur = 投 better 的 judge 数；wor = 投 worse 的；
+    if cur >= wor:  # 多数说改后 ≥ 改前（含 tie）
+      status = "keep"
+      # HL-4 见好就收：连续 2 轮多数 judge 判 margin=slight 或 tie → break 进 Phase 3
+    else:           # 多数说 worse —— 这才是真退步（已扣掉换尺噪音）
       status = "revert"
-      git revert HEAD（创建新commit回滚，不用reset --hard）
-      记录失败尝试到 results.tsv
-      break  # 该skill到瓶颈，跳到下一个
+      git revert HEAD（创建新commit回滚，不用 reset --hard）
+      记录到 results.tsv（note 记 vote 比数 + 一句 worse 理由）
+      break
+    # 单评绝对分数出现「负 delta」≠ revert 信号；必须经 paired 多数判 worse 才 revert（否则在丢真实增益）
 
     # Step 6: 日志
     results.tsv 追加行
@@ -287,7 +294,11 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 2026-03-31T10:10	b2c3d4e	huashu-proofreading	84	82	revert	指令具体性	过度细化	dry_run
 ```
 
-新增 `eval_mode` 列：`full_test`（跑了子agent测试）或 `dry_run`（模拟推演）。
+`eval_mode` 列：`paired`（同 judge 比改前/改后，**keep/revert 权威依据**）｜`full_test`（子agent 跑 prompt）｜`dry_run`（模拟推演、仅供参考）。
+paired 行：`new_score` 栏记 vote 比数（如 `3-0 better`），`note` 记一句裁断理由。例：
+```tsv
+2026-06-10T06:30	paired	some-skill	（绝对 87.3→78.8 = judge 噪音）	3-0 better	paired 推翻单评假退步	paired
+```
 文件位置：`.claude/skills/darwin-skill/results.tsv`
 
 ---
@@ -363,7 +374,8 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 
 | # | 反模式 | 为什么不要做 | 替代做法 |
 |---|---|---|---|
-| 1 | **同 context 自评自改** | 改完后立刻在同一 Claude session 打分，会有「我刚改的肯定更好」乐观偏差（SkillLens 实证 LLM-as-judge 准确率仅 46.4%）| 必须 spawn **独立子 agent** 评分，且至少 2 个 judge 共识才信 |
+| 1 | **同 context 自评自改** | 改完后立刻在同一 Claude session 打分，会有「我刚改的肯定更好」乐观偏差（SkillLens 实证 LLM-as-judge 准确率仅 46.4%）| 必须 spawn **独立子 agent**；keep/revert 走 **paired 比较**（同 judge 一次读改前+改后）的**奇数 N 多数决**，**不用绝对分数 delta**（绝对分跨 judge ±8 噪音、不可比） |
+| 1b | **拿绝对分数 delta 当 keep/revert 棘轮** | 绝对总分是抽样不是测量；baseline judge 与 rescore judge 用不同「标准尺」，差值大半是换尺、非真实质量变化（实测一支纯加标记的 skill 单评 −8.5、全是换尺）| 绝对分只做 triage 排名；keep/revert 用 paired 多数决，within-judge cancellation 消除换尺污染 |
 | 2 | **`git reset --hard` 当回滚** | 会丢工作树未提交改动；CI 历史断裂 | 用 `git revert HEAD` 创建反向 commit，保留可追溯链 |
 | 3 | **为凑分增冗余** | 触顶后继续硬改往往是「加废话/加段落让 LLM 觉得更详细」，实际质量不变 | 触顶信号（连续 2 轮 Δ<2 分）→ break 进 Phase 3，**见好就收** |
 | 4 | **跳过 test-prompts 直接评分** | 没有 test-prompts 的 dim8 是凭空打分，权重 23% 等于编造 | Phase 0.5 强制设计 2-3 prompts；若用户不给，默认编 3 个并展示确认 |
@@ -426,8 +438,8 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 本skill的对应关系：
 - **program.md** → 本文件（评估rubric和约束规则）
 - **train.py** → 每个SKILL.md
-- **val_bpb** → 9维加权总分（含实测表现 + meta-skill 反例黑名单）
-- **git ratchet** → 只保留有改进的commit
+- **val_bpb** → ⚠️ **此处是 1.0 的概念错误源**：autoresearch 的 `val_bpb` 是**确定性 loss**（重跑同数），darwin 套到 **LLM-judge 分数（随机抽样）** 上却沿用「绝对值比大小」棘轮 → 不可重复的数当可重复用。修正：9 维 rubric 当 **paired 比较准则**、不当绝对 metric
+- **git ratchet** → 保留 paired 多数判「改后 ≥ 改前」的 commit（不是「绝对总分更高」的 commit）
 - **test set** → 每个skill的test-prompts.json
 
 区别：增加了人在回路（autoresearch是全自主的，skill优化需要人的判断力），以及双重评估机制（结构+效果），因为skill的「好坏」比loss数值更微妙。
