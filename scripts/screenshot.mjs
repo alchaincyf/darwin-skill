@@ -12,10 +12,34 @@
  */
 
 import { createRequire } from 'module';
+import { execSync } from 'child_process';
+import { existsSync } from 'fs';
+import path from 'path';
 const require = createRequire(import.meta.url);
 
-// 使用全局安装的 playwright-core
-const pw = require('/Users/alchain/.npm-global/lib/node_modules/playwright/node_modules/playwright-core');
+// 健壮解析 playwright / playwright-core：跨机器、跨平台，不硬编码任何用户路径
+function loadPlaywright() {
+  // 1) 标准解析（脚本目录或 NODE_PATH 里有的话）
+  for (const m of ['playwright', 'playwright-core']) {
+    try { return require(m); } catch {}
+  }
+  // 2) 动态定位全局 node_modules 并尝试候选路径
+  const candidates = [];
+  try {
+    const groot = execSync('npm root -g', { encoding: 'utf8' }).trim();
+    candidates.push(path.join(groot, 'playwright-core'));
+    candidates.push(path.join(groot, 'playwright'));
+    // openclaw 等把 playwright-core 作为嵌套依赖的情况
+    candidates.push(path.join(groot, 'openclaw', 'node_modules', 'playwright-core'));
+  } catch {}
+  for (const c of candidates) {
+    if (existsSync(c)) { try { return require(c); } catch {} }
+  }
+  throw new Error(
+    'playwright/playwright-core 未找到。请先安装：npm install -g playwright-core 且 npx playwright install chromium'
+  );
+}
+const pw = loadPlaywright();
 
 const htmlPath = process.argv[2] || new URL('../templates/result-card.html', import.meta.url).pathname;
 const outputPath = process.argv[3] || new URL('../templates/result-card.png', import.meta.url).pathname;
@@ -31,7 +55,7 @@ async function screenshot() {
 
     const page = await context.newPage();
 
-    await page.goto(`file://${htmlPath}`, { waitUntil: 'networkidle' });
+    await page.goto(`file://${htmlPath.replace(/\\/g,'/')}`, { waitUntil: 'networkidle' });
 
     // 等待字体加载
     await page.evaluate(() => document.fonts.ready);
@@ -56,9 +80,19 @@ async function screenshot() {
     await browser.close();
   }
 
-  // 自动打开图片
-  const { execSync } = require('child_process');
-  execSync(`open "${outputPath}"`);
+  // 自动打开图片（跨平台）
+  try {
+    if (process.platform === 'win32') {
+      execSync(`start "" "${outputPath}"`);
+    } else if (process.platform === 'darwin') {
+      execSync(`open "${outputPath}"`);
+    } else {
+      execSync(`xdg-open "${outputPath}"`);
+    }
+  } catch {
+    // 打不开也无妨，路径已打印
+    console.log(`图片已保存: ${outputPath}`);
+  }
 }
 
 screenshot().catch(err => {
