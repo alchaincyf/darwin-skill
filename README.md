@@ -187,6 +187,11 @@ npx skills add alchaincyf/darwin-skill
 
 无法访问 GitHub 的朋友，可以直接下载 zip 包：[darwin-skill.zip](https://pub-161ae4b5ed0644c4a43b5c6412287e03.r2.dev/skills/darwin-skill.zip)，解压后把 SKILL.md 放到 `~/.claude/skills/darwin-skill/` 目录即可。
 
+安全提示：
+
+- 在 git 仓库里跑优化，并先把你本地对 skill 的改动 commit 或 stash，这样 darwin.skill 才能干净地保留或回滚实验改动。
+- 进入下一轮优化前先审查 checkpoint 的 diff，尤其当 skill 涉及 shell 命令、git 操作、凭证、本地文件或发布流程时。
+
 ---
 
 ## 设计灵感
