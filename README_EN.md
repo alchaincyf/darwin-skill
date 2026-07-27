@@ -183,6 +183,11 @@ After installation, tell your agent: "optimize all skills" or "optimize [skill-n
 
 Can't access GitHub? Download the zip: [darwin-skill.zip](https://pub-161ae4b5ed0644c4a43b5c6412287e03.r2.dev/skills/darwin-skill.zip). Extract and place SKILL.md in `~/.claude/skills/darwin-skill/`.
 
+Safety notes:
+
+- Run optimization from a git repository and commit or stash your local skill edits first, so darwin.skill can keep or revert experiment changes cleanly.
+- Review the checkpoint diff before continuing to the next optimization round, especially when a skill touches shell commands, git operations, credentials, local files, or publishing workflows.
+
 ---
 
 ## Design Inspiration
