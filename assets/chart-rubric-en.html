@@ -220,7 +220,7 @@
   <div class="header">
     <div>
       <div class="rubric-label">EVALUATION RUBRIC</div>
-      <div class="title">darwin.skill — 8-Dimension Evaluation Rubric</div>
+      <div class="title">darwin.skill — 9-Dimension Evaluation Rubric</div>
       <div class="subtitle">Automated quality scoring framework for Claude skill optimization</div>
     </div>
   </div>
@@ -232,54 +232,54 @@
     <div class="panel">
       <div class="panel-header">
         <div class="panel-title">Structure</div>
-        <div class="panel-score">60 pts</div>
+        <div class="panel-score">59 pts</div>
       </div>
       <div class="bar-list">
 
         <div class="bar-item">
           <div class="bar-meta">
             <span class="bar-label">Frontmatter Quality</span>
-            <span class="bar-weight">8</span>
+            <span class="bar-weight">7</span>
           </div>
           <div class="bar-track">
-            <div class="bar-fill" style="width: calc(8/15*100%)"></div>
+            <div class="bar-fill" style="width: calc(7/18*100%)"></div>
           </div>
         </div>
 
         <div class="bar-item">
           <div class="bar-meta">
             <span class="bar-label">Workflow Clarity</span>
-            <span class="bar-weight">15</span>
+            <span class="bar-weight">12</span>
           </div>
           <div class="bar-track">
-            <div class="bar-fill" style="width: 100%"></div>
+            <div class="bar-fill" style="width: calc(12/18*100%)"></div>
           </div>
         </div>
 
         <div class="bar-item">
           <div class="bar-meta">
-            <span class="bar-label">Edge Case Coverage</span>
-            <span class="bar-weight">10</span>
+            <span class="bar-label">Failure Mode Encoding</span>
+            <span class="bar-weight">12</span>
           </div>
           <div class="bar-track">
-            <div class="bar-fill" style="width: calc(10/15*100%)"></div>
+            <div class="bar-fill" style="width: calc(12/18*100%)"></div>
           </div>
         </div>
 
         <div class="bar-item">
           <div class="bar-meta">
             <span class="bar-label">Checkpoint Design</span>
-            <span class="bar-weight">7</span>
+            <span class="bar-weight">6</span>
           </div>
           <div class="bar-track">
-            <div class="bar-fill" style="width: calc(7/15*100%)"></div>
+            <div class="bar-fill" style="width: calc(6/18*100%)"></div>
           </div>
         </div>
 
         <div class="bar-item">
           <div class="bar-meta">
-            <span class="bar-label">Instruction Specificity</span>
-            <span class="bar-weight">15</span>
+            <span class="bar-label">Actionable Specificity</span>
+            <span class="bar-weight">18</span>
           </div>
           <div class="bar-track">
             <div class="bar-fill" style="width: 100%"></div>
@@ -289,10 +289,10 @@
         <div class="bar-item">
           <div class="bar-meta">
             <span class="bar-label">Resource Integration</span>
-            <span class="bar-weight">5</span>
+            <span class="bar-weight">4</span>
           </div>
           <div class="bar-track">
-            <div class="bar-fill" style="width: calc(5/15*100%)"></div>
+            <div class="bar-fill" style="width: calc(4/18*100%)"></div>
           </div>
         </div>
 
@@ -306,24 +306,26 @@
     <div class="panel">
       <div class="panel-header">
         <div class="panel-title">Effectiveness</div>
-        <div class="panel-score orange">40 pts</div>
+        <div class="panel-score orange">35 pts</div>
+        <div class="panel-title" style="margin-left: 10px;">+ Meta</div>
+        <div class="panel-score">6 pts</div>
       </div>
       <div class="bar-list">
 
         <div class="bar-item large">
           <div class="bar-meta">
             <span class="bar-label">Overall Architecture</span>
-            <span class="bar-weight">15</span>
+            <span class="bar-weight">12</span>
           </div>
           <div class="bar-track">
-            <div class="bar-fill" style="width: calc(15/25*100%)"></div>
+            <div class="bar-fill" style="width: calc(12/23*100%)"></div>
           </div>
         </div>
 
         <div class="bar-item large" style="margin-top: 12px;">
           <div class="bar-meta" style="margin-bottom: 2px;">
             <span class="bar-label" style="color:#D4532B; font-size:14px; font-weight:700; letter-spacing:0.5px;">Live Test Performance</span>
-            <span class="bar-weight orange">25</span>
+            <span class="bar-weight orange">23</span>
           </div>
           <!-- Accent line above bar -->
           <div style="width:100%; height:1px; background:#D4532B; opacity:0.25; margin-bottom:6px;"></div>
@@ -331,6 +333,16 @@
             <div class="bar-fill orange" style="width:100%; height:100%;"></div>
           </div>
           <div style="font-size:11px; color:#D4532B; margin-top:5px; font-weight:600; letter-spacing:1px;">HIGHEST WEIGHT</div>
+        </div>
+
+        <div class="bar-item large" style="margin-top: 18px; padding-top: 16px; border-top: 1px solid #222222;">
+          <div class="bar-meta">
+            <span class="bar-label">Meta-skill · Counter-Example Blacklist</span>
+            <span class="bar-weight">6</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width: calc(6/23*100%)"></div>
+          </div>
         </div>
 
       </div>
