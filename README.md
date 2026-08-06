@@ -161,7 +161,7 @@ Agent Skill 生态在快速扩张。Claude Code、Codex、OpenClaw、Trae、Code
 2. 针对该维度生成 1 个具体改进方案（一轮只改一个维度，反例黑名单第 5 条）
 3. 编辑 SKILL.md，git commit
 4. 启动 **2 个独立子 agent** 重新评分（下一轮换全新评委，避免锚定）
-5. 新分 > 旧分 → 保留；否则 → `git revert`（禁用 `git reset --hard`，反例黑名单第 2 条）
+5. 新分高于旧分 → 保留；否则 → `git revert`（禁用 `git reset --hard`，反例黑名单第 2 条）
 6. 单轮涨幅 < 1 分 → 自动早停（避免凑分堆冗余）
 7. 🔴 CHECKPOINT 暂停，展示 diff + 分数变化，等用户确认
 
