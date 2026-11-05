@@ -401,6 +401,55 @@ paired 行：`new_score` 栏记 vote 比数（如 `3-0 better`），`note` 记�
 
 ---
 
+## 认知配置进化（--evolve 子命令）
+
+> v2.2 扩展 · 2026-11-05 — 进化对象从 SKILL.md 扩展到 **Cognitive Config IR**
+> （`cognitive-config.yaml`，规范见 https://github.com/alchaincyf/huashu-skills 附属
+> cognitive-config-ir-v0.1.md）。SKILL.md 教模型怎么干活，IR 记录「以什么认知状态干活」——
+> 后者才是 freud 认知准备、nuwa 蒸馏产物的可进化形态。
+
+### 与 Phase 2 的关系
+
+**同一套棘轮，换了资产**：
+
+| 机制 | SKILL.md 优化（Phase 2） | IR 进化（--evolve） |
+|------|------------------------|---------------------|
+| 单一可编辑资产 | SKILL.md | cognitive-config.yaml |
+| 评估 | 9 维 rubric + paired 多数决 | ir_lint（结构静态）+ 实测 fitness（同尺 paired） |
+| 变异 | 改进方案（dim 短板驱动） | 变异算子库（按诊断维度选，等价基因检测） |
+| keep/revert | paired 多数决 N=3 | 确定性代理指标 Δ（同尺 noise=0），slight 也算数 |
+| 回滚 | git revert 新 commit | 同左 |
+| 日志 | results.tsv 9 列 | 同左（eval_mode=full_test/dry_run） |
+| 触顶 | HL-4 连续 2 轮 slight/tie → break | 同左 |
+| 人在回路 | 🔴 CHECKPOINT 每 skill 后人审 | 无实测稿即 🛑 CHECKPOINT，等执行 agent |
+
+### 用法
+
+```bash
+python scripts/evolve_ir.py --config cognitive-config.yaml \
+    --edits-dir edits/ [--max-rounds 3] [--dry-run]
+```
+
+edits 目录约定：`edits/<config_version>.md` —— 各版本配置对应的**实测编辑稿**（由执行
+agent 按该配置编辑同一测试文章产生；引擎只评分与决策，编辑在人/agent 回路中完成）。
+
+### 变异算子与血统
+
+- 算子按诊断维度分组（加权 gap 最大维度优先）：句长约束/结构外化/段落拆分/套话清零/
+  事实锁定/骨架模板
+- 注入前做**等价基因检测**（归一化去括号），防止措辞微差的重复条目挤占工作空间
+- 每次变异升 `config_version` 并记 `parent`——血统链即进化树
+- 容量卫生硬约束：beliefs + decision_heuristics ≤ 7，lint 不过不可进化
+
+### 实测记录（2026-11-05 首轮）
+
+```
+v3.1 (0.858) ──para_split──▸ v3.2 (0.863, Δ+0.004 slight) → KEEP → commit
+v3.2 (0.863) ──cliche_zero─▸ v3.3 (0.861, Δ-0.001 slight) → REVERT（棘轮连微小退步也不放过）
+```
+
+---
+
 ## 使用方式
 
 ### 全量优化（推荐首次使用）
