@@ -1,8 +1,10 @@
 """darwin-skill --evolve <config.yaml> 参考实现 — Cognitive Config IR 进化引擎。
 
-对齐 darwin-skill v2.1 机制:
+对齐 darwin-skill v2.2 机制:
   - 单一可编辑资产 = cognitive-config.yaml（IR v0.1）
-  - 双重评估       = ir_lint（结构静态分析）+ edit_fitness（实测 4 维 weighted_sum）
+  - 双重评估       = ir_lint（结构静态分析）+ edit_fitness（实测加权维度）
+  - 可插拔评分     = Scorer Protocol：article-edit 用 _DefaultScorer(4维)，
+                     nuwa 蒸馏角色（munger/feynman/...）自动用 PersonaScorer(4维人设保真)
   - 棘轮           = paired 比较 keep/revert；revert 走 git revert（新 commit 回滚）
   - 日志           = results.tsv（darwin 9 列格式，eval_mode 列）
   - HL-4 触顶      = 连续 2 轮 margin=slight/tie → break
@@ -25,9 +27,25 @@ import sys
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Protocol
 
 import yaml  # PyYAML；Hermes 环境自带
+
+
+# ---------------------------------------------------------------------------
+# Pluggable Scorer Protocol (for persona skills like nuwa perspectives)
+# darwin-skill v2.2: 不同 skill 类型用不同评估维度；引擎只依赖该协议。
+# ---------------------------------------------------------------------------
+class Scorer(Protocol):
+    """Scorer for edit_fitness evaluation. Different skill types use different dimensions."""
+    @property
+    def dimensions(self) -> dict[str, float]:
+        """Returns {dimension_name: weight} for this scorer."""
+        ...
+
+    def score(self, text: str, ir: dict) -> Fitness:
+        """Score edited text against the IR context. Returns Fitness with dimension scores."""
+        ...
 
 
 # ---------------------------------------------------------------------------
@@ -174,10 +192,97 @@ def score_edit(text: str) -> Fitness:
 
 
 # ---------------------------------------------------------------------------
+# Persona Scorer (for nuwa distilled perspectives: munger/feynman/...)
+# darwin-skill v2.2: 角色一致性 = 人设保真而非文章优雅。
+# ---------------------------------------------------------------------------
+class PersonaScorer:
+    """Scorer for nuwa distilled perspectives (munger, feynman, etc.)."""
+    @property
+    def dimensions(self) -> dict[str, float]:
+        return {
+            "role_consistency": 0.35,    # 语气/词汇/句式是否稳定像该人
+            "belief_alignment": 0.30,    # 编辑结果是否体现 IR 的 beliefs/heuristics
+            "heuristic_relevance": 0.20, # 关键 heuristics 是否在文中被应用
+            "cognitive_load": 0.15,      # 保留一点结构可读性
+        }
+
+    def score(self, text: str, ir: dict) -> Fitness:
+        dims: dict[str, float] = {}
+        cfg = ir.get("cognitive_config", {})
+        beliefs = cfg.get("beliefs", [])
+        heuristics = cfg.get("decision_heuristics", [])
+
+        # role_consistency: 简单代理——文本词汇与信念/启发式的重叠率
+        words = set(re.findall(r"[\u4e00-\u9fff\w]+", text.lower()))
+        belief_words = set()
+        for b in beliefs:
+            belief_words.update(re.findall(r"[\u4e00-\u9fff\w]+", b))
+        heuristic_words = set()
+        for h in heuristics:
+            heuristic_words.update(re.findall(r"[\u4e00-\u9fff\w]+", h))
+        dims["role_consistency"] = min(
+            len(words & belief_words) / max(len(belief_words), 1) * 0.6
+            + len(words & heuristic_words) / max(len(heuristic_words), 1) * 0.4,
+            1.0)
+
+        # belief_alignment: 显式 belief 推断语义覆盖
+        dims["belief_alignment"] = sum(
+            1 for b in beliefs if any(w in text for w in b.split())
+        ) / max(len(beliefs), 1)
+
+        # heuristic_relevance: if-then heuristics 被触发/体现
+        def _heuristic_applied(h: str) -> bool:
+            if "if" in h and "then" in h or ":" in h:
+                cond = h.split("if")[1].split(":")[0].split("then")[0]
+                return any(w in text for w in cond.split())
+            return False
+        dims["heuristic_relevance"] = sum(
+            1 for h in heuristics if _heuristic_applied(h)
+        ) / max(len(heuristics), 1)
+
+        # cognitive_load: 复用默认 scorer 的结构指标（轻量）
+        sents = [s.strip() for s in re.split(r"[。！？!?]", text) if len(s.strip()) > 4]
+        n = max(len(sents), 1)
+        short = sum(1 for s in sents if len(s) <= 35) / n
+        dims["cognitive_load"] = (0.5 * short
+                                  + 0.3 * (1.0 if re.search(r"^## .+$", text, re.M) else 0.0)
+                                  + 0.2 * (1.0 if re.search(r"^[-*] |^\d+\.", text, re.M) else 0.0))
+
+        weights = self.dimensions
+        wsum = sum(dims.get(k, 0) * weights.get(k, 0) for k in weights)
+        return Fitness(dims, wsum, lint_score=1.0, total=wsum)
+
+
+# ---------------------------------------------------------------------------
+# Default scorer wrapper (article-edit 4 维) + registry
+# ---------------------------------------------------------------------------
+class _DefaultScorer:
+    """Wrapper to make score_edit conform to Scorer protocol."""
+    @property
+    def dimensions(self) -> dict[str, float]:
+        return _WEIGHTS.copy()
+
+    def score(self, text: str, ir: dict) -> Fitness:
+        return score_edit(text)
+
+
+def get_scorer(ir: dict) -> Scorer:
+    """Select scorer based on IR's cognitive_config.identity or skill field."""
+    cfg = ir.get("cognitive_config", {})
+    anchor = cfg.get("identity", {}).get("anchor", "").lower()
+    skill = ir.get("skill", "").lower()
+    # nuwa distilled perspectives
+    if any(k in anchor for k in ["munger", "feynman", "charlie", "person_"]) or "perspective" in skill:
+        return PersonaScorer()
+    # default: article-edit style
+    return _DefaultScorer()
+
+
+# ---------------------------------------------------------------------------
 # 诊断（darwin Step 1: 加权短板最大维度）
 # ---------------------------------------------------------------------------
-def diagnose(fit: Fitness) -> tuple[str, float]:
-    gaps = {k: w * (1.0 - fit.dimensions[k]) for k, w in _WEIGHTS.items()}
+def diagnose(fit: Fitness, scorer: Scorer) -> tuple[str, float]:
+    gaps = {k: w * (1.0 - fit.dimensions.get(k, 0)) for k, w in scorer.dimensions.items()}
     dim = max(gaps, key=gaps.get)
     return dim, gaps[dim]
 
@@ -240,11 +345,19 @@ def _norm_heuristic(s: str) -> str:
     return re.sub(r"\s+", "", s)
 
 
-def mutate(ir: dict, target_dim: str, skip_ops: set[str]) -> tuple[dict, Mutation]:
+def mutate(ir: dict, target_dim: str, skip_ops: set[str], scorer: Optional[Scorer] = None) -> tuple[dict, Mutation]:
     """按诊断维度选第一个未用过且能注入新基因的变异算子；全部用过则回退到任意维度轮换。"""
-    order = [target_dim] + [d for d in MUTATORS if d != target_dim]
+    mutators = getattr(scorer, "mutators", MUTATORS)
+    # 若目标维度无专用算子，自动降级到有算子的维度
+    if target_dim not in mutators:
+        available = [d for d in mutators if mutators[d]]
+        if not available:
+            raise RuntimeError("变异算子库为空")
+        print(f"  ⚠️ 维度 '{target_dim}' 无专用算子，自动降级到 '{available[0]}'")
+        target_dim = available[0]
+    order = [target_dim] + [d for d in mutators if d != target_dim]
     for dim in order:
-        for spec in MUTATORS[dim]:
+        for spec in mutators.get(dim, []):
             if spec["op"] in skip_ops:
                 continue
             new_ir = copy.deepcopy(ir)
@@ -276,11 +389,11 @@ def _git(repo: Path, *args: str) -> str:
     return r.stdout.strip()
 
 
-def _score_or_none(edits_dir: Path, version: str, ir: dict) -> Optional[Fitness]:
+def _score_or_none(edits_dir: Path, version: str, ir: dict, scorer: Scorer) -> Optional[Fitness]:
     p = edits_dir / f"{version}.md"
     if not p.exists():
         return None
-    fit = score_edit(p.read_text(encoding="utf-8"))
+    fit = scorer.score(p.read_text(encoding="utf-8"), ir)
     fit.lint_score = lint_ir(ir).score
     fit.total = fit.weighted_sum * fit.lint_score
     return fit
@@ -292,12 +405,14 @@ def _score_or_none(edits_dir: Path, version: str, ir: dict) -> Optional[Fitness]
 def evolve(config_path: Path, edits_dir: Path, max_rounds: int,
            repo: Optional[Path], dry_run: bool) -> int:
     ir = load_ir(config_path)
+    scorer = get_scorer(ir)
     base_lint = lint_ir(ir)
     if not base_lint.ok:
         print("❌ IR 结构错误（不可进化）:", *base_lint.errors, sep="\n   ")
         return 1
     print(f"初始 IR: {ir['provenance']['config_version']}  lint: "
           f"{len(base_lint.warnings)} warning / 0 error")
+    print(f"Scorer: {scorer.__class__.__name__}  dims: {list(scorer.dimensions.keys())}")
 
     repo = repo or config_path.parent
     has_git = (repo / ".git").exists()
@@ -318,26 +433,26 @@ def evolve(config_path: Path, edits_dir: Path, max_rounds: int,
             f.write(row)
 
     version = ir["provenance"]["config_version"]
-    cur_fit = _score_or_none(edits_dir, version, ir)
+    cur_fit = _score_or_none(edits_dir, version, ir, scorer)
     eval_mode = "full_test" if cur_fit else "dry_run"
     if cur_fit:
         print(f"基线实测 [{version}]: {cur_fit.as_row()}")
     else:
         print(f"⚠️ edits/{version}.md 缺失 → dry_run（仅 lint，HL: dry_run>30% 评估失效）")
-        cur_fit = Fitness({k: 0.0 for k in _WEIGHTS}, 0.0, base_lint.score, 0.0)
+        cur_fit = Fitness({k: 0.0 for k in scorer.dimensions}, 0.0, base_lint.score, 0.0)
 
     skip: set[str] = set()
     slight_or_tie = 0          # HL-4 连续触顶计数
     for rnd in range(1, max_rounds + 1):
-        dim, gap = diagnose(cur_fit)
-        cand_ir, mut = mutate(ir, dim, skip)
+        dim, gap = diagnose(cur_fit, scorer)
+        cand_ir, mut = mutate(ir, dim, skip, scorer)
         skip.add(mut.op)
         new_v = cand_ir["provenance"]["config_version"]
         print(f"\n— Round {rnd} | 短板: {dim}(gap={gap:.3f}) → 变异 {mut.op} → {new_v}")
         print(f"  理由: {mut.rationale}")
 
         cand_path = config_path.parent / f"cognitive-config-{new_v}.yaml"
-        cand_fit = _score_or_none(edits_dir, new_v, cand_ir)
+        cand_fit = _score_or_none(edits_dir, new_v, cand_ir, scorer)
 
         if cand_fit is None:
             # 无实测稿 → dry_run：只做结构 lint gate，提示需要执行 agent 产出编辑稿
