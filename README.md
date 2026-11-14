@@ -185,7 +185,7 @@ npx skills add alchaincyf/darwin-skill
 
 安装后在任何支持 Skill 的 Agent 工具中说「优化所有skills」或「优化某个skill」就行。
 
-无法访问 GitHub 的朋友，可以直接下载 zip 包：[darwin-skill.zip](https://pub-161ae4b5ed0644c4a43b5c6412287e03.r2.dev/skills/darwin-skill.zip)，解压后把 SKILL.md 放到 `~/.claude/skills/darwin-skill/` 目录即可。
+无法访问 GitHub 的朋友，可以直接下载 zip 包：[darwin-skill.zip](https://pub-161ae4b5ed0644c4a43b5c6412287e03.r2.dev/skills/darwin-skill.zip)，解压后把完整的 `darwin-skill` 文件夹放到当前 Agent/runtime 文档指定的 skills 目录中。请保留 `SKILL.md`、`references/`、`scripts/` 和 `templates/` 的相对结构；不要只复制 `SKILL.md`。
 
 安全提示：
 

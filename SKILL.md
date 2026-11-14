@@ -114,7 +114,7 @@ frontmatter 触发词、花叔生态内部 skill 名引用、明确标注 runtim
 
 ```
 1. 确认优化范围：
-   - 全部skills → 扫描 .claude/skills/*/SKILL.md
+   - 全部skills → 使用当前 runtime 支持的 skills 目录或用户指定目录，按其实际层级发现 `SKILL.md`；不要假定固定的 `.claude/skills` 路径
    - 指定skills → 用户指定列表
 2. 创建 git 分支：auto-optimize/YYYYMMDD-HHMM
 3. 初始化 results.tsv（如不存在）
@@ -299,7 +299,7 @@ paired 行：`new_score` 栏记 vote 比数（如 `3-0 better`），`note` 记�
 ```tsv
 2026-06-10T06:30	paired	some-skill	（绝对 87.3→78.8 = judge 噪音）	3-0 better	paired 推翻单评假退步	paired
 ```
-文件位置：`.claude/skills/darwin-skill/results.tsv`
+文件位置：与本 `SKILL.md` 同目录的 `results.tsv`（以当前安装的 skill 根目录为准）。
 
 ---
 
@@ -480,7 +480,7 @@ paired 行：`new_score` 栏记 vote 比数（如 `3-0 better`），`note` 记�
    - data-field="date" → 当前日期
 3. 随机选择风格：hash 设为 swiss/terminal/newspaper 之一
 4. 用 scripts/screenshot.mjs 截图（2x 高清，只截 .card 元素，自动 open 图片）：
-   node .claude/skills/darwin-skill/scripts/screenshot.mjs \
+   node "<本 SKILL.md 所在目录>/scripts/screenshot.mjs" \
      /abs/path/to/card.html /abs/path/to/output.png
    # 回退方案（脚本失败时）：
    npx playwright screenshot "file:///path/to/card.html#[theme]" \
