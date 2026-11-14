@@ -1,20 +1,44 @@
 [
   {
-    "id": 1,
-    "scenario": "典型场景：单 skill 优化",
-    "prompt": "用 darwin-skill 优化 huashu-xxx 这个 skill",
-    "expected": "skill 应引导：Phase 0 检查 git/分支 → Phase 0.5 设计 2-3 个 test-prompts → Phase 1 spawn 独立 judge 评 9 维 rubric → 找最低维度（注意 dim2/3/4 相关簇）→ Phase 2 hill climbing（每轮 1 个维度，git ratchet）→ 检测触顶（连续 2 轮 Δ<2 自动 break）→ Phase 3 汇总 + 结果卡片"
+    "id": "dev-1",
+    "split": "dev",
+    "source": "real",
+    "prompt": "优化所有skills。我大概装了80个。",
+    "checks": [
+      "回答里第一步是对全部skill跑体检脚本并给出排序表，而不是直接开始实跑",
+      "明确说不会对80个skill挨个实跑，让用户从中挑要进化的",
+      "给出进化一个skill大约需要多少次子agent"
+    ]
   },
   {
-    "id": 2,
-    "scenario": "典型场景：全量评估",
-    "prompt": "评估所有 skills 的质量",
-    "expected": "skill 应执行 Phase 0.5-1：扫描所有 SKILL.md → 跑 runtime 中立性 gate → 用 9 维 rubric 打基线分 → 输出评分卡片（按分数排序，标注短板维度），不进入 Phase 2 优化循环"
+    "id": "dev-2",
+    "split": "dev",
+    "source": "real",
+    "prompt": "第2轮盲评出来了：三位评委里两位投新版更好，第三位说新版第2步让agent运行的 scripts/sync.py 在skill目录里根本不存在。按多数留下新版吗？",
+    "checks": [
+      "没有按票数直接保留",
+      "下一步是先核实 scripts/sync.py 是否存在",
+      "说明指控成立就回滚或改正，以事实为准不看票数"
+    ]
   },
   {
-    "id": 3,
-    "scenario": "歧义/失败场景",
-    "prompt": "我想让你帮我把这个 skill 改得更好一点",
-    "expected": "skill 应识别为优化任务 → 询问优化范围（全量 / 单个）→ 检查异常（不在 git 仓库 / results.tsv 缺失等）按异常表 fallback → 设计测试 prompt 前展示给用户确认（检查点）"
+    "id": "holdout-1",
+    "split": "holdout",
+    "source": "real",
+    "prompt": "我改了某个skill的一段话，三个评委读完两版SKILL.md都说新版更好，可以合并了吧？",
+    "checks": [
+      "指出读文档的投票不能决定留不留",
+      "给出下一步：用同一批测试让新旧两版各实跑一遍，盲评产出后再裁决"
+    ]
+  },
+  {
+    "id": "holdout-2",
+    "split": "holdout",
+    "source": "user",
+    "prompt": "这轮改动盲评结果是1胜1负，检查项没变，新版SKILL.md比旧版长了12%，留还是不留？",
+    "checks": [
+      "结论是回滚",
+      "理由是效果打平且没有变短"
+    ]
   }
 ]

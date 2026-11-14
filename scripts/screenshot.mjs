@@ -8,7 +8,7 @@
  * - 2x deviceScaleFactor，输出高清图
  * - 只截 .card 元素，无多余背景
  * - 等待字体加载完成
- * - 截完自动用 open 命令打开图片
+ * - 截完自动用 open 命令打开图片（加 --no-open 关闭）
  */
 
 import { createRequire } from 'module';
@@ -80,7 +80,8 @@ async function screenshot() {
     await browser.close();
   }
 
-  // 自动打开图片（跨平台）
+  // 自动打开图片（跨平台）；传 --no-open 则只打印路径
+  if (process.argv.includes('--no-open')) return;
   try {
     if (process.platform === 'win32') {
       execSync(`start "" "${outputPath}"`);

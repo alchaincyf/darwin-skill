@@ -8,16 +8,16 @@ English | **[中文](README.md)**
 
 <div align="center">
 
-# darwin.skill 2.0
+# darwin.skill 3.0
 
-**Optimize your Agent Skills the way you train models.**
+**Evolve your Agent Skills the way you train models.**
 
-Inspired by [Karpathy's autoresearch](https://github.com/karpathy/autoresearch). Autonomous experiment loops, applied to skill optimization. A ratchet that only turns forward.
+Inspired by [Karpathy's autoresearch](https://github.com/karpathy/autoresearch). Autonomous experiment loops, applied to skills. A ratchet that only turns forward.
 
-**v2.0** · Updated 2026-05-28 · A structural upgrade integrating Microsoft Research's [SkillLens](https://arxiv.org/abs/2605.23899) and [SkillOpt](https://arxiv.org/abs/2605.23904) papers.
+**v3.0** · 2026-11 · The ratchet now judges what a skill *does*, not how its document reads.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-2.0-blue.svg)](#whats-new-in-20)
+[![Version](https://img.shields.io/badge/version-3.0-blue.svg)](#whats-new-in-30)
 [![Agent Skill](https://img.shields.io/badge/Agent%20Skill-Compatible-blueviolet)](https://skills.sh)
 [![Skills](https://img.shields.io/badge/skills.sh-Compatible-green)](https://skills.sh)
 [![Microsoft SkillOpt](https://img.shields.io/badge/Microsoft_SkillOpt-Listed_Integration-0078D4?logo=microsoft&logoColor=white)](https://github.com/microsoft/SkillOpt)
@@ -31,52 +31,34 @@ npx skills add alchaincyf/darwin-skill
 ---
 
 > [!NOTE]
-> **🤝 Microsoft Research lists darwin-skill as an official SkillOpt integration.**
+> **🤝 Microsoft Research lists darwin-skill among SkillOpt's integrations.**
 > On 2026-06-03, the [SkillOpt repo](https://github.com/microsoft/SkillOpt) noted:
 > *"gbrain, gbrain-evals, and **darwin-skill** have all integrated SkillOpt."*
-> We absorbed its validation-gated framework; it added darwin to its integration list. A two-way nod. 👉 [Visit the SkillOpt repo](https://github.com/microsoft/SkillOpt)
 
 ---
 
-## What's New in 2.0
+## What's New in 3.0
 
-v2.0 is not a patch release. It's a structural upgrade absorbing two Microsoft Research papers published on 2026-05-22. Five concrete changes:
+The core loop is unchanged: evaluate → improve → validate → human confirm → keep or revert. The 9-dimension rubric, independent judges, git rollback, a human checkpoint after every skill, and result cards are all still here.
 
-**1. Rubric expanded from 8 → 9 dimensions** (integrating [SkillLens](https://arxiv.org/abs/2605.23899)'s empirically validated 73.8% rubric recipe)
+What changed is what the ratchet measures. In 2.x, judges read the before and after SKILL.md and voted. Research published in 2026, and our own logs, show that this measures the wrong thing:
 
-- The legacy "error handling" dimension is upgraded to **Failure Mechanism Encoding**: not just "tell the agent to be careful," but explicitly encode known failure paths into the skill.
-- The legacy "clarity" dimension is upgraded to **Actionable Specificity**: explicitly bans vague hedge words like "suggest / could consider / depending on / use judgment / case by case."
-- A new ninth dimension **High-Risk Action Blacklist**: destructive operations like `rm` / `git reset --hard` / `force push` must be explicitly listed as forbidden in the skill.
+| Finding | Source |
+|:---|:---|
+| Scores from reading a skill document are essentially uncorrelated with the lift the skill gives a live agent (ρ = −0.02 and −0.03) | NVIDIA, arXiv:2608.20614 |
+| The document selected for "looking complete" was the worst of its set on every behavioral metric | JetBrains, arXiv:2609.12742 |
+| Compact skills add +19 points; comprehensive ones add +0.7; model-written skills do worse than no skill | SkillsBench, arXiv:2602.12670 |
+| An edit that judges approved 3–0 cost 33 extra tool calls on a real device | This project's logs, 2026-09 |
 
-**2. Validation aligned with SkillOpt's validation-gated design**
+So 3.0 does seven things:
 
-- Multi-judge independent review: 2 independent judges per round
-- Judges never reused: each new round spawns fresh judges to avoid anchoring bias
-- Early stopping: if a round's score gain < 1 point, automatically halt to prevent padding for score
-- Dry-run control: warn when dry-run ratio exceeds 30%
-
-**3. Human-in-the-loop at three checkpoints** (the core differentiator from SkillOpt's fully autonomous design)
-
-- Phase 1 baseline eval: auto + human review the report, decide what to optimize
-- Phase 2 single-dimension edit: 🔴 CHECKPOINT mandatory pause for user confirmation
-- Phase 2.5 test-prompt run (optional)
-- Phase 3 regression test: 🛑 STOP if gain falls below threshold
-
-**4. Anti-pattern blacklist with 8 explicit forbidden behaviors**
-
-1. Same AI both edits and scores (SkillLens empirical: an unguided LLM judge picking the better of two skills is only 46.4% accurate — worse than a coin flip)
-2. Using `git reset --hard` as a rollback mechanism (use `git revert`)
-3. Padding edits just to push the score up
-4. Skipping test prompts and scoring directly
-5. Changing multiple dimensions in one round
-6. Dry-run ratio > 30%
-7. Silently swallowing exceptions
-8. Ignoring correlated dimension clusters
-
-**5. Empirical validation data**
-
-- huashu-gpt-image skill: **80.8 → 91.5 → 91.65** (+10.85, consensus across 6 independent judges)
-- darwin-skill self-eval: **86.05 → 92.05 → 92.7**
+1. **A behavior ratchet.** After each edit, independent agents do real tasks with the new skill, and judges blind-compare the outputs of the old and new versions. The document rubric is demoted to a diagnostic: it finds problems and sets priorities.
+2. **Ask whether the skill helps at all.** Before evolving, an agent with the skill and a bare model each run the tests. If the bare model already does the job, darwin tells you so. If the skill hurts, it deletes before it adds.
+3. **Ties go to the shorter version.** An edit is kept only when it is strictly better, or equal and shorter. Every "close enough, keep it" makes a skill longer, and longer skills stop helping.
+4. **Held-out acceptance.** Tests are split into a dev set and a held-out set. Edits are driven by the dev set; the held-out set checks that they did not just fit the tests.
+5. **A script decides, not a feeling.** Random A/B order, removal of anything that reveals which output is which, vote counting and the verdict are all done by `scripts/darwin.py` under fixed rules. When a judge raises a checkable factual objection, it is verified first: facts outrank votes.
+6. **A zero-cost health check.** `darwin.py check` scans every skill without spending tokens: routing, body length, missing references, secrets, personal paths.
+7. **Honest reports.** Every conclusion carries an evidence level (E0 check, E1 read, E2 run, E3 real environment), and every report lists what was verified, what was not, and the remaining risk.
 
 ---
 
@@ -84,92 +66,120 @@ v2.0 is not a patch release. It's a structural upgrade absorbing two Microsoft R
 
 ![Core Loop](assets/chart-loop-en.png)
 
-Evaluate → Improve → Test → Human Confirm → Keep or Revert. Repeat.
-
 ---
 
 ## Why This Exists
 
-Agent skill ecosystems are expanding fast. Claude Code, Codex, OpenClaw, Trae, CodeBuddy and more all support the SKILL.md format. When you have 10 skills, you can maintain them by hand. When you have 60+, you need a system.
+With 10 skills you can maintain them by hand. With 60 or more you need a system.
 
-Traditional skill review is purely structural: does the frontmatter look right? Are the steps numbered? Do the file paths exist? But a perfectly formatted skill can still produce terrible output.
-
-darwin.skill evaluates both **structure** and **real-world effectiveness**, then keeps only the changes that actually improve things.
+Conventional skill review looks at the document: format, numbered steps, reachable paths. A perfectly formatted skill can still leave an agent no better off than having no skill. darwin accepts one criterion: with this skill installed, does the agent do the same job better?
 
 ---
 
-## From autoresearch to Skill Optimization
+## From autoresearch to Skill Evolution
 
-This project maps Karpathy's autoresearch directly onto skill optimization:
-
-| autoresearch | darwin.skill | Why |
+| autoresearch | darwin.skill | Why this mapping |
 |:---|:---|:---|
-| `program.md` | This SKILL.md | Defines evaluation criteria and constraints |
-| `train.py` | Each target SKILL.md | The single editable asset per experiment |
-| `val_bpb` | 9-dimension weighted score (max 100) | Quantifiable optimization target |
-| `git ratchet` | keep / revert mechanism | Only improving commits survive |
-| `test set` | test-prompts.json | Validates whether improvements are real |
-| Fully autonomous | **Human in the loop** | Skill quality is more subjective than loss |
-
-The key difference: autoresearch is fully autonomous (loss is just a number). Skill quality sometimes needs human judgment. So darwin.skill pauses after each skill's optimization cycle, shows you the diff and score delta, and waits for your confirmation.
+| `program.md` | darwin's SKILL.md | Defines the evaluation criteria and constraints |
+| `train.py` | Each SKILL.md being evolved | The asset under optimization; one hypothesis per round |
+| `val_bpb` | Win/tie/loss from blind comparison of real outputs | A loss is repeatable; an LLM score is not, so darwin compares pairs and never absolute scores |
+| `git ratchet` | keep / revert | Only commits proven better by real runs survive |
+| `test set` | test-prompts.json, split into dev and held-out | Confirms the gain is real, not test-fitting |
+| Fully autonomous | **Human in the loop** | Skill quality is subtler than a loss value |
 
 ---
 
 ## Five Core Principles
 
-| # | Principle | Details |
+| # | Principle | Description |
 |:---|:---|:---|
-| 01 | **Single editable asset** | One SKILL.md per experiment. One change, one measurement, one decision |
-| 02 | **Dual evaluation** | Structure scoring (static analysis) + effectiveness scoring (live test execution) |
-| 03 | **Ratchet mechanism** | Score can only go up. Regressions are auto-reverted |
-| 04 | **Independent scoring** | The agent that edits is never the agent that scores (SkillLens: an unguided LLM judge is only 46.4% accurate at ranking two skills) |
-| 05 | **Human in the loop** | System pauses after each skill. You review, then continue |
+| 01 | **Single editable asset** | One hypothesis per round, so gains are attributable |
+| 02 | **Dual evaluation** | Read the document to find problems; run tasks to decide |
+| 03 | **Ratchet** | Keep only edits that real runs prove better; revert the rest |
+| 04 | **Independent scoring** | Executors and judges are separate subagents; judges never know which output is new |
+| 05 | **Human in the loop** | Three pauses: the test set, the baseline, and after each skill |
 
 ---
 
 ## 9-Dimension Evaluation Rubric
 
-Total: 100 points. Structure + Effectiveness. v2.0's three new dimensions come directly from SkillLens's empirically validated rubric.
+100 points, same weights as 2.x. In 3.0 its job is diagnosis and triage: the total says which skill to fix first, the dimensions say where the problem probably is. It does not decide whether an edit stays.
 
 ![Evaluation Rubric](assets/chart-rubric-en.png)
 
-The three new dimensions (SkillLens 73.8% rubric recipe):
+Two adjustments:
 
-| Dimension | Description |
+- **Live performance (23 points) is computed, not guessed**: the check pass rate sets the base score and the lift over the bare model caps it. No real run, no score; the total is marked incomparable.
+- **Necessity.** Failure branches, checkpoints and blacklists are required only where the task is fragile. Sections added to chase points are penalized as redundancy.
+
+---
+
+## The Evolution Cycle
+
+![Evolution Lifecycle](assets/chart-phases-en.png)
+
+| Phase | What happens | Human checkpoint |
+|:---|:---|:---|
+| 0 Prepare | Health check, branch, snapshot, read history, agree on protected sections | |
+| 1 Test set | At least 4 tests, half dev and half held-out; real past requests first | 🔴 Confirm tests |
+| 2 Baseline runs | With-skill and bare-model runs, blind-judged for lift; a read review for the 9-dim score | 🔴 Confirm scorecard and direction |
+| 3 Evolve | One hypothesis per round: delete, then rewrite, then move, and only then add; real runs, three blind judges, scripted verdict | |
+| 4 Held-out check | Original vs final on the held-out set; trigger test and real-environment run where needed | 🔴 Review the diff |
+| 5 Report | Verdict, score, live results, edits, verified, not verified, remaining risk | |
+
+---
+
+## How the Ratchet Decides
+
+`darwin.py tally` applies four rules. The main agent does not weigh in:
+
+| Blind result | Verdict |
 |:---|:---|
-| **Failure Mechanism Encoding** | Explicitly encode known failure paths, not just "be careful" reminders |
-| **Actionable Specificity** | Ban vague hedge words like "suggest / could consider / depending on / use judgment / case by case" |
-| **High-Risk Action Blacklist** | Destructive operations (rm / git reset --hard / force push) must be explicitly forbidden |
+| More wins than losses, no check regressed | Keep |
+| Tie, new version shorter | Keep |
+| Tie, new version not shorter | Revert |
+| More losses than wins, or a check regressed | Revert |
 
-> Live test performance has the highest weight. A beautifully written skill that produces bad output is still a bad skill.
-
----
-
-## The Optimization Cycle
-
-Five phases. The system runs autonomously within each phase but pauses between phases for human confirmation.
-
-![Optimization Lifecycle](assets/chart-phases-en.png)
-
-**Phase 2 (the heart, hardened in v2.0):**
-
-1. Find the dimension with the largest weighted gap (weighted_gap = weight × (10 − score) / 10, so low-weight dimensions can't fake progress)
-2. Generate one targeted improvement (one dimension per round, blacklist #5)
-3. Edit SKILL.md, git commit
-4. **Spawn 2 independent sub-agents** to re-score (next round spawns fresh judges to avoid anchoring)
-5. Score up → keep. Score down → `git revert` (never `git reset --hard`, blacklist #2)
-6. Round gain < 1 point → early-stop automatically (no padding for score)
-7. 🔴 CHECKPOINT pauses, shows diff + score delta, waits for human confirmation
+When the margin is one test and judges disagree, those tests are rerun for both versions before deciding. Reverts use `git revert`, so history is preserved.
 
 ---
 
-## The Ratchet
+## A Real Run
 
-Scores can only go up. Failed experiments are cleanly reverted. No regressions accumulate over time.
+On 2026-11-14 the 3.0 process was run on a copy of [huashu-excel](https://github.com/alchaincyf/huashu-excel), a data-analysis skill with a 791-line body. The two dev tasks are real requests from its own test set, paired with data synthesized to carry the original traps: a sales workbook whose two sheets share 235 duplicated orders, and a ticket export whose SLA-deadline column is entirely empty. Executors and judges were independent subagents (Claude Sonnet).
 
-![Ratchet Mechanism](assets/chart-ratchet-en.png)
+| Step | Result |
+|:---|:---|
+| Health check | 0 errors, 1 warning: body over 500 lines |
+| Baseline: with skill vs bare model | 1 win, 1 tie, 0 losses; checks passed 7/7 vs 6/7 |
+| Round 1 hypothesis | Neither task produces a report file, yet both load 253 lines of report-making detail; move it to references |
+| Round 1 verdict (3 blind judges) | 1 win, 1 tie, 0 losses (both deciding votes were "slight"), no check regressed, SKILL.md −31% in size: keep |
+| Tokens per execution | Bare about 72k, original about 98k, new version about 92k |
 
-Round 2 scored 75, below the current best of 78. Auto-reverted. Effective baseline stays at 78. Subsequent improvements build from 78, not 75.
+The limits of this run: only 2 dev tasks, on synthetic data; the held-out set was not run, and report-producing tasks were not checked after the move; the edit lives on a copy and was not merged into huashu-excel. Under 3.0's reporting rules all of that is "not verified".
+
+The run also exposed three holes in the evaluation protocol itself, fixed before release: test files sitting in the skill directory let executors read the checks; transcripts and paths in the outputs let judges tell which output had the skill; and a skill with checkpoints stops to wait for a user who is not there.
+
+---
+
+## How This Differs from skill-creator's Evals
+
+Anthropic's skill-creator already runs with-skill against a baseline, grades assertions, and has a blind comparator. On the evaluation side, darwin 3.0 adds:
+
+| | skill-creator | darwin 3.0 |
+|:---|:---|:---|
+| Blind comparison | Optional advanced step | Required for every verdict; random A/B order, transcripts and path clues removed |
+| Keep or revert | A person decides after viewing results | A script applies fixed rules, then a person reviews |
+| Ties | No rule | Ties go to the shorter version |
+| Held-out set | Description optimization only | Body edits must pass it too |
+| Factual objections | No rule | Verified first; facts outrank votes |
+| Trigger test | Target skill alone | Neighboring skills included as competition |
+| Edit preference | None | Delete before adding; growth needs failing evidence |
+| Regression after a model upgrade | None | Retest mode |
+| Evidence level | None | E0 to E3, with verified and not-verified listed separately |
+| Fleet-wide screening | None | Zero-token health check |
+
+skill-creator also creates skills from scratch and ships a results viewer, which darwin does not try to do. They work together: create with one, evolve with the other.
 
 ---
 
@@ -179,59 +189,55 @@ Round 2 scored 75, below the current best of 78. Auto-reverted. Effective baseli
 npx skills add alchaincyf/darwin-skill
 ```
 
-After installation, tell your agent: "optimize all skills" or "optimize [skill-name]". Works with any tool that supports the SKILL.md format.
+Then tell your agent:
+
+| You say | It does | Cost |
+|:---|:---|:---|
+| "health-check all my skills" | Runs the check script, returns a ranked table | About zero |
+| "evaluate skill X" | Real runs against the bare model, a 9-dim scorecard, no edits | About 6 subagent runs |
+| "optimize skill X" | The full evolution cycle | 20-odd subagent runs |
+| "retest X" | Reruns the saved tests after a model upgrade | Same as evaluate |
+
+The health check also runs directly:
+
+```bash
+python3 scripts/darwin.py check ~/.claude/skills   # use your own skills directory
+```
 
 Can't access GitHub? Download the zip: [darwin-skill.zip](https://pub-161ae4b5ed0644c4a43b5c6412287e03.r2.dev/skills/darwin-skill.zip). Extract the complete `darwin-skill` folder into the skills directory documented by your agent/runtime. Keep `SKILL.md`, `references/`, `scripts/`, and `templates/` together; do not copy only `SKILL.md`.
 
-Safety notes:
+Notes:
 
-- Run optimization from a git repository and commit or stash your local skill edits first, so darwin.skill can keep or revert experiment changes cleanly.
-- Review the checkpoint diff before continuing to the next optimization round, especially when a skill touches shell commands, git operations, credentials, local files, or publishing workflows.
+- Run evolution inside a git repository, and commit or stash your local edits to the skill first, so darwin can keep or revert its experiments cleanly.
+- Real runs need an environment that can spawn independent subagents. Without one, darwin does only the health check and the read review, and says so in the report.
+- Tests never perform outward actions (publish, push, send messages) on their own. Such tests are listed as not verified and left to you.
+- darwin stops after each skill to show you the diff. Read it, especially when the skill involves shell commands, git, credentials or publishing.
 
 ---
 
-## Design Inspiration
+## Known Limits
 
-Directly inspired by **Andrej Karpathy's [autoresearch](https://github.com/karpathy/autoresearch)**.
-
-The core mechanism is identical: **keep only measurable improvements, revert everything else.**
-
-v2.0 builds on this foundation by integrating two Microsoft Research papers (published 2026-05-22): [SkillLens](https://arxiv.org/abs/2605.23899) provides the empirically validated rubric design, and [SkillOpt](https://arxiv.org/abs/2605.23904) provides the formal framework of validation-gated edits.
+- A handful of tests per skill can only detect large differences. Small gains drown in run-to-run variance; in 3.0 they are judged a tie and reverted. That is a deliberate trade.
+- Judges are still LLMs. Pairwise comparison and random order cancel some bias, not all.
+- The trigger test is a simulation and differs from each runtime's real loading logic.
 
 ---
 
 ## References & Credits
 
-v2.0's design directly builds on the following academic work. Recommended reading for researchers and engineers working on the skill ecosystem:
+The evidence and numbers behind each rule are in [references/v3-evidence.md](references/v3-evidence.md) (Chinese).
 
-### SkillLens
+- **autoresearch** (Karpathy): [github.com/karpathy/autoresearch](https://github.com/karpathy/autoresearch). Single editable asset, experiment loop, ratchet; the original inspiration for darwin 1.0.
+- **SkillOpt** (Microsoft Research et al., arXiv:[2605.23904](https://arxiv.org/abs/2605.23904)): a candidate edit is accepted only if strictly better on a held-out selection split; ties are rejected. Code: [github.com/microsoft/SkillOpt](https://github.com/microsoft/SkillOpt).
+- **arXiv:[2605.23899](https://arxiv.org/abs/2605.23899)** (Fudan University, Microsoft Research, Shanghai Jiao Tong University; code alias SkillLens; title *From Raw Experience to Skill Consumption*): the empirical source for three rubric dimensions. An unguided LLM judge picking the better of two skills is 46.4% accurate; scoring on those three dimensions raises it to 73.8%. A different paper is actually titled SkillLens (2605.08386); cite the identifier.
+- **SkillsBench** (arXiv:[2602.12670](https://arxiv.org/abs/2602.12670)): focused skills help, exhaustive ones do not.
+- **ACES** (NVIDIA, arXiv:[2608.20614](https://arxiv.org/abs/2608.20614)): document scores do not predict live lift; the paired with/without difference is the skill's value.
+- **Skill Issue** (JetBrains Research, arXiv:[2609.12742](https://arxiv.org/abs/2609.12742)): file-scoring metrics select the worst-behaving document; small test sets cannot resolve few-point gains.
+- **SSO** (arXiv:[2607.28777](https://arxiv.org/abs/2607.28777)): without ground truth, compare executions pairwise and randomize presentation order.
+- **138K SKILL.md study** (arXiv:[2608.08453](https://arxiv.org/abs/2608.08453)): routing defects are the most common, and defects grow with length.
+- Thanks to everyone who filed issues and PRs. 3.0 directly adopts #7 (verified / not verified / residual risk), #18 (execution tests with real data), #24 (security-scan perception), #25 (evaluation cost) and #29 (portable paths).
 
-> Zisu Huang, Jingwen Xu, Yifan Yang et al. (Fudan University / Microsoft Research / Shanghai Jiao Tong University, 16 authors). *From Raw Experience to Skill Consumption: A Systematic Study of Model-Generated Agent Skills.* arXiv:2605.23899, 2026-05-22.
-
-- Paper: https://arxiv.org/abs/2605.23899
-- **⚠️ Name disambiguation**: "SkillLens" is this paper's **code alias** (`aka.ms/SkillLens`), not its title. A *different* paper is actually titled SkillLens (arXiv:2605.08386) — different authors, different subject (hierarchical skill reuse for cost efficiency). Cite the identifier, not the nickname.
-- **Contribution**: An empirically validated rubric. darwin.skill v2.0's three new dimensions (Failure Mechanism Encoding / Actionable Specificity / High-Risk Action Blacklist) come directly from the paper's three validated dimensions.
-- **⚠️ What 46.4% actually measures**: the paper uses a GPT-5.4 judge to pick, between **two skills extracted under the same conditions**, which one yields better downstream performance (151 pairs, near-ties excluded). With no scoring criteria the judge is **46.4%** accurate — indistinguishable from chance. Scoring against the three validated dimensions raises it to **73.8%**.
-  **This is not a measurement of a model grading its own output** — the judge is rating other people's skills. It supports "a judge needs a rubric," and it indirectly supports "the editor should not be the scorer," but the latter is this project's inference, not the paper's finding.
-
-### SkillOpt
-
-> Microsoft Research. *SkillOpt: Executive Strategy for Self-Evolving Agent Skills.* arXiv:2605.23904, 2026.
-
-- 🔗 **Code repo**: [github.com/microsoft/SkillOpt](https://github.com/microsoft/SkillOpt) (`pip install skillopt`, v0.1.0 on PyPI)
-- Project page: https://microsoft.github.io/SkillOpt/
-- Paper: https://arxiv.org/abs/2605.23904
-- **Contribution**: The formal framework of validation-gated edits. Treats a skill as the "external trainable state" of a frozen model: every edit must pass independent validation to be kept. darwin.skill v2.0's multi-judge independent review, non-reuse of judges, early stopping, and dry-run ratio control all align with this framework.
-- 🤝 **Mutual recognition**: On 2026-06-03, the official SkillOpt repo listed darwin-skill as an integration: *"gbrain, gbrain-evals, and darwin-skill have all integrated SkillOpt."* They give us the framework; we give it real-world validation.
-
-### autoresearch
-
-> Andrej Karpathy. *autoresearch.* GitHub repository, 2026.
-
-- Code: https://github.com/karpathy/autoresearch
-- **Contribution**: The original inspiration for darwin.skill 1.0. The mapping of core mechanisms (program.md / train.py / val_bpb / git ratchet / test set) is inherited directly from autoresearch.
-
-**The key difference between darwin and SkillOpt**: SkillOpt is fully autonomous; darwin.skill emphasizes human-in-the-loop — skill quality is more subjective than validation loss. Critical phases (baseline eval, single-dimension edit, regression test) mandatorily pause for the human to make the final judgment.
+**darwin vs SkillOpt**: SkillOpt is fully autonomous and needs a task set with ground truth. darwin is for skill authors who have a few real requests and no labels: it uses blind comparison in place of ground truth and stops for human judgment at key points.
 
 ---
 

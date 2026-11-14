@@ -271,7 +271,7 @@
   }
   .dims-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 12px;
   }
   .dim-cell {
@@ -443,6 +443,14 @@
 </style>
 </head>
 <body>
+<!-- 达尔文3.0成果卡片。替换带 data-field 的元素文本，数字只能来自 results.tsv 和 darwin.py tally 的输出：
+  date / skill-name / skill-id / evidence（证据等级，如 E2 实跑验证）
+  score-before / score-after / score-delta（9维总分；同时把 .ring-progress 的 stroke-dashoffset 改成 534 × (1 − score-after/100) 取整）
+  top1-*：检查项通过（from、to 填通过率分数如 5/8，pct 填变化，story 填对裸跑增益的胜平负）
+  top2-*：SKILL.md 体积（from、to 填行数，pct 填变化，story 填保留与回滚的轮数、留出集结果）
+  九维度网格：每格 .dim-old-score 和 .dim-score 填该维度改前改后得分，.dim-arrow 填差值
+  improve-1/2/3：三条保留下来的改动，各带一句证据
+-->
 
 <div class="card">
 
@@ -482,7 +490,7 @@
       </div>
       <div class="hero-journey">
         从 <strong data-field="score-before">72</strong> 分进化到 <strong>87</strong> 分<br>
-        <span style="color:#999;font-size:14px;" data-field="skill-id">huashu-proofreading</span>
+        <span style="color:#999;font-size:14px;"><span data-field="skill-id">huashu-proofreading</span> · <span data-field="evidence">E2 实跑验证</span></span>
       </div>
       <div class="delta-badge">
         <span data-field="score-delta">+15</span>
@@ -494,32 +502,32 @@
   <!-- 3. 最大突破区 -->
   <div class="breakthrough-section">
     <div class="breakthrough-card primary">
-      <div class="breakthrough-label">最大突破</div>
-      <div class="breakthrough-dim" data-field="top1-name">指令精度</div>
+      <div class="breakthrough-label">实测</div>
+      <div class="breakthrough-dim" data-field="top1-name">检查项通过</div>
       <div class="breakthrough-score-row">
-        <span class="breakthrough-from" data-field="top1-from">5</span>
+        <span class="breakthrough-from" data-field="top1-from">5/8</span>
         <span class="breakthrough-arrow">&rarr;</span>
-        <span class="breakthrough-to" data-field="top1-to">9</span>
+        <span class="breakthrough-to" data-field="top1-to">7/8</span>
       </div>
-      <div class="breakthrough-pct" data-field="top1-pct">+80%</div>
-      <div class="breakthrough-story" data-field="top1-story">从模糊指令到精确可执行，指令精度翻了将近一倍</div>
+      <div class="breakthrough-pct" data-field="top1-pct">+2 项</div>
+      <div class="breakthrough-story" data-field="top1-story">对裸模型实跑：2 胜 1 平 0 负</div>
     </div>
     <div class="breakthrough-card secondary">
-      <div class="breakthrough-label">第二突破</div>
-      <div class="breakthrough-dim" data-field="top2-name">工作流清晰度</div>
+      <div class="breakthrough-label">体积</div>
+      <div class="breakthrough-dim" data-field="top2-name">SKILL.md 行数</div>
       <div class="breakthrough-score-row">
-        <span class="breakthrough-from" data-field="top2-from">5</span>
+        <span class="breakthrough-from" data-field="top2-from">412</span>
         <span class="breakthrough-arrow">&rarr;</span>
-        <span class="breakthrough-to" data-field="top2-to">8</span>
+        <span class="breakthrough-to" data-field="top2-to">356</span>
       </div>
-      <div class="breakthrough-pct" data-field="top2-pct">+60%</div>
-      <div class="breakthrough-story" data-field="top2-story">线性可执行步骤，每步都有明确检查点</div>
+      <div class="breakthrough-pct" data-field="top2-pct">−14%</div>
+      <div class="breakthrough-story" data-field="top2-story">保留 2 轮，回滚 1 轮；留出集 1 胜 1 平 0 负</div>
     </div>
   </div>
 
   <!-- 4. 全维度速览 -->
   <div class="dims-section">
-    <div class="dims-header">八维度全景</div>
+    <div class="dims-header">九维度全景</div>
     <div class="dims-grid">
       <div class="dim-cell warm">
         <div class="dim-name">元数据</div>
@@ -538,7 +546,7 @@
         <span class="dim-arrow up-big">+3</span>
       </div>
       <div class="dim-cell hot">
-        <div class="dim-name">边界覆盖</div>
+        <div class="dim-name">失败模式</div>
         <div class="dim-score-row">
           <span class="dim-old-score">4</span>
           <span class="dim-score">7</span>
@@ -554,7 +562,7 @@
         <span class="dim-arrow up-small">+1</span>
       </div>
       <div class="dim-cell hot">
-        <div class="dim-name">指令精度</div>
+        <div class="dim-name">具体性</div>
         <div class="dim-score-row">
           <span class="dim-old-score">5</span>
           <span class="dim-score">9</span>
@@ -585,6 +593,14 @@
         </div>
         <span class="dim-arrow up-big">+3</span>
       </div>
+      <div class="dim-cell">
+        <div class="dim-name">反例黑名单</div>
+        <div class="dim-score-row">
+          <span class="dim-old-score">6</span>
+          <span class="dim-score">7</span>
+        </div>
+        <span class="dim-arrow up-small">+1</span>
+      </div>
     </div>
   </div>
 
@@ -592,9 +608,9 @@
   <div class="summary-section">
     <div class="summary-header">关键改进</div>
     <div class="summary-items">
-      <div class="summary-item" data-field="improve-1">补充异常处理fallback路径，边界覆盖从4飙升到7</div>
-      <div class="summary-item" data-field="improve-2">工作流重组为线性可执行步骤，每步可验证</div>
-      <div class="summary-item" data-field="improve-3">测试prompt覆盖率从60%提升到95%，实测表现大幅进化</div>
+      <div class="summary-item" data-field="improve-1">删掉两段裸模型本来就会的解释，dev-1 产出不再跑题</div>
+      <div class="summary-item" data-field="improve-2">把同一情境的两条路径合成一条，dev-2 少绕 9 次调用</div>
+      <div class="summary-item" data-field="improve-3">补上重试上限这条 agent 推断不出来的规则，检查项多过 2 条</div>
     </div>
   </div>
 

@@ -1,519 +1,354 @@
 ---
 name: darwin-skill
-description: "达尔文.skill (Darwin Skill 2.0): autonomous SKILL.md optimizer — 9-dim rubric, blind judge subagents, test-prompt validation, git rollback, human checkpoint after each skill. Use on: 优化skill, skill评分, skill打分, 自动优化, 达尔文, darwin, optimize skill."
+description: "达尔文.skill (Darwin Skill 3.0): evolves and scores SKILL.md files. Use on: 优化skill, skill评分, skill打分, skill体检, 自动优化, 达尔文, darwin, optimize skill. Runs a skill against a bare-model baseline, blind-judges the real outputs, keeps only edits that measurably help and reverts the rest; 9-dim rubric, held-out tests, git rollback, human checkpoints."
+metadata:
+  author: "花叔"
+  homepage: "https://github.com/alchaincyf"
+  repository: "https://github.com/alchaincyf/darwin-skill"
+  version: "3.0.0"
 ---
 
-# Darwin Skill 2.0
+# Darwin Skill 3.0
 
-> **v2.1 · 2026-06-10** — keep/revert 棘轮从「绝对分数 delta」改为「**paired 同-judge 比较 + 奇数 N 多数决**」（绝对分数 ±8 judge 噪音淹没保守编辑的真实增益、是 false-revert 源；within-judge 比较消除换尺污染）。绝对分数降级为 triage-only。
-> **v2.0 · 2026-05-28** — 吸收 arXiv 2605.23899（复旦 / Microsoft Research / 上交，代号 SkillLens）验证过的三个评分维度 + SkillOpt（arXiv 2605.23904）的 validation-gated 验证机制 + human in the loop 三层守关。本 rubric 的 9 个维度是在此基础上自行扩展的，不是论文原样。
->
-> 借鉴 Karpathy autoresearch 的自主实验循环，对 skills 进行持续优化。
-> 核心理念：**评估 → 改进 → 实测验证 → 人类确认 → 保留或回滚 → 生成成果卡片**
+> 借鉴Karpathy autoresearch的自主实验循环，让skill持续进化。
+> 核心循环没变：评估 → 改进 → 实测验证 → 人类确认 → 保留或回滚 → 生成成果卡片。
+> 3.0变的是棘轮量什么：2.x让评委读两版SKILL.md投票，3.0让评委盲评两版skill跑出来的产出。
 > GitHub: https://github.com/alchaincyf/darwin-skill
 
----
+你是这套流程的实验员，不是文案编辑。一个skill好不好，只有一个判据：装上它之后，agent干同一件活是不是真的更好。文档写得多规范、多完整，都只是猜测，跑出来才算数。
 
-## 设计哲学
+## 为什么要改成量行为
 
-autoresearch 的精髓：
-1. **单一可编辑资产** — 每次只改一个 SKILL.md
-2. **双重评估** — 结构评分（静态分析）+ 效果验证（跑测试看输出）
-3. **棘轮机制** — 只保留改进，自动回滚退步
-4. **独立评分** — 评分用子agent，避免「自己改自己评」的偏差
-5. **人在回路** — 每个skill优化完后暂停，用户确认再继续
+2026年的几项实证指向同一件事，详见[references/v3-evidence.md](references/v3-evidence.md)：
 
-与纯结构审查的区别：不只看 SKILL.md 写得规不规范，更看改完后**实际跑出来的效果是否更好**。
+- 读文档打出的分和真实效果几乎不相关。NVIDIA在生产skill上实测，结构分、LLM读评分与实跑增益的相关系数是−0.02和−0.03。
+- 按「看起来像好skill」选出来的文档，在行为指标上可以是最差的那份（JetBrains）。
+- 越写越全反而没用：SkillsBench里精简型skill带来+19个百分点，面面俱到型只有+0.7；模型自己生成的skill比不带还差。
+- 2.x自己的记录也一样：评委3比0通过的改动，上真机多绕了33次工具调用。
 
----
+所以3.0的规矩是：读评只用来找毛病，保留还是回滚由实跑决定。
 
-## 评估 Rubric（9维度，总分100）
+## 证据阶梯
 
-> **设计依据**：基于 SkillLens 论文（arXiv 2605.23899）实证发现——LLM-as-judge 评估 skill 质量准确率仅 46.4%（接近随机），加入 meta-skill 三维度后提升到 73.8%。本 rubric 强化 dim3 / dim5 评分标准，新增 dim9「反例与黑名单」，权重平衡到 100。**目的：让评分对真实质量更敏感，减少 LLM judge 的乐观偏差。**
+每个结论都标明它到了哪一级，报告里不许把低一级说成高一级。
 
-### 结构维度（59分）— 静态分析
+| 等级 | 做了什么 | 能支持的结论 |
+|---|---|---|
+| E0 体检 | 脚本读文件，不花token | 格式、路由、体积、引用、安全有没有硬伤 |
+| E1 读评 | 独立评委按9维rubric读SKILL.md | 先改谁、可能的毛病在哪 |
+| E2 实跑 | 独立agent真的照skill干活，盲评产出 | 这个skill有没有用、这次改动留不留 |
+| E3 真机 | 在skill真正要操作的环境里跑一遍 | 可以交付 |
+
+keep或revert至少要E2。操作真实系统的skill（填表、发布、控制设备）没到E3，报告里必须写「未在真实环境验证」。
+
+## 三种用法
+
+| 用户说 | 做什么 | 成本 |
+|---|---|---|
+| 「给所有skill体检」「看看哪些skill有问题」 | 只跑E0脚本，出排序表 | 约等于零 |
+| 「评估这个skill」「给它打分」 | Phase 0到2，不改文件 | 每个skill约2D+2次子agent（D为开发集条数） |
+| 「优化这个skill」「让它进化」 | Phase 0到5完整流程 | 评估成本＋每轮约D+3次，验收另算 |
+
+用户说「优化所有skill」时：先全量体检，再让用户从错误警告最多的、他最常用的里面挑要进化的。不要对几十个skill挨个实跑。
+
+模型升级或skill长期没动之后，用户说「复测」：用已存的测试集重跑Phase 2，和results.tsv里上次的增益对比。基座模型变强后，skill的增益常常缩水甚至变负，这只有重跑才看得见。
+
+## 评估Rubric（9维度，总分100）
+
+rubric的用途是诊断和排序：总分决定先改谁，各维度得分指出毛病可能在哪。它不决定留不留。
+
+### 结构维度（59分），E1读评
 
 | # | 维度 | 权重 | 评分标准 |
 |---|------|------|---------|
-| 1 | **Frontmatter质量** | 7 | name规范、description包含做什么+何时用+触发词、≤1024字符、**禁结尾加"灵活应用/根据情况判断"等空话尾巴** |
-| 2 | **工作流清晰度** | 12 | 步骤明确可执行、有序号、每步有明确输入/输出 |
-| 3 | **失败模式编码** | 12 | **必须显式编码失败模式**（写出"如果 X 失败 → Y"的明确分支）；有fallback路径、错误恢复；**只写正向流程而不写失败分支扣 ≥3 分**（SkillLens meta-skill 维度） |
-| 4 | **检查点设计** | 6 | 关键决策前有用户确认、防止自主失控；**检查点必须显性标记（🔴/STOP/CHECKPOINT），仅靠"如果...建议..."措辞不算** |
-| 5 | **可执行具体性** | 18 | 不模糊、有具体参数/格式/示例、可直接执行；**禁止"建议/可以考虑/根据情况/灵活把握/视情况而定"等软化措辞**——出现 ≥3 处扣 ≥3 分（SkillLens actionable specificity 维度） |
-| 6 | **资源整合度** | 4 | references/scripts/assets引用正确、路径可达 |
+| 1 | Frontmatter质量 | 7 | name规范；description写清做什么和何时用、含触发词、≤1024字符、关键信息在前250字符；E0体检的路由类警告直接扣分 |
+| 2 | 工作流清晰度 | 12 | 步骤可执行、有序号、每步有输入输出；同一情境不存在两条没分工的路径 |
+| 3 | 失败模式编码 | 12 | 脆弱步骤写出「如果X失败→Y」的分支和兜底；只写正向流程扣≥3分 |
+| 4 | 检查点设计 | 6 | 不可逆或对外的动作前有显性标记的用户确认（🔴/STOP/CHECKPOINT） |
+| 5 | 可执行具体性 | 18 | 有具体参数、格式、示例；「可以考虑、视情况、灵活把握」这类软化措辞≥3处扣≥3分 |
+| 6 | 资源整合度 | 4 | references、scripts、assets引用正确可达；E0体检的引用类警告直接扣分 |
 
-### 效果维度（35分）— 需要实测
-
-| # | 维度 | 权重 | 评分标准 |
-|---|------|------|---------|
-| 7 | **整体架构** | 12 | 结构层次清晰、不冗余不遗漏、与花叔生态一致；**冗余/AI腔废话段落（说白了/换句话说/首先其次综上等花叔禁用词）出现一处扣 1 分** |
-| 8 | **实测表现** | 23 | 用测试prompt跑一遍，输出质量是否符合skill宣称的能力 |
-
-### Meta-skill 维度（6分）— 反例与黑名单
+### 效果维度（35分）
 
 | # | 维度 | 权重 | 评分标准 |
 |---|------|------|---------|
-| 9 | **反例与黑名单** | 6 | **skill 必须有"不要做什么"的反例清单**；只写"应该做 X"没有"不要做 Y"扣 ≥3 分；红灯/危险动作/反模式应单独章节列出（SkillLens risk-action blacklist 维度） |
+| 7 | 整体架构 | 12 | 层次清晰、不冗余；每段都是裸模型不知道的东西；正文≤500行，细节下沉references且只下沉一层 |
+| 8 | 实测表现 | 23 | 由E2实跑结果按下面的规则换算，不由评委凭感觉给 |
+
+### Meta-skill维度（6分）
+
+| # | 维度 | 权重 | 评分标准 |
+|---|------|------|---------|
+| 9 | 反例与黑名单 | 6 | 真实踩过的坑和高风险动作有明文禁令 |
 
 ### 评分规则
-- 维度1-7、9：每个维度打 1-10 分，乘以权重得到该维度得分
-- 维度8（实测表现）：跑2-3个测试prompt，按输出质量打1-10分
-- **总分 = Σ(维度分 × 权重) / 10**，满分100
-- ⚠️ **绝对总分只用于 triage（粗排「哪支最弱、先改谁」），绝不用于 keep/revert**。实测：同一份**未改**文字换个 judge 评，总分可摆 **±8**（一支只加了 3 个 🔴 字元的 skill、单评却 −8.5，全是 judge 换尺、非真实退步）。keep/revert 一律走 **Phase 2 的 paired 比较**。
-  - **为什么**：LLM judge 给的是**抽样、不是测量**——分数住在「文字 × 该 judge 当下选的标准」里，不是文字属性。绝对总分 = 用**两台未校准磅秤**量节食前后，差值大半是磅秤差；paired = **同一台磅秤**量前后，误差相减抵销。pairwise preference >> absolute scoring 是 LLM judge 的已知结论（RLHF 用 pairwise 不用绝对分同因）。
 
-### Rubric 的实证基础
+- 维度1到7、9各打1到10分；总分 = Σ(维度分 × 权重) / 10。
+- 必要性原则：维度3、4、9只在任务确实脆弱的地方要求。一个纯写作类skill没有不可逆动作，不因为缺检查点扣分；为凑分硬加的章节在维度7按冗余扣分。
+- 增益的叫法以tally输出为准：胜多于负是「多数胜」，负多于胜是「多数负」，有胜有负且相等是「胜负相当」，全平是「多数平」。
+- 维度8换算：有检查项时，分数 = 带skill的检查项通过数 ÷ 开发集检查项总数 × 10，四舍五入（通过数取tally的「检查项通过合计」里b那个数）；再按增益封顶——多数负最高3分，多数平或胜负相当最高6分。没有检查项的主观类skill按增益给：全胜10，多数胜8，多数平或胜负相当5，多数负2。
+- 没跑E2就没有维度8的分数，总分标注「缺实测，不可比」，不许用推演代替。
+- 绝对总分跨评委有±8的噪音，只用于粗排，不用于判断一次改动的好坏。
 
-rubric 设计依据来自 **SkillLens 论文（arXiv 2605.23899）** + **本机 controlled study**：
+## 进化流程
 
-- SkillLens 发现 LLM-as-judge 准确率仅 46.4%（接近随机），加入 meta-skill 三维度后升到 73.8%
-- 本机对 huashu-research 做 4 类 degradation → 5 个独立 judge 盲测一致 V1>V2，Δ 均值 +46.5（5/5 high confidence）
+下文的`darwin.py`指`python3 <本SKILL.md所在目录>/scripts/darwin.py`，`W`指Phase 0建的工作目录。执行者、评委、触发测试的prompt和投票格式都在[references/eval-protocol.md](references/eval-protocol.md)，派子agent前先读它，prompt照抄。
 
-**结论**：rubric 能识别 gross degradation，但 fine-grained quality difference 仍不可信，**重要决策必须人审**。
+### Phase 0：准备
 
-→ 详细论文证据 + 5 judges 完整数据 + HL 实战案例数字见 [references/skilllens-evidence.md](references/skilllens-evidence.md)
+1. 确认范围和用法（体检、评估、进化、复测）。
+2. 跑体检：`darwin.py check <skill目录或装着多个skill的上级目录>`。
+3. 进化模式下：目标skill在git仓库里就建分支`auto-optimize/YYYYMMDD-HHMM`；不在仓库里，把整个skill目录复制一份带时间戳的备份。
+4. 建工作目录W，放快照、产出、盲评材料。用runtime提供的临时目录或系统临时目录，不要建在任何skills目录下面：里面会有SKILL.md副本，有的runtime会把它扫成新skill。
+5. 把目标skill整个目录复制到`W/s0/`作为原始版快照。复制时去掉`test-prompts.json`和`trigger-tests.json`：执行者能读到skill目录，测试的检查项不能让它看见。
+6. 读本目录的results.tsv，看这个skill以前试过什么、哪些假设被回滚过，不重复失败过的改法。
+7. 和用户确认不动区：身份层（角色定位、交付标准那几段）默认不动；用户定过的口味和措辞不动。评委建议删这些内容时，记录理由但不执行。
 
-### 关于「实测表现」维度
+### Phase 1：测试集
 
-这是与纯结构评分最大的区别。评分方式：
+测试集决定进化方向，是整个流程里最值得花时间的一步。存在目标skill目录的`test-prompts.json`，已有就复用并展示。
 
-1. 为每个skill设计2-3个**典型用户prompt**（不是边缘case，是最常见的使用场景）
-2. 用子agent执行：一个带skill跑，一个不带skill跑（baseline）
-3. 对比输出质量，从以下角度打分：
-   - 输出是否完成了用户意图？
-   - 相比不带skill的baseline，质量提升明显吗？
-   - 有没有skill引入的负面影响（过度冗余、跑偏、格式奇怪）？
-
-若子 agent 不可用（超时/资源限制），退化为「干跑验证」：读完 skill 后模拟一个典型 prompt 的执行思路，判断流程是否合理；必须在 results.tsv 标注 `dry_run`。**dry_run 比例 > 30% → 评估失效警告**（来自本机 controlled study：dim8 实测维度权重 23%，无 full_test 验证时分数不可信）。
-
----
-
-## Runtime 适配性审查（gate 项，独立于 9 维度评分）
-
-skill 应当能在 Claude Code / Codex / Cursor / OpenClaw / Hermes / Gemini CLI / OpenCode 等 50+ skills-compatible runtime 通用——否则其他 agent 解析时会被「在 Claude Code 里」「Claude Code skill」等措辞误判为「不是给我用的」直接拒装（实例：nuwa-skill 因此被 Marvis agent 拒绝）。
-
-### Phase 1 基线评估时强制跑一次红灯扫描
-
-```bash
-grep -nE "(在 Claude Code|Claude Code skill|Claude Code 用户|Cursor only|Codex 中|^\[!\[Claude Code|~/\.claude/skills/[a-z]|/plugin install\b)" SKILL.md README.md 2>/dev/null
+```json
+[
+  {"id": "dev-1", "split": "dev", "source": "real",
+   "prompt": "用户会说的原话",
+   "files": ["可选：测试要用到的输入文件"],
+   "checks": ["产出里可以客观核对的事实，如：生成了output.csv且含date列"]}
+]
 ```
 
-输出非空 = 红灯命中，**但须先读命中行上下文排除假阳性**（grep 命令本身/反例引用/讲解该规则的元陈述=假阳性，记 `runtime_scan=false_positive` 不改；判别表见 references/runtime-neutrality.md）→ 确认是真红灯（指令性用法）才强制把 Phase 2 第一轮定为 P0「runtime drift 修复」（写入 results.tsv 的 note 列 `runtime_warn=N`）。
+- 至少4条：2条dev（开发集，用来找毛病）、2条holdout（留出集，只在Phase 4验收时跑一次）。
+- 来源优先级：用户真实用过的请求或踩过的坑（real）＞用户口述的典型场景（user）＞读SKILL.md反推（doc）。全是doc来源时在报告里标明：用文档出题考文档，测不出文档没写到的缺口。
+- 任务要让裸模型有可能做不好。裸模型一次就能做对的题，测不出skill的价值。
+- checks写结果不写过程：「输出文件有N行」可以核对，「遵循了工作流」不行。主观类skill可以不写checks，全靠盲评。
+- 操作真实系统的skill，至少一条测试带真实输入数据。问答式的「第三步该填什么」不算测试。
 
-### 例外（允许的「Claude Code 痕迹」）
+🔴 CHECKPOINT · 🛑 STOP：把测试集给用户看，确认后再往下走。
 
-frontmatter 触发词、花叔生态内部 skill 名引用、明确标注 runtime-specific 章节、commit message——这些正当出现，不算红灯。
+### Phase 2：基线实跑
 
-→ 红灯/绿灯完整对照表 + 例外清单详细规则 + Phase 1/2/3 各阶段审查时机见 [references/runtime-neutrality.md](references/runtime-neutrality.md)
-
----
-
-## 自主优化循环
-
-### Phase 0: 初始化
-
-```
-1. 确认优化范围：
-   - 全部skills → 使用当前 runtime 支持的 skills 目录或用户指定目录，按其实际层级发现 `SKILL.md`；不要假定固定的 `.claude/skills` 路径
-   - 指定skills → 用户指定列表
-2. 创建 git 分支：auto-optimize/YYYYMMDD-HHMM
-3. 初始化 results.tsv（如不存在）
-4. 读取现有 results.tsv 了解历史优化记录
-```
-
-### Phase 0.5: 测试Prompt设计
-
-在评估之前，为每个skill设计测试prompt。这步很关键——没有测试prompt，「实测表现」维度就打不了分。
+1. 测试带输入文件时，先给每个执行者各复制一份到`W/in/<组>/<测试id>/`，不让两组共用同一份：一组原地改了文件，另一组读到的就不是原样。
+   每条dev测试派两个互不相干的独立子agent：一个带skill（先完整读`W/s0/`里的SKILL.md再干活），一个裸跑（不给skill）。产出分别写进`W/runs/s0/<测试id>/`和`W/runs/x/<测试id>/`。不告诉执行者这是测试，不让它看到另一组的目录。
+2. 生成盲评材料，派1位评委：
+   ```bash
+   darwin.py pair --a W/runs/x --b W/runs/s0 --out W/blind/lift --key W/keys/lift.json --judges 1 --redact W
+   ```
+   pair会随机A/B顺序，去掉执行记录，抹掉产出里带W的路径。评委只拿到`W/blind/lift/j1`这一个目录，把投票写成`W/votes/lift/j1.json`。
+3. 计票：`darwin.py tally --key W/keys/lift.json --votes W/votes/lift`，得到带skill对裸跑的胜平负，这就是增益。
+4. 另派一个独立评委做E1读评：按9维rubric给维度1到7、9打分；再读带skill那组的执行记录，找出agent在哪一步走错、哪句没照做、哪里绕了路。行为证据排在rubric印象前面。
+5. 算总分，写results.tsv，展示评分卡：
 
 ```
-for each skill:
-  1. 读取 SKILL.md，理解它做什么
-  2. 设计2-3个测试prompt，覆盖：
-     - 最典型的使用场景（happy path）
-     - 一个稍复杂或有歧义的场景
-  3. 保存到 skill目录/test-prompts.json：
-     [
-       {"id": 1, "prompt": "用户会说的话", "expected": "期望输出的简短描述"},
-       {"id": 2, "prompt": "...", "expected": "..."}
-     ]
+┌─────────────────┬──────┬──────────────┬────────────┬──────────────────┐
+│ Skill           │ 总分 │ 对裸跑增益   │ 检查项通过 │ 最大加权短板     │
+├─────────────────┼──────┼──────────────┼────────────┼──────────────────┤
+│ some-skill      │ 71   │ 1胜1平0负    │ 5/8        │ dim8 实测（9.2） │
+└─────────────────┴──────┴──────────────┴────────────┴──────────────────┘
 ```
 
-展示所有测试prompt给用户，**确认后再进入评估**。测试prompt的质量决定了优化方向是否正确。
+按增益分流：
 
-### Phase 1: 基线评估（Baseline）— triage 用途
+| 增益 | 含义 | 下一步 |
+|---|---|---|
+| 多数负 | skill在帮倒忙 | 先做删减类改动；仍为负就建议停用 |
+| 多数平 | 裸模型已经会了 | 告诉用户这些测试上看不出价值，由他决定：收窄到裸模型做不到的部分、瘦身，或到此为止 |
+| 胜负相当 | 有的任务帮忙，有的任务添乱 | 读负的那几条的执行记录，先修添乱的部分 |
+| 多数胜 | skill有用 | 从没通过的检查项和执行记录里找改进点 |
 
-> **本阶段绝对分数是 triage 排名（决定先改谁），不是 keep/revert 基准**。judge 对 gross 差异会一致（「哪支最弱」可信），对 fine-grained delta 不可信（±8 噪音）。keep/revert 在 Phase 2 用 paired 比较。
+🔴 CHECKPOINT · 🛑 STOP：展示评分卡和分流建议，等用户确认。评估模式到此结束，直接出Phase 5的报告。
 
-```
-for each skill in 优化范围:
+### Phase 3：进化循环
 
-  # 结构评分（主agent可以做）
-  1. 读取 SKILL.md 全文
-  2. 按维度1-7逐项打分（附简短理由）
-
-  # 效果评分（用子agent做，独立于主agent）
-  3. 对每个测试prompt，spawn子agent：
-     - with_skill: 带着SKILL.md执行测试prompt
-     - baseline: 不带skill执行同一prompt
-  4. 对比两组输出，打维度8的分
-
-  # 汇总
-  5. 计算加权总分
-  6. 记录到 results.tsv
-```
-
-**如果子agent不可用**（超时、环境限制），维度8用干跑验证打分，标注 `dry_run`。不要因为跑不了测试就跳过这个维度——哪怕是模拟推演也比完全不看效果好。
-
-基线评估完成后，展示评分卡：
+每个skill最多3轮，每轮只验证一个假设。
 
 ```
-┌──────────────────────────┬───────┬──────────────┬──────────────┐
-│ Skill                    │ Score │ 结构短板      │ 效果短板      │
-├──────────────────────────┼───────┼──────────────┼──────────────┤
-│ huashu-proofreading      │ 78    │ 边界条件      │ 测试prompt2  │
-│ huashu-slides            │ 72    │ 指令具体性    │ baseline持平  │
-├──────────────────────────┼───────┼──────────────┼──────────────┤
-│ 平均                     │ 75    │              │              │
-└──────────────────────────┴───────┴──────────────┴──────────────┘
+round = 0
+while round < 3:
+  round += 1
+
+  # Step 1 诊断
+  找加权短板最大的维度：weighted_gap = 权重 × (10 − 分数) / 10
+  dim2、dim3、dim4是相关簇，一起看
+  假设必须引用证据：「dev-2里agent没做X，因为SKILL.md第N行Y」
+  没有执行证据支撑的假设不做
+
+  # Step 2 选改法，按这个顺序考虑
+  删：裸模型本来就会的解释、没人走到的分支、重复的话
+  改：有歧义的指令、同一情境的两条路、放错位置的关键信息
+  移：只在特定分支用到的细节，下沉到references/
+  加：agent推断不出来的知识。只在有失败的检查项或执行记录指向它时才加
+  只改description的假设不走下面的Step 4和Step 5：执行者是直接读SKILL.md的，产出看不出路由的好坏。
+  它走触发测试裁决（eval-protocol.md「触发测试」）：验证那一半请求上命中率升或误触率降、另一项不退 → keep，否则revert
+
+  # Step 3 执行
+  对照下面的反例黑名单
+  编辑SKILL.md；新版体积超过旧版110%时，必须能指出它修掉了哪条失败的检查项
+  git commit（message: "optimize {skill}: {假设摘要}"）
+
+  # Step 4 新版实跑
+  把新版skill目录复制到 W/s{round}/（同样去掉测试文件），每条dev测试派一个独立子agent带它跑，产出写进 W/runs/s{round}/
+  旧版产出不用重跑，复用上一个保留版本的目录
+
+  # Step 5 盲评与裁决
+  darwin.py pair --a W/runs/<上一保留版> --b W/runs/s{round} --out W/blind/r{round} --key W/keys/r{round}.json --judges 3 --redact W
+  三位评委各读各的目录（j1、j2、j3），投票写进 W/votes/r{round}/
+  其中一位额外拿到skill目录的路径，专门核对新写的命令、参数、文件是不是真的存在、真的能跑
+  darwin.py tally --key W/keys/r{round}.json --votes W/votes/r{round} --old-skill <上一保留版SKILL.md> --new-skill <当前SKILL.md>
+
+  裁决以tally输出为准：
+    严格更好（胜>负，检查项没有倒退）→ keep
+    打平且新版更短 → keep
+    打平但没变短 → revert（没有证据的改动不保留）
+    更差或检查项倒退 → revert
+  tally提醒「只差一条且评委有分歧」→ 那几条两版各重跑一次，产出写进新目录（如 W/runs/s0-re、W/runs/s{round}-re），
+    对这几条重新pair和评审（--tests 指定），用重跑的结果替换这几条原来的胜负，再按上面四条裁决
+  tally报出事实性指控 → 先去验证；成立就以事实为准，不看票数
+
+  revert用 git revert HEAD 生成反向提交，保留历史
+  每轮结果写results.tsv，被回滚的假设也要记，供以后避开
+  连续2轮revert，或连续2轮tally都报「多数只是略好」→ 停手，进Phase 4
+  体积比的是SKILL.md本身（每次必读的部分），下沉到references的内容不计入
 ```
 
-**🔴 CHECKPOINT · 🛑 STOP：暂停等用户确认，再进入优化循环。**
+涨不动时（连续两个skill都在第1轮被回滚），可以提议一次探索性重写：从头重组结构，同样走Step 4和Step 5的实跑裁决。🔴 CHECKPOINT · 🛑 STOP：重写前必须征得用户同意。
 
-### Phase 2: 优化循环
+### Phase 4：验收
 
-用户确认后，按基线分数从低到高排序，先优化最弱的。
+所有轮次都被回滚、最终版等于原始版时，跳过第1步和第2步。
 
-```
-for each skill:
-  round = 0
-  while round < MAX_ROUNDS (默认3):
-    round += 1
+1. 留出集：用原始版（`W/s0/`）和最终版各跑一遍holdout测试，产出写进`W/runs/s0-holdout/`和`W/runs/sN-holdout/`；`darwin.py pair --a W/runs/s0-holdout --b W/runs/sN-holdout --out W/blind/holdout --key W/keys/holdout.json --judges 3 --redact W`，三位评委投票后`darwin.py tally --key W/keys/holdout.json --votes W/votes/holdout`（不传skill路径，只看胜平负）。结果是「多数负」，或tally报出检查项通过合计b小于a，说明改动只是迎合了开发集：把每轮的diff摆给用户，建议回滚到原始版。其余情况算通过。
+2. 终版分数：派一位独立评委对最终版重做E1读评；把`W/runs/x`和最后一个保留轮次的dev产出做一次1评委的增益评审，按评分规则换算维度8。报告里的after总分和after增益来自这一步。
+3. 触发：description改过，或体检报了路由警告，就跑触发测试——把目标skill和它的邻居skill的name、description一起给独立agent，看该触发的请求选不选它、不该触发的请求会不会误选。
+4. 真机：skill操作真实系统的，请用户在真实环境里跑一条，或经他同意后代跑。没做就在报告里如实写。
 
-    # Step 1: 诊断
-    找出加权短板最大的维度：weighted_gap = weight × (10 - score) / 10，结构或效果都算
-    # /10 与「总分 = Σ(维度分 × 权重) / 10」同标度：weighted_gap 就是该维度还能贡献的总分数
-    # 为什么不用「原始分最低」：低权重维度会制造进步幻觉——issue #18 实战中
-    # dim9（权重6，gap 5.3）原始分最低被优先修，而 dim8（权重23）加权短板最大（11.5）却 4 轮未动
-    # 加权短板相近（差距 ≤ 1.0，同上述标度）时，回退为原始分升序
-    # HL-3 警告：dim2/dim3/dim4 是相关簇，修一个时另两个常跟着涨
-    # → 不要因为 dim3 短板最大就单独修，要看整簇短板再决定是否同步改
+🔴 CHECKPOINT · 🛑 STOP：每个skill进化完都要人审。展示git diff、每轮裁决、留出集结果。用户说不好，回滚到进化前的版本。
 
-    # Step 2: 提出改进方案
-    针对该维度，生成1个具体改进方案：
-      - 改什么（具体段落/行）
-      - 为什么改（对应rubric哪条）
-      - 预期提升多少分
+### Phase 5：报告
 
-    # Step 3: 执行改进
-    编辑 SKILL.md
-    git add + commit（message: "optimize {skill}: {改进摘要}"）
-
-    # Step 4: Paired 重新评估（取代绝对重打分——绝对分数 judge 噪音 ±8、淹没保守编辑的 +3~8 真实增益）
-    spawn N=3 独立 judge，每个【同一次 call 内】读两版：
-      - 改前版：git show HEAD:<skill-path>/SKILL.md（上一个 kept commit）
-      - 改后版：working tree 当前 SKILL.md
-    照 9 维 rubric 当【比较准则】（不是各打绝对分），回 {better | worse | tie} + margin{clear|slight} + 一句理由。
-    关键：同一 judge 在一次 call 内比两版 → 它那把不准的尺对两版【等量作用、在比较时抵销】(within-judge cancellation)，
-    这正是 paired 优于绝对的机制。N 取奇数（默认 3；close call 升 5）。
-
-    # Step 5: 共识决策（多数决，取代「新总分 > 旧总分」）
-    cur = 投 better 的 judge 数；wor = 投 worse 的；
-    if cur >= wor:  # 多数说改后 ≥ 改前（含 tie）
-      status = "keep"
-      # HL-4 见好就收：连续 2 轮多数 judge 判 margin=slight 或 tie → break 进 Phase 3
-    else:           # 多数说 worse —— 这才是真退步（已扣掉换尺噪音）
-      status = "revert"
-      git revert HEAD（创建新commit回滚，不用 reset --hard）
-      记录到 results.tsv（note 记 vote 比数 + 一句 worse 理由）
-      break
-    # 单评绝对分数出现「负 delta」≠ revert 信号；必须经 paired 多数判 worse 才 revert（否则在丢真实增益）
-
-    # Step 6: 日志
-    results.tsv 追加行
-
-  # === 🔴 CHECKPOINT · 每个 skill 优化完后强制人审 ===
-  展示该skill的改动摘要：
-    - git diff（改前 vs 改后）
-    - 分数变化（哪些维度提升/下降）
-    - 测试prompt输出对比（如果跑过的话）
-  等用户确认 OK 再继续下一个skill。
-  如果用户说"不好"，回滚到该skill的优化前版本。
-```
-
-### Phase 2.5: 探索性重写（按需触发）
-
-当 hill-climbing 连续2个skill都在 round 1 就 break（涨不动）时，提议一次「探索性重写」：
+固定七段，每一段都只写实际发生的事：
 
 ```
-1. 选一个瓶颈skill
-2. git stash 保存当前最优版本
-3. 从头重写SKILL.md（不是微调，是重新组织结构和表达方式）
-4. 重新评估
-5. if 重写版 > stash版: 采用重写版
-   else: git stash pop 恢复
+## {skill} 进化报告
+结论：可直接用 / 小修后用 / 先优化再用 / 不建议用
+分数：总分 before → after（缺实测时注明不可比）
+实测：对裸跑增益（胜/平/负）；检查项通过 before → after；留出集结果；SKILL.md体积变化
+改动：保留了哪几轮、回滚了哪几轮、各自的证据
+已验证：到了哪一级证据，跑了几条测试、几位评委
+未验证：没跑的测试类型、没覆盖的runtime和模型、没上真机
+剩余风险：测试只有N条，只能发现大差异；测试来源；其他已知不确定
 ```
 
-这解决了 hill-climbing 的局部最优问题——有时候需要「先拆后建」才能突破瓶颈。
-**🔴 CHECKPOINT · 🛑 STOP：必须征得用户同意后才执行。**
+然后生成成果卡片。
 
-### Phase 3: 汇总报告
+## results.tsv
 
-```
-## 优化报告
-
-### 总览
-- 优化skills数：N
-- 总实验次数：M
-- 保留改进：X（Y%）
-- 回滚次数：Z
-- 实测验证：A次完整测试 / B次干跑
-
-### 分数变化
-┌──────────────────────────┬────────┬────────┬────────┐
-│ Skill                    │ Before │ After  │ Δ      │
-├──────────────────────────┼────────┼────────┼────────┤
-│ huashu-proofreading      │ 78     │ 87     │ +9     │
-│ huashu-slides            │ 72     │ 83     │ +11    │
-├──────────────────────────┼────────┼────────┼────────┤
-│ 平均                     │ 75     │ 85     │ +10    │
-└──────────────────────────┴────────┴────────┴────────┘
-
-### 主要改进
-1. [skill-A] 补充了边界条件处理，测试输出质量提升明显
-2. [skill-B] 重组了workflow结构，baseline对比优势增大
-```
-
----
-
-## results.tsv 格式
+位置：与本SKILL.md同目录。表头9列，2.x的旧记录继续可读：
 
 ```tsv
 timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
-2026-03-31T10:00	baseline	huashu-proofreading	-	78	baseline	-	初始评估	full_test
-2026-03-31T10:05	a1b2c3d	huashu-proofreading	78	84	keep	边界条件	补充fallback	full_test
-2026-03-31T10:10	b2c3d4e	huashu-proofreading	84	82	revert	指令具体性	过度细化	dry_run
+2026-11-14T10:00	baseline	some-skill	-	71	baseline	-	对裸跑1胜1平0负；检查项5/8	e2-dev
+2026-11-14T10:20	a1b2c3d	some-skill	-	2胜0平0负	keep	dim3 改	dev-2不再漏掉重试；3评委一致	e2-dev
+2026-11-14T10:40	b2c3d4e	some-skill	-	0胜2平0负	revert	dim5 加	打平且变长8%	e2-dev
+2026-11-14T11:00	final	some-skill	-	1胜1平0负	accept	-	留出集，原始版对最终版	e2-holdout
 ```
 
-`eval_mode` 列：`paired`（同 judge 比改前/改后，**keep/revert 权威依据**）｜`full_test`（子agent 跑 prompt）｜`dry_run`（模拟推演、仅供参考）。
-paired 行：`new_score` 栏记 vote 比数（如 `3-0 better`），`note` 记一句裁断理由。例：
-```tsv
-2026-06-10T06:30	paired	some-skill	（绝对 87.3→78.8 = judge 噪音）	3-0 better	paired 推翻单评假退步	paired
-```
-文件位置：与本 `SKILL.md` 同目录的 `results.tsv`（以当前安装的 skill 根目录为准）。
+`old_score`和`new_score`两列：基线行和终版行的`new_score`填9维总分；每轮裁决行的`new_score`填胜平负，`old_score`填`-`。
+`eval_mode`取值：`e0`、`e1`、`e2-dev`、`e2-holdout`、`e3`、`trigger`。旧值`paired`、`full_test`、`dry_run`只读不写。文件缺失就新建并写表头；列数对不上就先备份成`.bak.时间戳`再重建，并告诉用户。
 
----
+## 反例黑名单
 
-## 实战 high-leverage 操作（精髓速查）
+每轮改动前对照一次。每条都是真实踩过的坑。
 
-4 条经实战验证（huashu-gpt-image +10.85 / huashu-weread-advisor +14.9 / claude-design +16.5）。详细案例数据见 [references/skilllens-evidence.md](references/skilllens-evidence.md) 的「HL 实战案例」节。
-
-- **HL-1（dim4）显性视觉标记是杠杆**：加 🔴 CHECKPOINT / 🛑 STOP，靠「必须」措辞不行——LLM 解析时扫描视觉标记。4 行改动撬动 dim4 +3 分
-- **HL-2（dim3）if-then 三段式 fallback 表**：把「症状/解法」两列升级为「触发条件 / 一线修复 / 仍失败兜底」三段式。SkillLens failure-mechanism encoding 维度的落地
-- **HL-3（Phase 2 诊断）维度相关簇警告**：dim2/3/4 是相关簇——修 dim3 时 dim2 常跟着涨。「找最大加权短板维度」时同时看相关簇短板再决定是否同步改
-- **HL-4（Phase 2 退出）触顶自动 break**：连续 2 轮 Δ < 2 分 → break 进 Phase 3。+0.15 是停手信号不是继续信号；硬凑 MAX_ROUNDS=3 引入 over-engineering
-
----
+| # | 不要做 | 为什么 | 改成 |
+|---|---|---|---|
+| 1 | 同一个上下文里自己改自己评 | 刚改完的人总觉得更好 | 执行和评审都派独立子agent |
+| 2 | 让评委读两版SKILL.md来决定留不留 | 读得通顺不等于照着做不出错 | 评委盲评两版的产出 |
+| 3 | 拿绝对总分的涨跌当棘轮 | 换个评委总分能摆±8 | 总分只做粗排，裁决看tally |
+| 4 | 打平就保留 | 每次打平保留都在让skill变长，长了反而没用 | 平局归短的那版 |
+| 5 | 为凑分加章节 | 检查点、黑名单、失败分支不是越多越好 | 只在有失败证据处加，优先删和改 |
+| 6 | 用硬重置回滚 | 会丢掉工作区里没提交的改动 | git revert生成反向提交 |
+| 7 | 把对照组产出放在被测agent看得见的地方 | 它会读，然后抄进去 | 各组产出目录互不可见，prompt里禁止列目录 |
+| 8 | 只数票，不核实 | 两个只读文字的评委会投过一条走不通的流程 | 有事实性指控先验证，事实大于票数 |
+| 9 | 一轮改多处 | 结果无法归因 | 一轮一个假设 |
+| 10 | 用推演代替实跑 | 等于编造23%的权重 | 跑不了就标缺实测，不给dim8打分 |
+| 11 | 评委说删身份层就删 | 评委优化的是文档密度，不是产出水准 | 记录理由，不执行 |
+| 12 | 遇到异常默默跳过 | 棘轮断了自己还不知道 | 先告诉用户，再按异常表处理 |
 
 ## 优化策略库
 
-按优先级排序，每轮只做最高优先级的一个：
-
-### P0: Runtime 适配性问题（gate 项命中 → 必须先修）
-- README/SKILL.md 出现红灯措辞（如「在 Claude Code 里」「Claude Code skill」）→ 替换为 runtime-neutral 措辞
-- Badge 钉死单一 runtime → 改为 `Agent Skills Standard` + `skills.sh` + `Multi-Runtime` 三个中立 badge
-- 安装章节只给一种 runtime 的路径 → 改为「一行命令（auto-detect）+ 手动路径表 + 作为参考资料」三层结构
-- 工作流硬编码 runtime-specific 工具且无 fallback → 给出通用替代方案或标注「仅在某 runtime 可用」
-- 例外：skill 名明确标注单 runtime（如 `xxx-codex`）的，可跳过本项
-
-### P0: 效果问题（实测发现的）
-- 测试输出偏离用户意图 → 检查skill是否有误导性指令
-- 带skill比不带还差 → skill可能过度约束，考虑精简
-- 输出格式不符合预期 → 补充明确的输出模板
-
-### P1: 结构性问题
-- Frontmatter缺少触发词 → 补充中英文触发词
-- 缺少Phase/Step结构 → 重组为线性流程
-- 缺少用户确认检查点 → 在关键决策处插入
-
-### P2: 具体性问题
-- 步骤模糊（"处理图片"）→ 改为具体操作和参数
-- 缺少输入/输出规格 → 补充格式、路径、示例
-- 缺少异常处理 → 补充 "如果X失败，则Y"
-
-### P3: 可读性问题
-- 段落过长 → 拆分+用表格
-- 重复描述 → 合并去重
-- 缺少速查 → 添加TL;DR或决策树
-
----
+- P0 效果问题（E2发现的）：带skill比裸跑差，先删；产出偏离用户意图，查有没有误导性指令；检查项反复不过，补agent推断不出来的那条知识。
+- P0 可移植与安全：体检报的密钥、个人路径、无确认的破坏性命令；把skill钉死在单一runtime的措辞，判别表见[references/runtime-neutrality.md](references/runtime-neutrality.md)，先读上下文排除讲解和举例造成的误报。
+- P1 路由：description没写何时用、触发场景靠后、和邻居skill抢请求。
+- P2 结构：同一情境两条路、关键指令埋在长段落里、正文超500行。
+- P3 具体性：步骤模糊、缺输入输出规格、缺失败分支。
 
 ## 异常与边界条件
 
-流程假设环境理想，但实操常遇异常。以下预定义 fallback，保证优化过程不会「一跑就卡住」。
+| 场景 | 处理 |
+|---|---|
+| 子agent不可用 | E2做不了。只做E0和E1，报告标「缺实测」，不进Phase 3；告诉用户换一个能派子agent的环境再进化 |
+| 没有python3 | 体检照eval-protocol.md的清单手工做；盲评的A/B顺序逐条随机并记录，计票规则照搬Phase 3的四条裁决 |
+| 不在git仓库 | 用带时间戳的目录备份代替分支，回滚就是把备份复制回来 |
+| git revert冲突 | 从上一个保留的提交里取出SKILL.md覆盖当前文件，再提交 |
+| 分支已存在 | 分支名加`-2`、`-3` |
+| 目标目录没有SKILL.md | 该skill终止，results.tsv记`status=error`，继续下一个 |
+| 测试需要真实账号或会产生对外动作 | 不自动跑，列进「未验证」，交给用户决定 |
+| 执行子agent中途断了 | 只重跑那一条，不整轮重来 |
+| 裸跑组可能调用了runtime内置的同类skill | 在报告里注明对照组不纯，增益可能被低估 |
+| 3轮跑完还有短板 | 展示当前短板，问用户：再加1轮、探索性重写，还是收工 |
 
-| 场景 | 触发条件 | 处理动作 |
-|---|---|---|
-| 不在 git 仓库 | `git rev-parse` 失败 | 询问用户：执行 `git init` 或回退到文件备份；用户选后者则 `cp SKILL.md SKILL.md.bak.YYYYMMDD-HHMM` 代替 revert |
-| results.tsv 缺失 | 文件不存在 | 新建并写表头行（9列：含 eval_mode） |
-| results.tsv 损坏 | 列数不匹配 / 非TSV | 备份为 `.bak.YYYYMMDD-HHMM` 后重建，告知用户 |
-| 分支已存在 | `git checkout -b` 失败 | 分支名末尾加 `-2` / `-3`；第3次失败则切回现有分支并询问继续还是新起 |
-| `git revert` 失败 | 冲突 / 工作树脏 | 先 `git stash`，重试；仍失败则从上一个 commit 的 SKILL.md 读出覆盖当前文件手动恢复 |
-| MAX_ROUNDS 触顶（默认3） | 已跑3轮仍有短板 | 不强制 break，展示当前最弱维度问用户「继续加1轮 / 进入Phase 2.5 / 收工」 |
-| 优化后超 150% 体积 | 新文件 > 原 × 1.5 | 拒绝提交，回到改进步骤精简（删冗余/合并重复），再评 |
-| test-prompts.json 已存在 | 文件已在 skill 目录 | 默认复用并展示，问用户「复用 / 重写 / 追加」三选一 |
-| SKILL.md 找不到 | 目录存在但无 SKILL.md | 该 skill 终止，results.tsv 记 `status=error`，继续下一个 |
-| 分数计算规则 | 浮点精度漂移 | 总分保留 1 位小数，改进需严格 > 旧分（不靠四舍五入） |
-
-**原则**：异常先告知用户，再按规则处理；绝不静默跳过或静默失败。
-
----
-
-## darwin 操作反例黑名单（dim9 应用：darwin 自己优化时不要做的事）
-
-来自本机 results.tsv 早期 40 次 0 revert 的教训 + Judge G/H 自指评估暴露的反模式。每条都是**真实踩过的坑**。
-
-| # | 反模式 | 为什么不要做 | 替代做法 |
-|---|---|---|---|
-| 1 | **同 context 自评自改** | 改完后立刻在同一 Claude session 打分，会有「我刚改的肯定更好」乐观偏差（SkillLens 实证 LLM-as-judge 准确率仅 46.4%）| 必须 spawn **独立子 agent**；keep/revert 走 **paired 比较**（同 judge 一次读改前+改后）的**奇数 N 多数决**，**不用绝对分数 delta**（绝对分跨 judge ±8 噪音、不可比） |
-| 1b | **拿绝对分数 delta 当 keep/revert 棘轮** | 绝对总分是抽样不是测量；baseline judge 与 rescore judge 用不同「标准尺」，差值大半是换尺、非真实质量变化（实测一支纯加标记的 skill 单评 −8.5、全是换尺）| 绝对分只做 triage 排名；keep/revert 用 paired 多数决，within-judge cancellation 消除换尺污染 |
-| 2 | **`git reset --hard` 当回滚** | 会丢工作树未提交改动；CI 历史断裂 | 用 `git revert HEAD` 创建反向 commit，保留可追溯链 |
-| 3 | **为凑分增冗余** | 触顶后继续硬改往往是「加废话/加段落让 LLM 觉得更详细」，实际质量不变 | 触顶信号（连续 2 轮 Δ<2 分）→ break 进 Phase 3，**见好就收** |
-| 4 | **跳过 test-prompts 直接评分** | 没有 test-prompts 的 dim8 是凭空打分，权重 23% 等于编造 | Phase 0.5 强制设计 2-3 prompts；若用户不给，默认编 3 个并展示确认 |
-| 5 | **轮内改多个维度** | 多变量同时变，分数升降无法归因到具体改动 | 每轮 1 个维度；相关簇（dim2/3/4）改其一时观察另两个是否跟涨 |
-| 6 | **dry_run 比例 > 30%** | dim8 实测维度形同虚设，分数虚高（早期 40 次记录 67% dry_run，0 revert） | 强制至少 1 个真实 full_test；dry_run 多的优化在 results.tsv 显式打 ⚠️ |
-| 7 | **静默跳过异常** | 遇到 git/tsv 异常时静默继续，破坏 ratchet 完整性 | 异常表 10 条 fallback 必须先告知用户再处理 |
-| 8 | **忽视维度相关性单独优化** | dim2/3/4 是相关簇，单独优化 dim2 时常发现已被前轮 dim3 修复推到顶 | 找最大加权短板维度时同时看相关簇短板，决定是否同步改 |
-
-**触发场景**：每轮 Phase 2 改动前对照本表一次。任一反模式命中 → 改方案重写。
-
----
+异常先告诉用户，再按表处理。
 
 ## 约束规则
 
-1. **不改变skill的核心功能和用途** — 只优化"怎么写"和"怎么执行"，不改"做什么"
-2. **不引入新依赖** — 不添加skill原本没有的scripts或references文件
-3. **每轮只改一个维度** — 避免多个变更导致无法归因
-4. **保持文件大小合理** — 优化后SKILL.md不应超过原始大小的150%
-5. **尊重花叔风格** — 中文为主、简洁为上
-6. **可回滚** — 所有改动在git分支上，用git revert而非reset --hard
-7. **评分独立性** — 效果维度必须用子agent或至少干跑验证，不能在同一上下文里「改完直接评」
-8. **Runtime 中立性** — skill 必须能在 Claude Code、Codex、Cursor、OpenClaw、Hermes 等任何 skills-compatible runtime 中正常运行。除非 skill 名明确绑定单一 runtime（如 `xxx-codex`、`huashu-slides-codex`），任何「在 Claude Code 里」「Claude Code skill」「单一 badge 钉死」「安装命令只给 `.claude/skills/` 一种路径」都视为 gate 不通过，须在 P0 优先修复（详见「Runtime 适配性审查」章节）
+1. 不改skill的核心功能和用途，只改怎么写、怎么执行。
+2. 不引入新的外部依赖。把已有内容下沉到references/可以，新增脚本和工具不行。
+3. 一轮一个假设。
+4. 正文不超过500行；单轮体积增长超过10%必须有失败检查项作证。
+5. 所有改动可回滚。
+6. 执行者和评委都是独立子agent，评委看不到哪份是新版。
+7. 不动区不改。
+8. 测试、执行、评审都不产生对外动作：不发布、不推送、不发消息，除非用户当次明确同意。
 
----
+## 成本
 
-## 使用方式
+实跑的开销主要在子agent，主agent的上下文要保持小：
 
-### 全量优化（推荐首次使用）
-```
-用户："优化所有skills"
-→ Phase 0-3 完整流程
-→ 默认：先基线评估，按分数升序优先优化最低 5-10 个
-```
+- 执行者和评委把完整产出写进文件，只向主agent回5行以内的摘要。主agent只在诊断时读没通过的那条的执行记录。
+- 裸跑产出和旧版产出跨轮复用，每轮只新跑D条。
+- 增益评审用1位评委，棘轮裁决用3位。
+- 一个2条dev、2条holdout、进化2轮的skill，约需子agent：基线4＋评审2，每轮2＋3，验收4＋3，合计23次上下。预算紧就只做评估。
 
-### 单个优化
-```
-用户："优化 huashu-slides 这个skill"
-→ 只对指定skill执行 Phase 0.5-2
-```
+## 成果卡片
 
-### 仅评估不改
-```
-用户："评估所有skills的质量"
-→ 只执行 Phase 0.5-1（设计测试prompt + 基线评估），不进入优化循环
-```
+每个skill进化完，用`templates/result-card.html`生成一张卡片：
 
-### 查看历史
-```
-用户："看看skill优化历史"
-→ 读取并展示 results.tsv
-```
+1. 把模板复制到W，照模板顶部注释替换`data-field`占位：skill名、总分before/after、对裸跑增益、检查项通过before/after、体积变化、三条改进摘要、证据等级、日期。
+2. 截图：`node <本SKILL.md所在目录>/scripts/screenshot.mjs /abs/path/card.html /abs/path/card.png --no-open`，再把PNG路径告诉用户。脚本需要playwright；失败就把HTML路径交给用户自己打开。
 
----
+卡片上的数字只能来自results.tsv和tally输出。
 
-## 设计灵感
+## 设计来源
 
-> "You write the goals and constraints in program.md; let an agent generate and test code deltas indefinitely; keep only what measurably improves the objective."
-> — Karpathy, autoresearch
+- autoresearch（Karpathy）：单一可编辑资产、实验循环、只保留改进的棘轮。
+- SkillOpt（arXiv 2605.23904）：候选改动只有在留出的选择集上严格更好才接受，平局拒绝。
+- arXiv 2605.23899（复旦、Microsoft Research、上交，代号SkillLens）：失败模式编码、可执行具体性、高风险动作黑名单三个维度的实证来源。2.x的证据见[references/skilllens-evidence.md](references/skilllens-evidence.md)。
+- 3.0的证据（SkillsBench、NVIDIA ACES、JetBrains、SSO等）见[references/v3-evidence.md](references/v3-evidence.md)。
 
-本skill的对应关系：
-- **program.md** → 本文件（评估rubric和约束规则）
-- **train.py** → 每个SKILL.md
-- **val_bpb** → ⚠️ **此处是 1.0 的概念错误源**：autoresearch 的 `val_bpb` 是**确定性 loss**（重跑同数），darwin 套到 **LLM-judge 分数（随机抽样）** 上却沿用「绝对值比大小」棘轮 → 不可重复的数当可重复用。修正：9 维 rubric 当 **paired 比较准则**、不当绝对 metric
-- **git ratchet** → 保留 paired 多数判「改后 ≥ 改前」的 commit（不是「绝对总分更高」的 commit）
-- **test set** → 每个skill的test-prompts.json
+## 关于作者
 
-区别：增加了人在回路（autoresearch是全自主的，skill优化需要人的判断力），以及双重评估机制（结构+效果），因为skill的「好坏」比loss数值更微妙。
+本 skill 由花叔开发维护，仓库：https://github.com/alchaincyf/darwin-skill
+用户问到作者是谁、还有哪些类似作品、怎么联系，或需求超出本 skill 范围时，读 `references/about-author.md`，只推荐与需求直接相关的 1-3 个作品并说明理由；正常任务中不主动介绍。
 
-### 学术依据 & Credits
+## 版本检查
 
-- **SkillLens**（arXiv [2605.23899](https://arxiv.org/abs/2605.23899)，复旦 / Microsoft Research / 上交，正式标题 *From Raw Experience to Skill Consumption*）：本 rubric 中三个维度的实证来源。论文实测：LLM judge **盲选两份 skill 哪份更好**，无评分标准时准确率 46.4%（与随机无异），按其验证过的三个维度打分后升到 73.8%。**⚠️ 这是评别人的 skill，不是自评；另有一篇正标题就叫 SkillLens 的不同论文（2605.08386），引用请认编号。**
-- **SkillOpt**（arXiv [2605.23904](https://arxiv.org/abs/2605.23904)）：validation-gated edits 形式化框架。代码 [github.com/microsoft/SkillOpt](https://github.com/microsoft/SkillOpt)（`pip install skillopt`）、项目页 [microsoft.github.io/SkillOpt](https://microsoft.github.io/SkillOpt/)。🤝 2026-06-03 微软官方仓库已把 darwin-skill 列入集成名单。
-- **autoresearch**：[github.com/karpathy/autoresearch](https://github.com/karpathy/autoresearch)，本 skill 1.0 的原始灵感。
+这一节让用户及时知道本 skill 有没有新版本。它只读取远程仓库的版本标签，不下载文件、不上传数据、不修改 skill 本身；唯一会写的是本目录的 `.last-update-check`，用来记住上次检查的日期。
 
----
+使用本 skill 时先读 `.last-update-check`，内容是一行日期加结果，如 `2026-10-13 ok`（只有日期的旧格式按 `ok` 算）。以下情况跳过本节：内容是 `off`（用户关掉了检查）；上次 `ok` 不足 30 天；上次 `failed` 不足 7 天；本目录不是 git 克隆。
 
-## 成果卡片生成（Result Card）
+到期时运行 `git -C <本目录> ls-remote --tags --refs --sort=-v:refname origin 'v*'`：
 
-每个skill优化完成后（或全量汇总后），自动生成视觉成果卡片，截图保存为PNG。
+- 成功：第一行就是最新版本，和本文件开头的 `metadata.version` 比较，然后写入 `<今天> ok`。远程更高时，先完成用户的任务，结束时告诉用户：「darwin-skill 有新版本 vX.Y.Z，更新说明见 https://github.com/alchaincyf/darwin-skill/releases ，需要时运行 `git -C <本目录> pull --ff-only`；不想再收到提醒，把 `.last-update-check` 的内容改成 `off`」。版本相同或没有标签就不用提。
+- 失败（断网、沙箱不允许联网）：写入 `<今天> failed`，7 天后再试。
 
-### 卡片模板
-
-模板位置：`templates/result-card.html`
-
-3种风格，每次随机选择一种：
-
-| 风格 | CSS类 | URL hash | 视觉特点 |
-|------|--------|----------|---------|
-| Warm Swiss | `.theme-swiss` | `#swiss` | 暖白底+赤陶橙，Inter字体，干净网格 |
-| Dark Terminal | `.theme-terminal` | `#terminal` | 近黑底+荧光绿，等宽字体，扫描线 |
-| Newspaper | `.theme-newspaper` | `#newspaper` | 暖白纸+深红，衬线字体，双栏编辑风 |
-
-### 生成流程
-
-```
-1. 复制 templates/result-card.html 到临时工作文件
-2. 用 sed/编辑工具 替换占位数据：
-   - data-field="skill-name" → 实际skill名
-   - data-field="score-before/after/delta" → 实际分数
-   - 9个维度的 dim-bar-before/after width → 实际百分比（若模板仍是旧 8 维布局，加一行 dim9 反例黑名单条目）
-   - data-field="improvement-1/2/3" → 实际改进摘要
-   - data-field="date" → 当前日期
-3. 随机选择风格：hash 设为 swiss/terminal/newspaper 之一
-4. 用 scripts/screenshot.mjs 截图（2x 高清，只截 .card 元素，自动 open 图片）：
-   node "<本 SKILL.md 所在目录>/scripts/screenshot.mjs" \
-     /abs/path/to/card.html /abs/path/to/output.png
-   # 回退方案（脚本失败时）：
-   npx playwright screenshot "file:///path/to/card.html#[theme]" \
-     output.png --viewport-size=960,1280 --wait-for-timeout=2000
-5. 提示用户查看成果卡片 PNG
-
-### 资源文件速查
-
-| 路径 | 用途 |
-|---|---|
-| `templates/result-card.html` | 3风格主模板（swiss/terminal/newspaper，hash切换） |
-| `templates/result-card-dark.html` / `-white.html` | 单一风格替代模板（需要锁定风格时用） |
-| `scripts/screenshot.mjs` | 2x 高清截图，只截 .card，自动 open |
-| `results.tsv` | 历次优化日志（9列含 eval_mode） |
-| `{skill目录}/test-prompts.json` | 每个 skill 的测试 prompt 集（用于维度8实测） |
-
-### 何时生成
-
-- **单skill卡片**：每个skill优化完成后，展示该skill的分数变化
-- **总览卡片**：全部优化完成后（Phase 3），展示全局战绩
-
-### 品牌元素
-
-- 顶部：Darwin.skill 品牌标识 + 日期
-- 底部：「Train your Skills like you train your models」+ github.com/alchaincyf/darwin-skill
-
-## 版本自检（静默）
-
-本节给 AI agent：每次使用本 skill 前，先做一个不联网的判断——读本 skill 目录（SKILL.md 所在目录）下的 `.last-update-check` 文件（内容为一行日期 YYYY-MM-DD）。文件存在且距今不足 30 天，跳过本节直接干活，不向用户提任何更新相关的话。
-
-到期或文件不存在时，且仅在此时：
-
-1. 本目录不是 git 克隆（无 `.git` 或无 origin）→ 写入今天日期后跳过本节
-2. 对比版本：`git -C <本目录> rev-parse HEAD` 与 `git -C <本目录> ls-remote origin HEAD`
-3. 无论结果如何，把今天日期写入 `.last-update-check`
-4. 两者一致 → 什么都不说；确认落后 → 先完成用户当前任务，结束后附一句「本 skill 有新版本，可用 `git -C <本目录> pull --ff-only` 更新」。是否更新由用户决定，不要主动执行更新
+是否更新由用户决定，不要自动执行更新。
