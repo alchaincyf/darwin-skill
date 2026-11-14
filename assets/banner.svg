@@ -36,7 +36,7 @@
   <rect x="60" y="350" width="760" height="1" fill="#FFFFFF" opacity="0.15"/>
 
   <!-- CATEGORY -->
-  <text x="80" y="88" font-family="'Inter', system-ui, sans-serif" font-size="11" font-weight="700" letter-spacing="3" fill="#D4532B">CLAUDE CODE SKILL · AUTO-OPTIMIZER</text>
+  <text x="80" y="88" font-family="'Inter', system-ui, sans-serif" font-size="11" font-weight="700" letter-spacing="3" fill="#D4532B">AGENT SKILL · VERSION 3.0</text>
 
   <!-- MAIN TITLE -->
   <text x="80" y="178" font-family="'Inter', system-ui, sans-serif" font-size="88" font-weight="900" fill="#FFFFFF" letter-spacing="-2">达尔文.skill</text>
@@ -51,7 +51,7 @@
   <text x="80" y="288" font-family="'Inter', system-ui, sans-serif" font-size="15" font-weight="400" fill="#AAAAAA">像训练模型一样优化你的 Agent Skill</text>
 
   <!-- Data line -->
-  <text x="80" y="322" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="700" fill="#D4532B">9-dim<tspan font-weight="400" fill="#AAAAAA"> evaluation  ·  </tspan><tspan font-weight="700" fill="#D4532B">ratchet mechanism</tspan><tspan font-weight="400" fill="#AAAAAA">  ·  </tspan><tspan font-weight="700" fill="#D4532B">2,864</tspan><tspan font-weight="400" fill="#AAAAAA"> stars  ·  MIT open source</tspan></text>
+  <text x="80" y="322" font-family="'Inter', system-ui, sans-serif" font-size="14" font-weight="700" fill="#D4532B">9-dim<tspan font-weight="400" fill="#AAAAAA"> evaluation  ·  </tspan><tspan font-weight="700" fill="#D4532B">ratchet mechanism</tspan><tspan font-weight="400" fill="#AAAAAA">  ·  </tspan><tspan font-weight="700" fill="#D4532B">blind-judged real runs</tspan><tspan font-weight="400" fill="#AAAAAA">  ·  MIT open source</tspan></text>
 
   <!-- Footer -->
   <text x="80" y="370" font-family="'Inter', system-ui, sans-serif" font-size="12" font-weight="400" fill="#666666" letter-spacing="0.3">Inspired by Karpathy's autoresearch  ·  A ratchet that only turns forward</text>

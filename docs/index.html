@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>自主技能优化系统</title>
+<title>达尔文.skill 3.0 · 只保留实测更好的改动</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -657,13 +657,13 @@
 </head>
 <body>
 
-<!-- ═══════════════════════════ HERO ═══════════════════════════ -->
 <div class="container">
   <section class="hero">
-    <div class="hero-label">自主技能优化系统</div>
-    <h1>Auto Skill<br>Optimizer</h1>
+    <div class="hero-label">达尔文.skill 3.0 · 自主技能进化系统</div>
+    <h1>Darwin.skill<br>3.0</h1>
     <p class="hero-subtitle">
-      <strong>评估</strong> &rarr; <strong>改进</strong> &rarr; <strong>实测验证</strong> &rarr; <strong>人类确认</strong> &rarr; <strong>保留或回滚</strong>
+      <strong>评估</strong> &rarr; <strong>改进</strong> &rarr; <strong>实跑盲评</strong> &rarr; <strong>人类确认</strong> &rarr; <strong>保留或回滚</strong><br>
+      棘轮不再看文档写得好不好，只看带着它干活干得怎么样。
     </p>
     <div class="hero-quote">
       <p>「autoresearch 的核心想法很简单：让系统自主运行实验，评估结果，只保留有效的改进。一个只能向前转的棘轮。」</p>
@@ -672,410 +672,146 @@
   </section>
 </div>
 
-<!-- ═══════════════════════════ 01 PRINCIPLES ═══════════════════════════ -->
 <div class="container">
   <section class="section">
     <div class="section-num">01</div>
-    <h2 class="section-title">核心原则</h2>
-    <p class="section-lead">五条规则，防止优化器偏移方向、自我刷分或引入退化。</p>
-
+    <h2 class="section-title">3.0为什么<br>改成量行为</h2>
+    <p class="section-lead">2.x让评委读新旧两版SKILL.md投票。2026年的几项实证说明，这把尺子量不到实际效果。</p>
     <div class="principles-grid">
-      <div class="principle">
-        <div class="principle-num">01</div>
-        <h3>单一可编辑资产</h3>
-        <p>每轮优化只针对一个 SKILL.md 文件。一次修改，一次测量，一次决策。不做跨文件编辑，避免归因模糊。</p>
-      </div>
-      <div class="principle">
-        <div class="principle-num">02</div>
-        <h3>双重评估</h3>
-        <p>静态结构分析捕捉格式和完整性问题。实测执行捕捉行为退化。两者缺一不可。</p>
-      </div>
-      <div class="principle">
-        <div class="principle-num">03</div>
-        <h3>棘轮机制</h3>
-        <p>提升总分的改进被 commit。降低分数的修改自动 revert。分数只能上升或持平，永远不会下降。</p>
-      </div>
-      <div class="principle">
-        <div class="principle-num">04</div>
-        <h3>独立评分</h3>
-        <p>编辑 Skill 的 Agent 永远不为自己打分。由独立的子 Agent 评估输出质量，防止自我表扬偏差。</p>
-      </div>
-      <div class="principle principle--full">
-        <div class="principle-num">05</div>
-        <h3>人在回路</h3>
-        <p>每个 Skill 的优化循环完成后，系统暂停。向人类展示 diff 摘要、分数变化和测试输出对比。没有明确确认，任何改动都不会生效。</p>
-      </div>
+      <div class="principle"><div class="principle-num">01</div><h3>读文档的分数预测不了实跑效果</h3><p>145个真实skill上，读文档打出的分数与实跑增益的相关系数是−0.02和−0.03（arXiv:2608.20614）。</p></div>
+      <div class="principle"><div class="principle-num">02</div><h3>看起来完整的文档行为最差</h3><p>按「完整、有操作感」选出的文档，在所有看行为的指标上是全组最差（arXiv:2609.12742）。</p></div>
+      <div class="principle"><div class="principle-num">03</div><h3>精简有用，面面俱到没用</h3><p>按篇幅分，精简型skill带来+19.0个百分点，面面俱到型只有+0.7（arXiv:2602.12670）。</p></div>
+      <div class="principle"><div class="principle-num">04</div><h3>评委全票通过，上真机绕了远路</h3><p>本项目自己的记录：三位读文档的评委3比0判更好，上真机后多绕33次工具调用。</p></div>
     </div>
   </section>
 </div>
 
-<!-- ═══════════════════════════ 02 RUBRIC ═══════════════════════════ -->
 <div class="container">
   <section class="section">
     <div class="section-num">02</div>
-    <h2 class="section-title">9维度<br>评估体系</h2>
-    <p class="section-lead">100分评估体系。结构维度捕捉你能看到的问题，效果维度捕捉只有运行时才能感知的问题，Meta 维度检查「不要做什么」的反例编码。</p>
-
-    <div class="rubric-header">
-      <div class="rubric-stat">
-        <div class="rubric-stat-num">59</div>
-        <div class="rubric-stat-label">结构<br>分值</div>
-      </div>
-      <div class="rubric-stat">
-        <div class="rubric-stat-num rubric-stat-num--accent">35</div>
-        <div class="rubric-stat-label">效果<br>分值</div>
-      </div>
-      <div class="rubric-stat">
-        <div class="rubric-stat-num">6</div>
-        <div class="rubric-stat-label">Meta<br>分值</div>
-      </div>
+    <h2 class="section-title">核心原则</h2>
+    <p class="section-lead">六条规则，防止优化器偏移方向、自我刷分或让skill越改越长。</p>
+    <div class="principles-grid">
+      <div class="principle"><div class="principle-num">01</div><h3>裁决看产出，不看文档</h3><p>独立agent带新旧两版skill真的做任务，三位评委盲评产出，A/B顺序逐评委逐测试随机。</p></div>
+      <div class="principle"><div class="principle-num">02</div><h3>先测对裸模型的增益</h3><p>带skill和不带各跑一次。裸模型已经会的、带了反而更差的，先在报告里说清楚。</p></div>
+      <div class="principle"><div class="principle-num">03</div><h3>平局归短的那版</h3><p>严格更好才保留；打平且更短也保留；打平不更短、变差或检查项倒退就回滚。</p></div>
+      <div class="principle"><div class="principle-num">04</div><h3>留出集验收</h3><p>测试集分开发集和留出集。改动只看开发集的失败来做，最后用留出集验收，防止迎合测试。</p></div>
+      <div class="principle"><div class="principle-num">05</div><h3>事实大于票数</h3><p>评委指出可核实的事实性错误时，先验证再计票。裁决由脚本按固定规则给出。</p></div>
+      <div class="principle"><div class="principle-num">06</div><h3>人在回路</h3><p>每个skill进化完暂停，展示diff、实测结果和报告。没有明确确认，改动不会生效。</p></div>
     </div>
-
-    <table class="rubric-table">
-      <caption>结构维度 &mdash; 静态分析</caption>
-      <thead>
-        <tr>
-          <th style="width:36px">#</th>
-          <th style="width:180px">维度</th>
-          <th style="width:60px">权重</th>
-          <th>评分标准</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="dim-num">1</td>
-          <td class="dim-name">Frontmatter质量</td>
-          <td class="dim-weight">7</td>
-          <td class="dim-desc">名称正确，描述包含功能/触发条件/使用场景，不超过1024字符，禁空话尾巴</td>
-        </tr>
-        <tr>
-          <td class="dim-num">2</td>
-          <td class="dim-name">工作流清晰度</td>
-          <td class="dim-weight">12</td>
-          <td class="dim-desc">步骤有编号、可执行，每步都有明确的输入/输出</td>
-        </tr>
-        <tr>
-          <td class="dim-num">3</td>
-          <td class="dim-name">失败模式编码</td>
-          <td class="dim-weight">12</td>
-          <td class="dim-desc">显式写出「如果 X 失败 → Y」的分支，有 fallback 路径与错误恢复</td>
-        </tr>
-        <tr>
-          <td class="dim-num">4</td>
-          <td class="dim-name">检查点设计</td>
-          <td class="dim-weight">6</td>
-          <td class="dim-desc">关键决策前需用户确认，检查点须显性标记（🔴/STOP/CHECKPOINT）</td>
-        </tr>
-        <tr>
-          <td class="dim-num">5</td>
-          <td class="dim-name">可执行具体性</td>
-          <td class="dim-weight">18</td>
-          <td class="dim-desc">无歧义，具体的参数/格式/示例，禁「视情况而定」类软化措辞</td>
-        </tr>
-        <tr>
-          <td class="dim-num">6</td>
-          <td class="dim-name">资源整合度</td>
-          <td class="dim-weight">4</td>
-          <td class="dim-desc">所有引用的脚本/资产路径存在且可访问</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <table class="rubric-table">
-      <caption>效果维度 &mdash; 需要实测</caption>
-      <thead>
-        <tr>
-          <th style="width:36px">#</th>
-          <th style="width:180px">维度</th>
-          <th style="width:60px">权重</th>
-          <th>评分标准</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="dim-num">7</td>
-          <td class="dim-name">整体架构</td>
-          <td class="dim-weight">12</td>
-          <td class="dim-desc">层次清晰，无冗余或遗漏，符合生态系统约定</td>
-        </tr>
-        <tr>
-          <td class="dim-num">8</td>
-          <td class="dim-name">实测表现</td>
-          <td class="dim-weight">23</td>
-          <td class="dim-desc">运行2-3个测试提示词，对比启用 Skill 和 baseline 的输出质量</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <table class="rubric-table">
-      <caption>Meta-skill 维度 &mdash; 反例与黑名单</caption>
-      <thead>
-        <tr>
-          <th style="width:36px">#</th>
-          <th style="width:180px">维度</th>
-          <th style="width:60px">权重</th>
-          <th>评分标准</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="dim-num">9</td>
-          <td class="dim-name">反例与黑名单</td>
-          <td class="dim-weight">6</td>
-          <td class="dim-desc">必须有「不要做什么」的反例清单，红灯/危险动作/反模式单独章节列出</td>
-        </tr>
-      </tbody>
-    </table>
   </section>
 </div>
 
-<!-- ═══════════════════════════ 03 PHASES ═══════════════════════════ -->
 <div class="container">
   <section class="section">
     <div class="section-num">03</div>
-    <h2 class="section-title">优化循环</h2>
-    <p class="section-lead">从初始化到最终报告的五个阶段。系统在每个阶段内自主运行，但在阶段之间暂停等待人类审查。</p>
-
-    <div class="phases">
-      <div class="phase">
-        <div class="phase-id">
-          0
-          <span>初始化</span>
-        </div>
-        <div class="phase-body">
-          <h3>范围与分支设置</h3>
-          <p>确定优化范围，创建版本控制基础设施，加载历史记录。</p>
-          <ol class="phase-steps">
-            <li>确认范围：全部 Skill 还是用户指定子集</li>
-            <li>扫描 .claude/skills/*/SKILL.md 获取目标列表</li>
-            <li>创建 git 分支：auto-optimize/YYYYMMDD-HHMM</li>
-            <li>初始化或加载 results.tsv 用于历史追踪</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="phase">
-        <div class="phase-id">
-          0.5
-          <span>设计</span>
-        </div>
-        <div class="phase-body">
-          <h3>测试提示词工程</h3>
-          <p>在任何评分之前，先设计用于衡量效果的测试提示词。没有好的测试，优化器就是盲飞。</p>
-          <ol class="phase-steps">
-            <li>阅读每个 SKILL.md，理解其声明的能力</li>
-            <li>为每个 Skill 设计2-3个提示词：一个正常路径，一个模糊场景</li>
-            <li>保存到每个 Skill 目录下的 test-prompts.json</li>
-            <li>在继续之前，将所有测试提示词提交人类审批</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="phase">
-        <div class="phase-id">
-          1
-          <span>基线</span>
-        </div>
-        <div class="phase-body">
-          <h3>全维度评分</h3>
-          <p>为每个 Skill 建立起始分数。结构评分由主 Agent 完成，效果评分由独立子 Agent 完成。</p>
-          <ol class="phase-steps">
-            <li>阅读 SKILL.md，为维度1-7评分并附理由</li>
-            <li>启动子 Agent：分别在启用和未启用 Skill 的情况下运行测试提示词</li>
-            <li>对比输出，为维度8评分（如子 Agent 不可用则标记 dry_run）</li>
-            <li>计算加权总分，记录到 results.tsv</li>
-            <li>展示评分卡，暂停等待人类确认</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="phase">
-        <div class="phase-id">
-          2
-          <span>优化</span>
-        </div>
-        <div class="phase-body">
-          <h3>Hill-Climbing 循环</h3>
-          <p>按分数从低到高处理 Skill。每轮：诊断加权短板最大的维度，提出一个针对性修复，执行，重新评分，做出决定。</p>
-          <ol class="phase-steps">
-            <li>找出该 Skill 加权短板最大的维度（weight × (10 − score) / 10）</li>
-            <li>生成一项具体改进（改什么，为什么改，预期分数变化）</li>
-            <li>编辑 SKILL.md，用结构化消息 git commit</li>
-            <li>重新评分：结构由主 Agent，效果由独立子 Agent</li>
-            <li>新分 > 旧分：保留。否则：git revert，进入下一个 Skill</li>
-            <li>每个 Skill 完成后：展示 diff + 分数变化，等待人类确认</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="phase">
-        <div class="phase-id">
-          3
-          <span>报告</span>
-        </div>
-        <div class="phase-body">
-          <h3>总结与指标</h3>
-          <p>将所有结果汇总为最终优化报告，包含优化前后分数、实验次数和关键改进。</p>
-          <ol class="phase-steps">
-            <li>统计总实验次数、保留次数、回滚次数和测试模式</li>
-            <li>生成每个 Skill 的优化前后分数对比表</li>
-            <li>列出影响最大的改进及其对应维度</li>
-            <li>归档 results.tsv 供未来 baseline 参考</li>
-          </ol>
-        </div>
-      </div>
+    <h2 class="section-title">9维度<br>评估体系</h2>
+    <p class="section-lead">100分，权重与2.x相同。3.0里它只负责诊断和排序：告诉你先改哪里，不决定改动留不留。</p>
+    <div class="rubric-header">
+      <div class="rubric-stat"><div class="rubric-stat-num">59</div><div class="rubric-stat-label">结构<br>分值</div></div>
+      <div class="rubric-stat"><div class="rubric-stat-num rubric-stat-num--accent">35</div><div class="rubric-stat-label">效果<br>分值</div></div>
+      <div class="rubric-stat"><div class="rubric-stat-num">6</div><div class="rubric-stat-label">Meta<br>分值</div></div>
     </div>
+    <table class="rubric-table"><caption>结构维度 &mdash; 独立agent读评</caption><thead><tr><th style="width:36px">#</th><th style="width:180px">维度</th><th style="width:60px">权重</th><th>评分标准</th></tr></thead><tbody>
+      <tr><td class="dim-num">1</td><td class="dim-name">Frontmatter质量</td><td class="dim-weight">7</td><td class="dim-desc">name规范；description写清做什么和何时用、含触发词、不超过1024字符，关键信息在前250字符</td></tr>
+      <tr><td class="dim-num">2</td><td class="dim-name">工作流清晰度</td><td class="dim-weight">12</td><td class="dim-desc">步骤可执行、有序号、每步有输入输出；同一情境不存在两条没分工的路径</td></tr>
+      <tr><td class="dim-num">3</td><td class="dim-name">失败模式编码</td><td class="dim-weight">12</td><td class="dim-desc">脆弱步骤写出「如果X失败→Y」的分支和兜底</td></tr>
+      <tr><td class="dim-num">4</td><td class="dim-name">检查点设计</td><td class="dim-weight">6</td><td class="dim-desc">不可逆或对外的动作前有显性标记的用户确认</td></tr>
+      <tr><td class="dim-num">5</td><td class="dim-name">可执行具体性</td><td class="dim-weight">18</td><td class="dim-desc">有具体参数、格式、示例；少用「可以考虑、视情况」这类软化措辞</td></tr>
+      <tr><td class="dim-num">6</td><td class="dim-name">资源整合度</td><td class="dim-weight">4</td><td class="dim-desc">references、scripts、assets引用正确可达</td></tr>
+    </tbody></table>
+    <table class="rubric-table"><caption>效果维度</caption><thead><tr><th style="width:36px">#</th><th style="width:180px">维度</th><th style="width:60px">权重</th><th>评分标准</th></tr></thead><tbody>
+      <tr><td class="dim-num">7</td><td class="dim-name">整体架构</td><td class="dim-weight">12</td><td class="dim-desc">层次清晰、不冗余；每段都是裸模型不知道的东西；正文不超过500行，细节下沉references</td></tr>
+      <tr><td class="dim-num">8</td><td class="dim-name">实测表现</td><td class="dim-weight">23</td><td class="dim-desc">由实跑结果换算：检查项通过率，并受对裸模型增益的封顶。不由评委凭感觉给</td></tr>
+    </tbody></table>
+    <table class="rubric-table"><caption>Meta-skill维度</caption><thead><tr><th style="width:36px">#</th><th style="width:180px">维度</th><th style="width:60px">权重</th><th>评分标准</th></tr></thead><tbody>
+      <tr><td class="dim-num">9</td><td class="dim-name">反例与黑名单</td><td class="dim-weight">6</td><td class="dim-desc">真实踩过的坑和高风险动作有明文禁令</td></tr>
+    </tbody></table>
   </section>
 </div>
 
-<!-- ═══════════════════════════ 04 RATCHET ═══════════════════════════ -->
 <div class="container">
   <section class="section">
     <div class="section-num">04</div>
-    <h2 class="section-title">棘轮机制</h2>
-    <p class="section-lead">分数只能上升。每轮要么改进 Skill，要么干净地回滚。不会随时间积累局部退化。</p>
-
-    <div class="ratchet-viz">
-      <div class="ratchet-step">
-        <div class="ratchet-score">72</div>
-        <div style="height:144px" class="ratchet-bar"></div>
-        <div class="ratchet-label ratchet-label--baseline">基线</div>
-        <div class="ratchet-round">轮次 0</div>
-        <div class="ratchet-arrow"></div>
-      </div>
-      <div class="ratchet-step">
-        <div class="ratchet-score">78</div>
-        <div style="height:156px" class="ratchet-bar"></div>
-        <div class="ratchet-label ratchet-label--keep">保留</div>
-        <div class="ratchet-round">轮次 1</div>
-        <div class="ratchet-arrow"></div>
-      </div>
-      <div class="ratchet-step">
-        <div class="ratchet-score ratchet-score--revert">75</div>
-        <div style="height:150px" class="ratchet-bar ratchet-bar--revert"></div>
-        <div class="ratchet-label ratchet-label--revert">回滚</div>
-        <div class="ratchet-round">轮次 2</div>
-        <div class="ratchet-arrow"></div>
-      </div>
-      <div class="ratchet-step">
-        <div class="ratchet-score">84</div>
-        <div style="height:168px" class="ratchet-bar"></div>
-        <div class="ratchet-label ratchet-label--keep">Keep</div>
-        <div class="ratchet-round">轮次 3</div>
-        <div class="ratchet-arrow"></div>
-      </div>
-      <div class="ratchet-step">
-        <div class="ratchet-score">87</div>
-        <div style="height:174px" class="ratchet-bar"></div>
-        <div class="ratchet-label ratchet-label--keep">Keep</div>
-        <div class="ratchet-round">轮次 4</div>
-      </div>
+    <h2 class="section-title">进化流程</h2>
+    <p class="section-lead">六个阶段。阶段内自主运行，阶段之间停下来等人审。</p>
+    <div class="phases">
+      <div class="phase"><div class="phase-id">0<span>准备</span></div><div class="phase-body"><h3>体检与范围</h3><p>零token的脚本体检先筛一遍，确定要进化哪些skill。</p><ol class="phase-steps"><li>运行 scripts/darwin.py check，读出错误、警告、提示</li><li>确认范围，创建git分支</li><li>读results.tsv，先看上次回滚过哪些假设</li></ol></div></div>
+      <div class="phase"><div class="phase-id">1<span>测试集</span></div><div class="phase-body"><h3>开发集与留出集</h3><p>没有好测试，优化器就是盲飞。测试带真实输入文件和可核对的检查项，不出问答题。</p><ol class="phase-steps"><li>每个skill至少2条开发集加2条留出集</li><li>存进test-prompts.json，标明split、来源、检查项、输入文件</li><li>提交人审后再继续</li></ol></div></div>
+      <div class="phase"><div class="phase-id">2<span>基线实跑</span></div><div class="phase-body"><h3>带skill对裸跑</h3><p>先回答一个问题：这个skill现在到底有没有用。</p><ol class="phase-steps"><li>独立agent带skill和不带各跑一遍开发集</li><li>三位评委盲评产出，脚本计票得出增益</li><li>独立agent按9维读评，并读执行记录找出实际出问题的地方</li></ol></div></div>
+      <div class="phase"><div class="phase-id">3<span>进化循环</span></div><div class="phase-body"><h3>一轮一个假设</h3><p>最多3轮。改法的优先顺序是删、改、移、加，体积增长要有失败证据。</p><ol class="phase-steps"><li>根据实跑暴露的问题提出一个假设，改SKILL.md并commit</li><li>新旧两版各跑开发集，scripts/darwin.py pair 生成盲评材料</li><li>三位评委盲评，scripts/darwin.py tally 按固定规则裁决</li><li>保留，或用git revert回滚并把假设记进results.tsv</li></ol></div></div>
+      <div class="phase"><div class="phase-id">4<span>验收</span></div><div class="phase-body"><h3>留出集与触发测试</h3><p>防止只在开发集上变好。</p><ol class="phase-steps"><li>终版对原版跑留出集，同样盲评计票</li><li>description有改动时做触发测试，把邻居skill一起放进清单</li><li>能在真实环境跑的再跑一遍</li></ol></div></div>
+      <div class="phase"><div class="phase-id">5<span>报告</span></div><div class="phase-body"><h3>固定七段</h3><p>结论、分数、实测、改动、已验证、未验证、剩余风险。</p><ol class="phase-steps"><li>每条结论带证据等级，E0只读文件到E3真实环境实跑</li><li>没跑过的不写成已验证</li><li>生成成果卡片，等人确认后生效</li></ol></div></div>
     </div>
   </section>
 </div>
 
-<!-- ═══════════════════════════ 05 COMPARISON ═══════════════════════════ -->
 <div class="container">
   <section class="section">
     <div class="section-num">05</div>
-    <h2 class="section-title">为什么需要<br>双重评估</h2>
-    <p class="section-lead">单看结构无法判断 Skill 是否真正好用。单看效果无法判断它为何失败。</p>
+    <h2 class="section-title">棘轮怎么裁决</h2>
+    <p class="section-lead">一次真实试跑的记录（2026-11-14，一个数据分析skill的副本，2条开发集任务）。3.0不再用总分涨跌当棘轮。</p>
+    <div class="ratchet-viz">
+      <div class="ratchet-step"><div class="ratchet-score" style="font-size:22px;letter-spacing:0">1胜1平</div><div style="height:150px" class="ratchet-bar"></div><div class="ratchet-label ratchet-label--baseline">基线</div><div class="ratchet-round">带skill对裸跑</div><div class="ratchet-arrow"></div></div>
+      <div class="ratchet-step"><div class="ratchet-score" style="font-size:22px;letter-spacing:0">1胜1平</div><div style="height:170px" class="ratchet-bar"></div><div class="ratchet-label ratchet-label--keep">保留</div><div class="ratchet-round">第1轮：253行细节下沉，体积−31%</div><div class="ratchet-arrow"></div></div>
+      <div class="ratchet-step"><div class="ratchet-score ratchet-score--revert" style="font-size:22px;letter-spacing:0">打平不更短</div><div style="height:150px" class="ratchet-bar ratchet-bar--revert"></div><div class="ratchet-label ratchet-label--revert">回滚</div><div class="ratchet-round">规则示例：平局不归变长的那版</div><div class="ratchet-arrow"></div></div>
+      <div class="ratchet-step"><div class="ratchet-score ratchet-score--revert" style="font-size:22px;letter-spacing:0">检查项倒退</div><div style="height:140px" class="ratchet-bar ratchet-bar--revert"></div><div class="ratchet-label ratchet-label--revert">回滚</div><div class="ratchet-round">规则示例：票数再多也回滚</div></div>
+    </div>
+    <p class="section-lead" style="margin-top:8px">前两格是实测结果，后两格是裁决规则的示意。那次试跑没有跑留出集。</p>
+  </section>
+</div>
 
+<div class="container">
+  <section class="section">
+    <div class="section-num">06</div>
+    <h2 class="section-title">读文档评审<br>与实跑盲评</h2>
+    <p class="section-lead">同一处改动，两种评法会给出不同的答案。</p>
     <div class="comparison">
       <div class="comparison-col">
-        <div class="comparison-tag">传统方法</div>
-        <h3>纯结构审查</h3>
+        <div class="comparison-tag">2.x</div>
+        <h3>评委读两版文档</h3>
         <ul class="comparison-list">
-          <li>检查 frontmatter 是否存在且格式正确</li>
-          <li>验证步骤是否有编号和描述</li>
-          <li>确认文件路径和引用是否有效</li>
-          <li>无法检测 Skill 是否<strong>真正提升了</strong>输出质量</li>
-          <li>无法检测<strong>看似正确</strong>实则产生差结果的误导性指令</li>
-          <li>无法检测<strong>弊大于利</strong>的过度约束</li>
+          <li>评委比较新旧两版SKILL.md，多数票通过就保留</li>
+          <li>量的是文档<strong>读起来</strong>像不像好skill</li>
+          <li>加章节、加检查点容易得票，skill<strong>越改越长</strong></li>
+          <li>走不通的流程，只读文字的评委<strong>看不出来</strong></li>
+          <li>裸模型本来就会的事，也算在skill头上</li>
         </ul>
       </div>
       <div class="comparison-col comparison-col--highlight">
-        <div class="comparison-tag">Auto Skill Optimizer</div>
-        <h3>双重评估</h3>
+        <div class="comparison-tag">3.0</div>
+        <h3>评委盲评实跑产出</h3>
         <ul class="comparison-list">
-          <li><strong>结构评分</strong>捕捉格式、完整性和可读性问题</li>
-          <li><strong>实测执行</strong>揭示真实场景下的行为影响</li>
-          <li><strong>基线对比</strong>衡量 Skill 是增值还是减值</li>
-          <li><strong>独立子 Agent</strong>防止自我表扬的评分偏差</li>
-          <li><strong>测试提示词设计</strong>确保评估针对真实用户场景</li>
-          <li><strong>Dry-run 降级</strong>在实测不可用时提供覆盖</li>
+          <li><strong>真实执行</strong>：独立agent带两版skill各做一遍任务</li>
+          <li><strong>盲评</strong>：评委不知道哪份是新版，顺序随机</li>
+          <li><strong>对裸模型的增益</strong>是第一指标</li>
+          <li><strong>平局归短的那版</strong>，体积只在有失败证据时增长</li>
+          <li><strong>留出集</strong>验收，防止迎合测试</li>
+          <li><strong>脚本裁决</strong>，报告分列已验证与未验证</li>
         </ul>
       </div>
     </div>
   </section>
 </div>
 
-<!-- ═══════════════════════════ 06 MAPPING ═══════════════════════════ -->
 <div class="container">
   <section class="section">
-    <div class="section-num">06</div>
-    <h2 class="section-title">概念映射</h2>
-    <p class="section-lead">autoresearch 的核心抽象如何转化为 Skill 优化。同一台机器，不同的领域。</p>
-
-    <table class="mapping-table">
-      <thead>
-        <tr>
-          <th style="width:220px">Autoresearch</th>
-          <th style="width:220px">Skill Optimizer</th>
-          <th>实现细节</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>研究论文草稿</td>
-          <td>SKILL.md 文件</td>
-          <td>唯一的可编辑产物。所有改进都表现为对这一个文件的编辑。</td>
-        </tr>
-        <tr>
-          <td>评估指标</td>
-          <td>9维度评估体系</td>
-          <td>跨结构（59分）、效果（35分）和 Meta（6分）的加权评分，总计100分。</td>
-        </tr>
-        <tr>
-          <td>实验循环</td>
-          <td>阶段2 hill-climbing</td>
-          <td>诊断加权短板最大的维度，提出修复，执行，重新评分，保留或回滚。每个 Skill 最多3轮。</td>
-        </tr>
-        <tr>
-          <td>版本控制</td>
-          <td>Git 分支 + revert</td>
-          <td>每次编辑都是一次 commit。退化通过 revert（新 commit）回滚。完整审计记录。</td>
-        </tr>
-        <tr>
-          <td>自动化评估</td>
-          <td>子 Agent 测试执行</td>
-          <td>独立 Agent 分别在启用和未启用 Skill 的情况下运行测试提示词，对比输出质量。</td>
-        </tr>
-        <tr>
-          <td>人类审查关卡</td>
-          <td>阶段转换暂停</td>
-          <td>系统在基线评分后和每个 Skill 优化后暂停。展示 diff + 分数变化。</td>
-        </tr>
-        <tr>
-          <td>探索 vs 利用</td>
-          <td>阶段2.5探索性重写</td>
-          <td>当 hill-climbing 停滞（连续2次在第1轮就中断），提出完整的结构重写。</td>
-        </tr>
-        <tr>
-          <td>实验日志</td>
-          <td>results.tsv</td>
-          <td>带时间戳的记录：commit 哈希、Skill 名称、新旧分数、保留/回滚状态、评估模式。</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="section-num">07</div>
+    <h2 class="section-title">已知局限</h2>
+    <p class="section-lead">这些也写在每份报告里。</p>
+    <div class="principles-grid">
+      <div class="principle"><div class="principle-num">01</div><h3>只能发现大差异</h3><p>每个skill只有几条测试，小改进会被运行波动淹没，在3.0里会被判平并回滚。这是有意的取舍。</p></div>
+      <div class="principle"><div class="principle-num">02</div><h3>评委仍是LLM</h3><p>成对比较和随机顺序能抵消一部分偏差，抵消不了全部。</p></div>
+      <div class="principle"><div class="principle-num">03</div><h3>触发测试是模拟的</h3><p>和各runtime真实的加载逻辑有出入。</p></div>
+      <div class="principle"><div class="principle-num">04</div><h3>比读文档评审更费token</h3><p>进化模式要派多个独立agent实跑。只想筛一遍现状用体检，不花token。</p></div>
+    </div>
   </section>
 </div>
 
-<!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
 <div class="container">
   <footer class="footer">
-    <div class="footer-left">Auto Skill Optimizer</div>
-    <div class="footer-right">灵感源自 Karpathy autoresearch &mdash; 为 Claude Code Skill 生态而建</div>
+    <div class="footer-left">Darwin.skill 3.0</div>
+    <div class="footer-right">灵感源自 Karpathy autoresearch &mdash; <a href="https://github.com/alchaincyf/darwin-skill" style="color:inherit">github.com/alchaincyf/darwin-skill</a></div>
   </footer>
 </div>
 
