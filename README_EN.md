@@ -6,6 +6,12 @@ English | **[中文](README.md)**
 
 ![darwin.skill](assets/banner-en.svg)
 
+<p align="center">
+  <img src="assets/hero.gif" alt="darwin.skill 3.0 launch film" />
+  <br/>
+  <sub>3.0 launch film (Chinese captions) · <a href="assets/darwin-3.0-launch.mp4">full version with sound (mp4)</a> · made with the <a href="https://github.com/alchaincyf/huashu-motion">huashu-motion</a> skill; every number on screen comes from a real record</sub>
+</p>
+
 <div align="center">
 
 # darwin.skill 3.0

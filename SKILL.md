@@ -5,7 +5,7 @@ metadata:
   author: "花叔"
   homepage: "https://github.com/alchaincyf"
   repository: "https://github.com/alchaincyf/darwin-skill"
-  version: "3.0.0"
+  version: "3.0.1"
 ---
 
 # Darwin Skill 3.0

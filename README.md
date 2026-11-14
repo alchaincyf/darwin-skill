@@ -7,9 +7,9 @@
 ![达尔文.skill](assets/banner.svg)
 
 <p align="center">
-  <img src="assets/hero.gif" alt="Darwin Skill Animation" />
+  <img src="assets/hero.gif" alt="达尔文.skill 3.0 宣传片" />
   <br/>
-  <sub>动画由 <a href="https://github.com/alchaincyf/huashu-design">huashu-design</a> skill 制作</sub>
+  <sub>3.0 宣传片 · <a href="assets/darwin-3.0-launch.mp4">带配乐的完整版（mp4）</a> · 由 <a href="https://github.com/alchaincyf/huashu-motion">huashu-motion</a> skill 制作，画面里的数字都来自真实记录</sub>
 </p>
 
 <div align="center">
