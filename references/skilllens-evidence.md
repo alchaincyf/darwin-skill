@@ -8,7 +8,8 @@
 
 **论文**：From Raw Experience to Skill Consumption: A Systematic Study of Model-Generated Agent Skills
 **作者**：Microsoft Research + 复旦大学 + 上海交大（16 作者）
-**arXiv**：2605.23899（2026-05-22，与 SkillOpt 同期发布）
+**arXiv**：2605.23899（2026-05-22，与 SkillOpt 同期发布，作者群大部分重叠）
+**⚠️ 名字消歧**：本文档里的「SkillLens」指这篇论文的**代码代号**（官方地址 `aka.ms/SkillLens`），**不是它的标题**。另有一篇正标题就叫 *SkillLens: Adaptive Multi-Granularity Skill Reuse for Cost-Efficient LLM Agents* 的论文（arXiv:2605.08386），作者与内容都不同。**对外引用一律写编号 2605.23899 加正式标题，不要只写 SkillLens。**
 **实验规模**：5 domains（ALFWorld / SpreadsheetBench / SWE-bench-Verified / SEAL-0 / BFCL-v4）× 6 targets × 5 extractors
 
 ### 关键发现

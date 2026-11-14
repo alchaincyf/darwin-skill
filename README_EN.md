@@ -64,7 +64,7 @@ v2.0 is not a patch release. It's a structural upgrade absorbing two Microsoft R
 
 **4. Anti-pattern blacklist with 8 explicit forbidden behaviors**
 
-1. Same AI both edits and scores (SkillLens empirical: LLM self-eval accuracy only 46.4%)
+1. Same AI both edits and scores (SkillLens empirical: an unguided LLM judge picking the better of two skills is only 46.4% accurate — worse than a coin flip)
 2. Using `git reset --hard` as a rollback mechanism (use `git revert`)
 3. Padding edits just to push the score up
 4. Skipping test prompts and scoring directly
@@ -122,7 +122,7 @@ The key difference: autoresearch is fully autonomous (loss is just a number). Sk
 | 01 | **Single editable asset** | One SKILL.md per experiment. One change, one measurement, one decision |
 | 02 | **Dual evaluation** | Structure scoring (static analysis) + effectiveness scoring (live test execution) |
 | 03 | **Ratchet mechanism** | Score can only go up. Regressions are auto-reverted |
-| 04 | **Independent scoring** | The agent that edits is never the agent that scores (SkillLens: LLM self-eval is only 46.4% accurate) |
+| 04 | **Independent scoring** | The agent that edits is never the agent that scores (SkillLens: an unguided LLM judge is only 46.4% accurate at ranking two skills) |
 | 05 | **Human in the loop** | System pauses after each skill. You review, then continue |
 
 ---
@@ -206,10 +206,13 @@ v2.0's design directly builds on the following academic work. Recommended readin
 
 ### SkillLens
 
-> Microsoft Research. *From Raw Experience to Skill Consumption: A Systematic Study of Model-Generated Agent Skills.* arXiv:2605.23899, 2026.
+> Zisu Huang, Jingwen Xu, Yifan Yang et al. (Fudan University / Microsoft Research / Shanghai Jiao Tong University, 16 authors). *From Raw Experience to Skill Consumption: A Systematic Study of Model-Generated Agent Skills.* arXiv:2605.23899, 2026-05-22.
 
 - Paper: https://arxiv.org/abs/2605.23899
-- **Contribution**: The empirically validated 73.8% rubric recipe. darwin.skill v2.0's three new dimensions (Failure Mechanism Encoding / Actionable Specificity / High-Risk Action Blacklist) come directly from this paper. It is also the empirical source for the "same AI edits and scores" anti-pattern — LLM self-eval accuracy is only 46.4%.
+- **⚠️ Name disambiguation**: "SkillLens" is this paper's **code alias** (`aka.ms/SkillLens`), not its title. A *different* paper is actually titled SkillLens (arXiv:2605.08386) — different authors, different subject (hierarchical skill reuse for cost efficiency). Cite the identifier, not the nickname.
+- **Contribution**: An empirically validated rubric. darwin.skill v2.0's three new dimensions (Failure Mechanism Encoding / Actionable Specificity / High-Risk Action Blacklist) come directly from the paper's three validated dimensions.
+- **⚠️ What 46.4% actually measures**: the paper uses a GPT-5.4 judge to pick, between **two skills extracted under the same conditions**, which one yields better downstream performance (151 pairs, near-ties excluded). With no scoring criteria the judge is **46.4%** accurate — indistinguishable from chance. Scoring against the three validated dimensions raises it to **73.8%**.
+  **This is not a measurement of a model grading its own output** — the judge is rating other people's skills. It supports "a judge needs a rubric," and it indirectly supports "the editor should not be the scorer," but the latter is this project's inference, not the paper's finding.
 
 ### SkillOpt
 

@@ -70,7 +70,7 @@ npx skills add alchaincyf/darwin-skill
 
 **4. 反例黑名单 8 条**（明文禁止的反模式）
 
-1. 同一个 AI 又改又评（SkillLens 实证：LLM 自评准确率仅 46.4%）
+1. 同一个 AI 又改又评（SkillLens 实证：LLM judge 盲选两份 skill 哪份更好，准确率仅 46.4%，比扔硬币还差）
 2. 用 `git reset --hard` 当回滚手段（应用 `git revert`）
 3. 为凑分而堆冗余
 4. 跳过测试提示词直接评分
@@ -126,7 +126,7 @@ Agent Skill 生态在快速扩张。Claude Code、Codex、OpenClaw、Trae、Code
 | 01 | **单一可编辑资产** | 每次只改一个 SKILL.md，变量可控，改进可归因 |
 | 02 | **双重评估** | 结构评分（静态分析）+ 效果验证（跑测试看输出） |
 | 03 | **棘轮机制** | 只保留改进，自动回滚退步，分数只升不降 |
-| 04 | **独立评分** | 评分用子 agent，避免「自己改自己评」的偏差（SkillLens 实证 LLM 自评仅 46.4% 准确率） |
+| 04 | **独立评分** | 评分用子 agent，避免「自己改自己评」的偏差（SkillLens 实证：无引导的 LLM judge 盲选优劣仅 46.4% 准确率） |
 | 05 | **人在回路** | 每个 Skill 优化完后暂停，用户确认再继续下一个 |
 
 ---
@@ -210,10 +210,13 @@ v2.0 的设计直接基于以下学术工作。强烈推荐 skill 生态的研�
 
 ### SkillLens
 
-> Microsoft Research. *From Raw Experience to Skill Consumption: A Systematic Study of Model-Generated Agent Skills.* arXiv:2605.23899, 2026.
+> Huang Zisu, Xu Jingwen, Yang Yifan 等（复旦大学 / Microsoft Research / 上海交通大学，16 作者）. *From Raw Experience to Skill Consumption: A Systematic Study of Model-Generated Agent Skills.* arXiv:2605.23899, 2026-05-22.
 
 - 论文：https://arxiv.org/abs/2605.23899
-- **贡献**：实证验证的 73.8% rubric 药方。达尔文.skill v2.0 的三个新维度（Failure Mechanism Encoding / Actionable Specificity / High-Risk Action Blacklist）直接来自该论文。同时也是「同一个 AI 又改又评」反模式的实证来源——LLM 自评准确率仅 46.4%。
+- **⚠️ 名字消歧**：「SkillLens」是这篇论文的**代码代号**（官方地址 `aka.ms/SkillLens`），不是它的标题。另有一篇**正标题就叫 SkillLens** 的论文（arXiv:2605.08386），作者与内容都不同（讲分层 skill 复用降成本）。搜索时认编号，别认名字。
+- **贡献**：实证验证的 rubric。达尔文.skill v2.0 的三个新维度（Failure Mechanism Encoding / Actionable Specificity / High-Risk Action Blacklist）直接来自该论文验证过的三个维度。
+- **⚠️ 46.4% 的准确口径**：论文用 GPT-5.4 当 judge，让它在**同一批次抽出的两份 skill** 之间盲选哪份下游表现更好（151 对，剔除接近平手的）。无任何评分标准时准确率 **46.4%**，与随机无异；改为按验证过的三个维度打分后升到 **73.8%**。
+  **这不是「模型评自己写的东西」的数据**——它评的是别人的 skill。它支持「judge 必须有 rubric」，也间接支持「改的人不该当评的人」，但后者是本项目的推论，不是论文的结论。
 
 ### SkillOpt
 
