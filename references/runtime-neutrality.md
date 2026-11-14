@@ -47,6 +47,17 @@
 2. **花叔生态内部联动的 skill 名引用**——如「调用 huashu-design」「跟 darwin-skill 配套」
 3. **明确标注的 runtime-specific 章节**——如「### 仅 Claude Code 优化（按需触发）」+ 解释清楚是 nice-to-have
 4. **commit message、changelog、内部脚本**——不属于用户读到的 skill 内容
+5. **引用/演示该 pattern 本身**——讲解红灯规则、列反例、给出 grep 命令时，必然要字面写出「在 Claude Code 里」「Claude Code skill」这些措辞。这是**把措辞当被描述的对象**，不是**把单 runtime 当指令要求读者用**，属假阳性。典型受害者是 darwin-skill 自己（本审查章节就含这些字样）。
+
+**真红灯 vs 假阳性判别**：
+
+| | 真红灯（须修） | 假阳性（不修） |
+|---|---|---|
+| 性质 | 把单 runtime 当**指令**：「在 Claude Code 里运行 X」「这是 Claude Code skill」 | 把这些措辞当**被描述的对象** |
+| 出现位置 | 工作流步骤、首屏定调、安装说明 | grep 命令本身、反例清单里引用的反例、「『Claude Code skill』是红灯措辞」这类元陈述、本对照表 |
+| 处理 | 进 P0 runtime drift 修复 | 记 `runtime_scan=false_positive`，不改 |
+
+**扫描后必须人工读命中行的上下文**再定性——禁止机械按 grep 命中行数定 P0，否则任何讲解 runtime 中立性的 skill（含 darwin-skill 本身）都会永远判自己红灯、陷入自审死循环。
 
 ---
 
