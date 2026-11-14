@@ -224,6 +224,8 @@ def scrub(root, secrets):
         cleaned = text
         for x in secrets:  # 连同路径后面的部分一起抹，不留 s0、s1 这类尾巴
             cleaned = re.sub(re.escape(x) + r"[^\s\"'`)>\]，。；]*", "<路径已隐去>", cleaned)
+        # 相对路径也会露底：in/s0、runs/s1-holdout 这类组名一眼能认出新旧版
+        cleaned = re.sub(r"\b(in|runs)/(?:s\d+|x|bare)(?:-holdout)?\b", r"\1/<组>", cleaned)
         if cleaned != text:
             f.write_text(cleaned, encoding="utf-8")
 
