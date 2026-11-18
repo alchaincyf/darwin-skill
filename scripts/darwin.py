@@ -268,11 +268,20 @@ def cmd_tally(args):
     key = json.loads(Path(args.key).read_text(encoding="utf-8"))
     per_test, facts, problems = {}, [], []
     slight = decided = 0
-    for jname, mapping in key.items():
+    ballots, absent = {}, []
+    for jname in key:
         vf = Path(args.votes) / f"{jname}.json"
-        if not vf.exists():
-            sys.exit(f"缺评委 {jname} 的投票文件：{vf}")
-        votes = json.loads(vf.read_text(encoding="utf-8"))
+        try:
+            ballots[jname] = json.loads(vf.read_text(encoding="utf-8"))
+            if not isinstance(ballots[jname], list):
+                raise ValueError
+        except (OSError, ValueError):
+            absent.append(jname)
+    if absent:
+        sys.exit(f"这些评委的投票文件缺失或没写完整：{', '.join(absent)}（目录 {args.votes}）。"
+                 "只重派这几位，用各自原来的盲评目录，已交的票不用重来。")
+    for jname, mapping in key.items():
+        votes = ballots[jname]
         seen = [v.get("test") for v in votes if isinstance(v, dict)]
         for t in mapping:
             if seen.count(t) != 1:
@@ -281,7 +290,7 @@ def cmd_tally(args):
             if t not in mapping:
                 problems.append(f"{jname} 投了不存在的测试 id：{t}")
         for v in votes:
-            t = v.get("test")
+            t = v.get("test") if isinstance(v, dict) else None
             if t not in mapping:
                 continue
             side = {"A": mapping[t]["A"], "B": mapping[t]["B"]}
@@ -316,10 +325,11 @@ def cmd_tally(args):
             print("  - " + x)
         sys.exit(2)
     win = lose = tie = 0
-    regress, split = [], []
+    regress, split, result = [], [], {}
     print("逐条结果（b=新版或带 skill，a=旧版或裸跑）")
     for t, r in sorted(per_test.items()):
         res = "胜" if r["b"] > r["a"] else "负" if r["a"] > r["b"] else "平"
+        result[t] = res
         win, lose, tie = win + (res == "胜"), lose + (res == "负"), tie + (res == "平")
         chk = ""
         if r["chk_a"] and r["chk_b"]:
@@ -359,8 +369,13 @@ def cmd_tally(args):
         verdict, why = "revert", "更差"
     if verdict:
         print(f"裁决：{verdict}（{why}）")
-    if abs(win - lose) <= 1 and split and not regress:
-        print(f"提醒：胜负只差一条且评委有分歧（{', '.join(split)}）。这几条两版各重跑一次再裁，单次运行的波动足以翻盘。")
+    # 只在棘轮裁决时提醒（留出集只跑一次），且只列重跑后真能改变裁决的条目
+    if verdict and abs(win - lose) <= 1 and not regress:
+        keeps = lambda margin: margin > 0 or (margin == 0 and shorter)
+        away, step = ("负", {"胜": -2, "平": -1}) if verdict == "keep" else ("胜", {"负": 2, "平": 1})
+        movable = [t for t in split if result[t] != away]
+        if keeps(win - lose + sum(step[result[t]] for t in movable)) != (verdict == "keep"):
+            print(f"提醒：胜负只差一条且评委有分歧（{', '.join(movable)}）。这几条两版各重跑一次再裁，单次运行的波动足以翻盘。")
     if facts:
         print("\n⚠ 有评委提出可核实的事实性指控。先去验证，成立则以事实为准，不看票数：")
         for f in facts:

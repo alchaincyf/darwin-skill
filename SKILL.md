@@ -5,7 +5,7 @@ metadata:
   author: "花叔"
   homepage: "https://github.com/alchaincyf"
   repository: "https://github.com/alchaincyf/darwin-skill"
-  version: "3.0.1"
+  version: "3.0.2"
 ---
 
 # Darwin Skill 3.0
@@ -93,6 +93,8 @@ rubric的用途是诊断和排序：总分决定先改谁，各维度得分指�
 ## 进化流程
 
 下文的`darwin.py`指`python3 <本SKILL.md所在目录>/scripts/darwin.py`，`W`指Phase 0建的工作目录。执行者、评委、触发测试的prompt和投票格式都在[references/eval-protocol.md](references/eval-protocol.md)，派子agent前先读它，prompt照抄。
+
+同一步要派的多个执行者或多个评委互不依赖，runtime支持并发就一次派出，不要一个等一个；总耗时主要取决于这一点。
 
 ### Phase 0：准备
 
@@ -202,6 +204,7 @@ while round < 3:
     更差或检查项倒退 → revert
   tally提醒「只差一条且评委有分歧」→ 那几条两版各重跑一次，产出写进新目录（如 W/runs/s0-re、W/runs/s{round}-re），
     对这几条重新pair和评审（--tests 指定），用重跑的结果替换这几条原来的胜负，再按上面四条裁决
+    每轮最多重跑一次，重跑后tally再提醒也不再跑
   tally报出事实性指控 → 先去验证；成立就以事实为准，不看票数
 
   revert用 git revert HEAD 生成反向提交，保留历史
@@ -294,6 +297,7 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 | 目标目录没有SKILL.md | 该skill终止，results.tsv记`status=error`，继续下一个 |
 | 测试需要真实账号或会产生对外动作 | 不自动跑，列进「未验证」，交给用户决定 |
 | 执行子agent中途断了 | 只重跑那一条，不整轮重来 |
+| 评委卡死、没交票或票文件不完整 | 不空等。同批其他评委都交了而它明显落后，就重派（能取消旧的先取消）。tally会列出要补的评委，只重派这几位，用原来的`blind/<轮次>/jN`目录和同一份prompt，已交的票不动 |
 | 裸跑组可能调用了runtime内置的同类skill | 在报告里注明对照组不纯，增益可能被低估 |
 | 3轮跑完还有短板 | 展示当前短板，问用户：再加1轮、探索性重写，还是收工 |
 
@@ -317,7 +321,7 @@ timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
 - 执行者和评委把完整产出写进文件，只向主agent回5行以内的摘要。主agent只在诊断时读没通过的那条的执行记录。
 - 裸跑产出和旧版产出跨轮复用，每轮只新跑D条。
 - 增益评审用1位评委，棘轮裁决用3位。
-- 一个2条dev、2条holdout、进化2轮的skill，约需子agent：基线4＋评审2，每轮2＋3，验收4＋3，合计23次上下。预算紧就只做评估。
+- 一个2条dev、2条holdout、进化2轮的skill，约需子agent：基线4＋评审2，每轮2＋3，验收4＋3，终版评分2，合计25次上下。通用算法：基线2D+2，每轮D+3，验收2H+5（H为留出集条数），每次重跑另加2k+3（k为重跑条数）。预算紧就只做评估。
 
 ## 成果卡片
 
